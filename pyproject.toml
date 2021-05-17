@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "mock-server"
+version = "0.1.0"
+description = ""
+authors = ["Gerrit Schrader <gerrit.schrader@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.64.0"
+jsf = "^0.3.2"
+Jinja2 = "^2.11.3"
+aiofiles = "^0.6.0"
+pydantic = {extras = ["dotenv"], version = "^1.8.2"}
+httpx = "^0.18.1"
+SQLAlchemy = "^1.4.15"
+requests = "^2.25.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2"
+black = "^21.5b0"
+uvicorn = "^0.13.4"
+mkdocs = "^1.1.2"
+mkdocs-material = "^7.1.4"
+Faker = "^8.1.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
