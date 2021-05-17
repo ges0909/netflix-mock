@@ -16,9 +16,9 @@ def user():
 
 
 @pytest.fixture
-def id_(client, auth, user):
-    response = client.post(
-        headers=dict(Authorization=auth),
+def id_(test_client, basic_auth, user):
+    response = test_client.post(
+        headers=dict(Authorization=basic_auth),
         url="/users/",
         json=user,
     )
@@ -27,9 +27,9 @@ def id_(client, auth, user):
     return data["id"]
 
 
-def test_create_user(client, auth, user):
-    response = client.post(
-        headers=dict(Authorization=auth),
+def test_create_user(test_client, basic_auth, user):
+    response = test_client.post(
+        headers=dict(Authorization=basic_auth),
         url="/users/",
         json=user,
     )
@@ -41,10 +41,10 @@ def test_create_user(client, auth, user):
     assert data["username"] == user["username"]
 
 
-def test_update_user(client, auth, id_):
+def test_update_user(test_client, basic_auth, id_):
     username = fake.pystr()
-    response = client.put(
-        headers=dict(Authorization=auth),
+    response = test_client.put(
+        headers=dict(Authorization=basic_auth),
         url=f"/users/{id_}",
         json=dict(username=username, password=fake.pystr()),
     )
@@ -54,9 +54,9 @@ def test_update_user(client, auth, id_):
     assert data["username"] == username
 
 
-def test_read_user_by_id(client, auth, id_):
-    response = client.get(
-        headers=dict(Authorization=auth),
+def test_read_user_by_id(test_client, basic_auth, id_):
+    response = test_client.get(
+        headers=dict(Authorization=basic_auth),
         url=f"/users/{id_}",
     )
     assert response.status_code == status.HTTP_200_OK
@@ -65,16 +65,16 @@ def test_read_user_by_id(client, auth, id_):
     assert "username" in data
 
 
-def test_delete_user_by_id(client, auth, id_):
-    response = client.delete(
-        headers=dict(Authorization=auth),
+def test_delete_user_by_id(test_client, basic_auth, id_):
+    response = test_client.delete(
+        headers=dict(Authorization=basic_auth),
         url=f"/users/{id_}",
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
-def test_missing_auth(client, user):
-    response = client.post(
+def test_missing_auth(test_client, user):
+    response = test_client.post(
         url="/users/",
         json=user,
     )
@@ -90,8 +90,8 @@ def test_missing_auth(client, user):
         "Basic " + b64encode(b"test:WRONG").decode("ascii"),
     ],
 )
-def test_wrong_basic_auth(client, basic_auth, user):
-    response = client.post(
+def test_wrong_basic_auth(test_client, basic_auth, user):
+    response = test_client.post(
         headers=dict(Authorization=basic_auth),
         url="/users/",
         json=user,

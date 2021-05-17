@@ -2,6 +2,7 @@ import logging
 import random
 import string
 import time
+from logging.config import fileConfig
 from pathlib import Path
 
 import fastapi
@@ -9,35 +10,33 @@ import uvicorn
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 
+from mock_server.config import settings
 from mock_server.database import Database
-from mock_server.depends.app_settings import app_settings
-from mock_server.routers import guide, weather, user, settings
+from mock_server.routers import user, config, weather, guide
 from mock_server.views import home
 
 app_root = Path(__file__).parent
 
-app_settings = app_settings()
-
-logging.config.fileConfig(
-    fname=app_settings.LOGGING_CONF,
+fileConfig(
+    fname=settings.LOGGING_CONF,
     disable_existing_loggers=False,
 )
 
 logger = logging.getLogger(__name__)
 
-db = Database(app_settings=app_settings)
+db = Database(settings=settings)
 
 app = fastapi.FastAPI()
 
 # mount static files
-app.mount("/guide", StaticFiles(directory=str(app_root / "site")), name="guide")
+app.mount("/guide", StaticFiles(directory="site"), name="guide")
 
 # routers
 app.include_router(home.router)
 app.include_router(user.router, prefix="/users")
-app.include_router(settings.router, prefix="/settings")
-app.include_router(guide.router, prefix="/guide")
 app.include_router(weather.router, prefix="/api")
+app.include_router(config.router)
+app.include_router(guide.router)
 
 
 @app.middleware("http")
@@ -50,7 +49,7 @@ async def log_requests(request: Request, call_next):
 
     process_time = (time.time() - start_time) * 1000
     formatted_process_time = "{0:.2f}".format(process_time)
-    logger.info(f"rid={idem} completed_in={formatted_process_time}ms status_code={response.status_code}")
+    logger.info(f"rid={idem} completed in={formatted_process_time}ms status_code={response.status_code}")
 
     return response
 

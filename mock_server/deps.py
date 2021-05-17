@@ -1,28 +1,33 @@
 import secrets
+from functools import lru_cache
 
 import fastapi
 from fastapi import Depends, HTTPException
 from fastapi import status
 from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
-from mock_server.depends.app_settings import app_settings
-from mock_server.settings import Settings
+from mock_server.config import Settings, settings
 
 app = fastapi.FastAPI()
 security = HTTPBasic()
 
 
-def basic_auth(
+@lru_cache()
+def get_settings() -> Settings:
+    return settings
+
+
+def get_basic_auth(
     credentials: HTTPBasicCredentials = Depends(security),
-    settings: Settings = Depends(app_settings),
+    settings_: Settings = Depends(get_settings),
 ):
     correct_username = secrets.compare_digest(
         credentials.username,
-        settings.BASIC_AUTH_USERNAME,
+        settings_.BASIC_AUTH_USERNAME,
     )
     correct_password = secrets.compare_digest(
         credentials.password,
-        settings.BASIC_AUTH_PASSWORD,
+        settings_.BASIC_AUTH_PASSWORD,
     )
     if not (correct_username and correct_password):
         raise HTTPException(
@@ -31,3 +36,10 @@ def basic_auth(
             headers={"WWW-Authenticate": "Basic"},
         )
     return credentials.username
+
+
+def get_db_session():
+    from main import db
+
+    with db.SessionLocal() as sess:
+        yield sess

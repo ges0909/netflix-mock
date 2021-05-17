@@ -8,9 +8,9 @@ Base = declarative_base()
 
 
 class Database:
-    def __init__(self, app_settings):
+    def __init__(self, settings):
         self.engine = create_engine(
-            url=app_settings.DATABASE_URL,
+            url=settings.DATABASE_URL,
             echo=True,
             connect_args={"check_same_thread": False},  # for SQLite only
         )

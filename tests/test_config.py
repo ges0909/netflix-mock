@@ -1,10 +1,10 @@
 from fastapi import status
 
 
-def test_read_settings(client, auth):
-    response = client.get(
-        headers=dict(Authorization=auth),
-        url=f"/settings",
+def test_read_settings(test_client, basic_auth):
+    response = test_client.get(
+        headers=dict(Authorization=basic_auth),
+        url="/config",
     )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
