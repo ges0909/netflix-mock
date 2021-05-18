@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, DateTime, func, String
 
-from mock_server.db import Base
+from mock_server.database import Base
 
 
 class User(Base):

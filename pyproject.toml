@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "mock-server"
 version = "0.1.0"
-description = ""
+description = "Quick start for mock server implementation."
 authors = ["Gerrit Schrader <gerrit.schrader@gmail.com>"]
 
 [tool.poetry.dependencies]

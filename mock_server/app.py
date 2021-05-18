@@ -2,18 +2,27 @@ import logging
 from pathlib import Path
 
 import fastapi
+import pkg_resources
 from fastapi import status
 from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.exc import SQLAlchemyError
 
+from mock_server.config import get_settings
 from mock_server.routers import user, config, weather, guide, home
 from mock_server.schemas.error import Error
 
 logger = logging.getLogger(__name__)
 
-app = fastapi.FastAPI()
+settings = get_settings()
+version = pkg_resources.get_distribution("mock-server").version
+
+app = fastapi.FastAPI(
+    title=settings.TITLE,
+    description=settings.DESCRIPTION,
+    version=version,
+)
 
 # mount static files
 site = Path("../site")

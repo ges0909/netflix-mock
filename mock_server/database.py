@@ -13,13 +13,11 @@ settings = get_settings()
 engine = create_engine(
     url=settings.DATABASE_URL,
     echo=settings.DATABASE_LOGGING,
-    connect_args={
-        "check_same_thread": False,
-    },  # for SQLite only
+    connect_args={"check_same_thread": False},  # for SQLite only
 )
 
 # create session factory
-SessionLocal = sessionmaker(
+Session = sessionmaker(
     # autocommit=False,
     # autoflush=False,
     bind=engine,
@@ -32,5 +30,5 @@ with engine.begin() as conn:
 
 
 def get_db_session():
-    with SessionLocal() as session:
+    with Session() as session:
         yield session

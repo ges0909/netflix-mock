@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     DATABASE_LOGGING: bool = False
     LOGGING_CONFIG: str = "logging.conf"
+    TITLE: str = ""
+    DESCRIPTION: str = ""
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
