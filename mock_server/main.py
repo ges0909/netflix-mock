@@ -7,17 +7,14 @@ import uvicorn
 
 from mock_server.config import get_settings
 
-settings = get_settings()
 
-fileConfig(
-    fname=settings.LOGGING_CONFIG,
-    disable_existing_loggers=False,
-)
-
-
-def main(dotenv: Optional[Path] = None):
-    # env_file = dotenv or "../dev.env"
-    # settings = Settings(_env_file=env_file)
+def main(config: Optional[Path] = None):
+    env_file = config or Path("../dev.env")
+    settings = get_settings(env_file=env_file)
+    fileConfig(
+        fname=settings.LOGGING_CONFIG,
+        disable_existing_loggers=False,
+    )
     uvicorn.run(
         "mock_server.app:app",
         port=settings.PORT,

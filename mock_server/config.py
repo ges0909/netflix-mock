@@ -1,4 +1,4 @@
-from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 from pydantic import BaseSettings
@@ -18,6 +18,13 @@ class Settings(BaseSettings):
         super().__init__(**kwargs)
 
 
-@lru_cache
-def get_settings():
-    return Settings(_env_file="../dev.env")
+_settings = None
+
+
+def get_settings(env_file: Path = Path("../dev.env")):
+    """load settings only once"""
+    global _settings
+    if not _settings:
+        if env_file and env_file.exists():
+            _settings = Settings(_env_file=env_file)
+    return _settings
