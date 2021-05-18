@@ -3,7 +3,8 @@ from fastapi import Depends, HTTPException
 from fastapi import status
 from sqlalchemy.orm import Session
 
-from mock_server.deps import get_basic_auth, get_db_session
+from mock_server.auth import get_basic_auth
+from mock_server.db import get_db_session
 from mock_server.schemas.user import UserIn, UserOut
 from mock_server.services import user_service
 
@@ -14,10 +15,10 @@ router = fastapi.APIRouter()
 async def create_user(
     user: UserIn,
     _: str = Depends(get_basic_auth),
-    sess: Session = Depends(get_db_session),
+    session: Session = Depends(get_db_session),
 ) -> UserOut:
-    """Create new user."""
-    user_ = user_service.create_user(sess=sess, user=user)
+    """Creates a new user."""
+    user_ = user_service.create_user(session=session, user=user)
     return UserOut(id=user_.id, username=user_.username)
 
 
@@ -28,8 +29,8 @@ async def update_user(
     _: str = Depends(get_basic_auth),
     sess: Session = Depends(get_db_session),
 ) -> UserOut:
-    """Update user data."""
-    if user_ := user_service.update_user(sess=sess, id=id, user=user):
+    """Updates the user data."""
+    if user_ := user_service.update_user_by_id(session=sess, id=id, user=user):
         return UserOut(id=user_.id, username=user_.username)
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
@@ -43,7 +44,7 @@ async def read_user_by_id(
     _: str = Depends(get_basic_auth),
     sess: Session = Depends(get_db_session),
 ) -> UserOut:
-    """Get user data."""
+    """Gets the user data."""
     if user := user_service._read_user_by_id(sess=sess, id=id):
         return UserOut(id=user.id, username=user.username)
     raise HTTPException(
@@ -58,7 +59,7 @@ async def delete_user_by_id(
     _: str = Depends(get_basic_auth),
     sess: Session = Depends(get_db_session),
 ) -> None:
-    """Delete user."""
+    """Deletes the user."""
     if not user_service.delete_user_by_id(sess, id=id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

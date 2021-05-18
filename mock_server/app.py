@@ -1,14 +1,15 @@
 import logging
-import random
-import string
-import time
 from pathlib import Path
 
 import fastapi
+from fastapi import status
 from fastapi.requests import Request
+from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.exc import SQLAlchemyError
 
 from mock_server.routers import user, config, weather, guide, home
+from mock_server.schemas.error import Error
 
 logger = logging.getLogger(__name__)
 
@@ -28,18 +29,17 @@ app.include_router(config.router)
 
 
 @app.middleware("http")
-async def log_requests(request: Request, call_next):
-    idem = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
-    logger.info(f"rid={idem} start request path={request.url.path}")
-    start_time = time.time()
-
-    response = await call_next(request)
-
-    process_time = (time.time() - start_time) * 1000
-    formatted_process_time = "{0:.2f}".format(process_time)
-    logger.info(f"rid={idem} completed in={formatted_process_time}ms status_code={response.status_code}")
-
-    return response
+async def handle_sqlalchemy_exceptions(request: Request, call_next):
+    try:
+        response = await call_next(request)
+        return response
+    except SQLAlchemyError as error:
+        detail = ", ".join(error.args)
+        return Response(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content=Error(detail=detail).json(),
+            media_type="application/json",
+        )
 
 
 @app.on_event("startup")

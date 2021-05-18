@@ -2,30 +2,35 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker
 
-from mock_server.config import Settings
+from mock_server.config import get_settings
 
-# asnyc: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
-
+# async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
 
 Base = declarative_base()
 
+settings = get_settings()
 
-class Database:
-    def __init__(self, settings: Settings):
-        self.engine = create_engine(
-            url=settings.DATABASE_URL,
-            echo=settings.DATABASE_LOGGING,
-            connect_args={
-                "check_same_thread": False,
-            },  # for SQLite only
-        )
-        # create session factory
-        self.SessionLocal = sessionmaker(
-            # autocommit=False,
-            # autoflush=False,
-            bind=self.engine,
-        )
-        # generate model schemas
-        with self.engine.begin() as conn:
-            Base.metadata.drop_all(conn)
-            Base.metadata.create_all(conn)
+engine = create_engine(
+    url=settings.DATABASE_URL,
+    echo=settings.DATABASE_LOGGING,
+    connect_args={
+        "check_same_thread": False,
+    },  # for SQLite only
+)
+
+# create session factory
+SessionLocal = sessionmaker(
+    # autocommit=False,
+    # autoflush=False,
+    bind=engine,
+)
+
+# generate model schemas
+with engine.begin() as conn:
+    Base.metadata.drop_all(conn)
+    Base.metadata.create_all(conn)
+
+
+def get_db_session():
+    with SessionLocal() as session:
+        yield session

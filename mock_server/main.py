@@ -6,8 +6,9 @@ from typing import Optional
 import typer
 import uvicorn
 
-from mock_server.config import settings
-from mock_server.db import Database
+from mock_server.config import get_settings
+
+settings = get_settings()
 
 fileConfig(
     fname=settings.LOGGING_CONFIG,
@@ -16,13 +17,12 @@ fileConfig(
 
 logger = logging.getLogger(__name__)
 
-db = Database(settings=settings)
-
 
 def main(dotenv: Optional[Path] = None):
     # env_file = dotenv or "../dev.env"
     # settings = Settings(_env_file=env_file)
     from mock_server.app import app
+
     uvicorn.run(app)
 
 

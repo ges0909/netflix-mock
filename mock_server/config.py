@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Any
 
 from pydantic import BaseSettings
@@ -15,4 +16,6 @@ class Settings(BaseSettings):
         super().__init__(**kwargs)
 
 
-settings = Settings(_env_file="../dev.env")
+@lru_cache
+def get_settings():
+    return Settings(_env_file="../dev.env")
