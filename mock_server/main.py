@@ -28,14 +28,16 @@ db = Database(settings=settings)
 app = fastapi.FastAPI()
 
 # mount static files
-app.mount("/guide", StaticFiles(directory="../site"), name="guide")
+site = Path("../site")
+if site.exists():
+    app.mount("/guide", StaticFiles(directory=site), name="guide")
+    app.include_router(guide.router)
 
 # routers
 app.include_router(home.router)
 app.include_router(user.router, prefix="/users")
 app.include_router(weather.router, prefix="/api")
 app.include_router(config.router)
-app.include_router(guide.router)
 
 
 @app.middleware("http")
