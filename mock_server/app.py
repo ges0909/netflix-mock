@@ -17,12 +17,12 @@ from mock_server.schemas.error import Error
 logger = logging.getLogger(__name__)
 
 settings = get_settings()
-version = pkg_resources.get_distribution("mock-server").version
+# version = pkg_resources.get_distribution("mock-server").version
 
 app = fastapi.FastAPI(
     title=settings.TITLE,
     description=settings.DESCRIPTION,
-    version=version,
+    version="0.14.9",
 )
 
 # mount static files
@@ -39,7 +39,7 @@ app.include_router(config.router)
 
 
 @app.middleware("http")
-async def handle_sqlalchemy_exceptions(request: Request, call_next):
+async def handle_non_catched_exceptions(request: Request, call_next):
     try:
         response = await call_next(request)
         return response
