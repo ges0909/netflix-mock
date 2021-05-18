@@ -1,13 +1,11 @@
 import secrets
 
-import fastapi
 from fastapi import Depends, HTTPException
 from fastapi import status
 from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
 from mock_server.config import settings
 
-app = fastapi.FastAPI()
 security = HTTPBasic()
 
 

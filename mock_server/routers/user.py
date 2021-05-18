@@ -44,8 +44,12 @@ async def read_user_by_id(
     sess: Session = Depends(get_db_session),
 ) -> UserOut:
     """Get user data."""
-    user = user_service.read_user_by_id(sess=sess, id=id)
-    return UserOut(id=user.id, username=user.username)
+    if user := user_service._read_user_by_id(sess=sess, id=id):
+        return UserOut(id=user.id, username=user.username)
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"user id='{id}' not found",
+    )
 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -55,4 +59,8 @@ async def delete_user_by_id(
     sess: Session = Depends(get_db_session),
 ) -> None:
     """Delete user."""
-    _ = user_service.delete_user_by_id(sess, id=id)
+    if not user_service.delete_user_by_id(sess, id=id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"user id='{id}' not found",
+        )
