@@ -6,10 +6,10 @@ authors = ["Gerrit Schrader <gerrit.schrader@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = "^0.64.0"
+fastapi = "^0.65.0"
 jsf = "^0.3.2"
 Jinja2 = "^2.11.3"
-aiofiles = "^0.6.0"
+aiofiles = "^0.7.0"
 pydantic = {extras = ["dotenv"], version = "^1.8.2"}
 httpx = "^0.18.1"
 SQLAlchemy = "^1.4.15"

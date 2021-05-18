@@ -14,8 +14,7 @@ from fastapi.staticfiles import StaticFiles
 
 from mock_server.config import settings
 from mock_server.db import Database
-from mock_server.routers import user, config, weather, guide
-from mock_server.views import home
+from mock_server.routers import user, config, weather, guide, home
 
 fileConfig(
     fname=settings.LOGGING_CONFIG,
