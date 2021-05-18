@@ -9,7 +9,7 @@ from mock_server.config import get_settings
 
 
 def main(config: Optional[Path] = None):
-    env_file = config or Path("../dev.env")
+    env_file = config or Path("../config/dev.env")
     settings = get_settings(env_file=env_file)
     fileConfig(
         fname=settings.LOGGING_CONFIG,

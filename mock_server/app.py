@@ -39,7 +39,7 @@ app.include_router(config.router)
 
 
 @app.middleware("http")
-async def handle_sqlalchemy_exceptions(request: Request, call_next):
+async def handle_uncatched_exceptions(request: Request, call_next):
     try:
         response = await call_next(request)
         return response

@@ -11,8 +11,8 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     DATABASE_LOGGING: bool = False
     LOGGING_CONFIG: str = "logging.conf"
-    TITLE: str = ""
-    DESCRIPTION: str = ""
+    TITLE: str
+    DESCRIPTION: str
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
@@ -21,8 +21,8 @@ class Settings(BaseSettings):
 _settings = None
 
 
-def get_settings(env_file: Path = Path("../dev.env")):
-    """load settings only once"""
+def get_settings(env_file=Path("../config/dev.env")):
+    """ load settings only once"""
     global _settings
     if not _settings:
         if env_file and env_file.exists():
