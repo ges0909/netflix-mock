@@ -4,8 +4,10 @@ import string
 import time
 from logging.config import fileConfig
 from pathlib import Path
+from typing import Optional
 
 import fastapi
+import typer
 import uvicorn
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
@@ -16,7 +18,7 @@ from mock_server.routers import user, config, weather, guide
 from mock_server.views import home
 
 fileConfig(
-    fname=settings.LOGGING_CONF,
+    fname=settings.LOGGING_CONFIG,
     disable_existing_loggers=False,
 )
 
@@ -62,5 +64,11 @@ async def shutdown():
     """models disconnect"""
 
 
-if __name__ == "__main__":
+def main(dotenv: Optional[Path] = None):
+    # env_file = dotenv or "../dev.env"
+    # settings = Settings(_env_file=dotenv or "../dev.env")
     uvicorn.run(app)
+
+
+if __name__ == "__main__":
+    typer.run(main)

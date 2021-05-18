@@ -14,8 +14,10 @@ class Database:
     def __init__(self, settings: Settings):
         self.engine = create_engine(
             url=settings.DATABASE_URL,
-            echo=True,
-            connect_args={"check_same_thread": False},  # for SQLite only
+            echo=settings.DATABASE_LOGGING,
+            connect_args={
+                "check_same_thread": False,
+            },  # for SQLite only
         )
         # create session factory
         self.SessionLocal = sessionmaker(
@@ -23,7 +25,7 @@ class Database:
             # autoflush=False,
             bind=self.engine,
         )
-        # generate models schema
+        # generate model schemas
         with self.engine.begin() as conn:
             Base.metadata.drop_all(conn)
             Base.metadata.create_all(conn)

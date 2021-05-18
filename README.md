@@ -34,7 +34,7 @@ pip3 --version
 
 ```sh
 poetry new mock-server && cd mock-server
-poetry add fastapi pydantic pydantic[dotenv] sqlalchemy  jinja2 httpx jsf
+poetry add fastapi typer pydantic pydantic[dotenv] sqlalchemy jinja2 httpx jsf
 ```
 
 ```sh

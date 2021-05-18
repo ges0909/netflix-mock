@@ -1,33 +1,24 @@
 import secrets
-from functools import lru_cache
 
 import fastapi
 from fastapi import Depends, HTTPException
 from fastapi import status
 from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
-from mock_server.config import Settings, settings
+from mock_server.config import settings
 
 app = fastapi.FastAPI()
 security = HTTPBasic()
 
 
-@lru_cache()
-def get_settings() -> Settings:
-    return settings
-
-
-def get_basic_auth(
-    credentials: HTTPBasicCredentials = Depends(security),
-    settings_: Settings = Depends(get_settings),
-):
+def get_basic_auth(credentials: HTTPBasicCredentials = Depends(security)):
     correct_username = secrets.compare_digest(
         credentials.username,
-        settings_.BASIC_AUTH_USERNAME,
+        settings.BASIC_AUTH_USERNAME,
     )
     correct_password = secrets.compare_digest(
         credentials.password,
-        settings_.BASIC_AUTH_PASSWORD,
+        settings.BASIC_AUTH_PASSWORD,
     )
     if not (correct_username and correct_password):
         raise HTTPException(
