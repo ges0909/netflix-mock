@@ -3,14 +3,11 @@ from base64 import b64encode
 import pytest
 from fastapi.testclient import TestClient
 
-from main import app
-from mock_server.config import Settings
+from mock_server.main import app
 
 
 @pytest.fixture
-def test_client(monkeypatch):
-    Settings._env_file = "../dev.env"
-    monkeypatch.setenv("LOGGING_CONF", "../logging.conf")
+def client():
     return TestClient(app)
 
 

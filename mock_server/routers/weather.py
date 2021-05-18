@@ -3,7 +3,6 @@ import logging
 import fastapi
 from fastapi import Depends
 
-from mock_server.deps import get_basic_auth
 from mock_server.schemas.location import Location
 from mock_server.schemas.weather_status import WeatherStatus
 from mock_server.services.weather_service import get_weather
@@ -14,12 +13,8 @@ router = fastapi.APIRouter()
 
 
 @router.get("/weather", response_model=WeatherStatus)
-async def do_i_need_an_umbrella(
-    location: Location = Depends(),  # Location requires a POST body normally. To get its value as query use Depends().
-    username: str = Depends(get_basic_auth),
-):
-    logger.info("user '%s' authenticated", username)
-
+async def do_i_need_an_umbrella(location: Location = Depends()):
+    # Location requires a POST body normally. To get its value as query use Depends().
     data = await get_weather(location=location)
 
     wheather = data.get("weather", {})

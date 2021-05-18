@@ -1,8 +1,8 @@
 from fastapi import status
 
 
-def test_read_settings(test_client, basic_auth):
-    response = test_client.get(
+def test_read_settings(client, basic_auth):
+    response = client.get(
         headers=dict(Authorization=basic_auth),
         url="/config",
     )

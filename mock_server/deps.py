@@ -39,7 +39,7 @@ def get_basic_auth(
 
 
 def get_db_session():
-    from main import db
+    from mock_server.main import db
 
     with db.SessionLocal() as sess:
         yield sess

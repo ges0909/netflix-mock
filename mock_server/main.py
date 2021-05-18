@@ -11,11 +11,9 @@ from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 
 from mock_server.config import settings
-from mock_server.database import Database
+from mock_server.db import Database
 from mock_server.routers import user, config, weather, guide
 from mock_server.views import home
-
-app_root = Path(__file__).parent
 
 fileConfig(
     fname=settings.LOGGING_CONF,
@@ -29,7 +27,7 @@ db = Database(settings=settings)
 app = fastapi.FastAPI()
 
 # mount static files
-app.mount("/guide", StaticFiles(directory="site"), name="guide")
+app.mount("/guide", StaticFiles(directory="../site"), name="guide")
 
 # routers
 app.include_router(home.router)
