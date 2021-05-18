@@ -6,6 +6,8 @@ from fastapi import status
 
 fake = Faker()
 
+prefix = "/api/users"
+
 
 @pytest.fixture
 def user():
@@ -19,7 +21,7 @@ def user():
 def id_(client, basic_auth, user):
     response = client.post(
         headers=dict(Authorization=basic_auth),
-        url="/users/",
+        url=f"{prefix}/",
         json=user,
     )
     assert response.status_code == status.HTTP_201_CREATED
@@ -30,7 +32,7 @@ def id_(client, basic_auth, user):
 def test_create_user(client, basic_auth, user):
     response = client.post(
         headers=dict(Authorization=basic_auth),
-        url="/users/",
+        url=f"{prefix}/",
         json=user,
     )
     assert response.status_code == status.HTTP_201_CREATED
@@ -45,7 +47,7 @@ def test_update_user(client, basic_auth, id_):
     username = fake.pystr()
     response = client.put(
         headers=dict(Authorization=basic_auth),
-        url=f"/users/{id_}",
+        url=f"{prefix}/{id_}",
         json=dict(username=username, password=fake.pystr()),
     )
     assert response.status_code == status.HTTP_200_OK
@@ -57,7 +59,7 @@ def test_update_user(client, basic_auth, id_):
 def test_read_user_by_id(client, basic_auth, id_):
     response = client.get(
         headers=dict(Authorization=basic_auth),
-        url=f"/users/{id_}",
+        url=f"{prefix}/{id_}",
     )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
@@ -68,14 +70,14 @@ def test_read_user_by_id(client, basic_auth, id_):
 def test_delete_user_by_id(client, basic_auth, id_):
     response = client.delete(
         headers=dict(Authorization=basic_auth),
-        url=f"/users/{id_}",
+        url=f"{prefix}/{id_}",
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 def test_missing_auth(client, user):
     response = client.post(
-        url="/users/",
+        url=f"{prefix}/",
         json=user,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -93,7 +95,7 @@ def test_missing_auth(client, user):
 def test_wrong_basic_auth(client, basic_auth, user):
     response = client.post(
         headers=dict(Authorization=basic_auth),
-        url="/users/",
+        url=f"{prefix}/",
         json=user,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

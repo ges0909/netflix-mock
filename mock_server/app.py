@@ -7,6 +7,7 @@ from fastapi import status
 from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
+from httpx import HTTPError
 from sqlalchemy.exc import SQLAlchemyError
 
 from mock_server.config import get_settings
@@ -32,8 +33,8 @@ if site.exists():
 
 # routers
 app.include_router(home.router)
-app.include_router(user.router, prefix="/users")
-app.include_router(weather.router, prefix="/api")
+app.include_router(user.router, prefix="/api/users")
+app.include_router(weather.router, prefix="/weather")
 app.include_router(config.router)
 
 
@@ -42,7 +43,7 @@ async def handle_sqlalchemy_exceptions(request: Request, call_next):
     try:
         response = await call_next(request)
         return response
-    except SQLAlchemyError as error:
+    except (HTTPError, SQLAlchemyError) as error:
         detail = ", ".join(error.args)
         return Response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
