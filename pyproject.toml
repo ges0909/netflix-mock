@@ -25,6 +25,8 @@ typer = "^0.3.2"
 aiofiles = "^0.7.0"
 Jinja2 = "^2.11.3"
 uvicorn = "^0.13.4" # workaround
+async-exit-stack = "^1.0.1" # for py3.6 compatibilty only
+async_generator = "^1.10" # for py3.6 compatibilty only
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
