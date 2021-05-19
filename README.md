@@ -62,7 +62,7 @@ uvicorn main:app --reload
    
 On remote:
 
-1. create venv: `python -m venv venv`
+1. create venv: `python3 -m venv venv`
 1. activate venv: `source venv/bin/activate`
-1. install: `pip install mock_server-0.1.0-py3-none-any.whl`
-1. run: `python -m mock.main --env dev.env --log logging.conf`
+1. install: `pip3 install mock_server-0.1.0-py3-none-any.whl`
+1. run: `python3 -m mock.main --env dev.env --log logging.conf`
