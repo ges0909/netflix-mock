@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker
 
-from mock_server.config import get_settings, Settings
+from netflix_mock.config import get_settings, Settings
 
 # async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
 

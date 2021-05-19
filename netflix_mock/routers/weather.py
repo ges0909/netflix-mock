@@ -3,9 +3,9 @@ import logging
 import fastapi
 from fastapi import Depends
 
-from mock_server.schemas.location import Location
-from mock_server.schemas.weather_status import WeatherStatus
-from mock_server.services.weather_service import get_weather
+from netflix_mock.schemas.location import Location
+from netflix_mock.schemas.weather_status import WeatherStatus
+from netflix_mock.services.weather_service import get_weather
 
 logger = logging.getLogger(__name__)
 

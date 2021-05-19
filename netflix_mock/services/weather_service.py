@@ -1,6 +1,6 @@
 import httpx
 
-from mock_server.schemas.location import Location
+from netflix_mock.schemas.location import Location
 
 
 async def get_weather(location: Location):

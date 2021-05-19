@@ -1,4 +1,4 @@
-site_name: Mock Server Uer Guide
+site_name: Mock Server with FastAPI
 
 theme:
   name: material

@@ -3,8 +3,8 @@ from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import now
 
-from mock_server.models.user import User
-from mock_server.schemas.user import UserIn
+from netflix_mock.models.user import User
+from netflix_mock.schemas.user import UserIn
 
 
 def _get_user_by_id(session: Session, id: int) -> User:

@@ -3,7 +3,7 @@ from base64 import b64encode
 import pytest
 from fastapi.testclient import TestClient
 
-from mock_server.app import app
+from netflix_mock.app import app
 
 
 @pytest.fixture

@@ -32,13 +32,12 @@ pip3 --version
 ## Setup project
 
 ```sh
-poetry new mock-server && cd mock-server
-poetry add fastapi typer pydantic pydantic[dotenv] sqlalchemy jinja2 httpx jsf
+poetry new netflix-mock && cd netflix-mock
+poetry add fastapi typer pydantic pydantic[dotenv] sqlalchemy httpx jinja2
 ```
 
 ```sh
-poetry add -D black
-poetry add -D uvicorn
+poetry add -D black uvicorn
 ```
 
 ### MkDocs
@@ -66,4 +65,4 @@ On remote:
 1. create venv: `python -m venv venv`
 1. activate venv: `source venv/bin/activate`
 1. install: `pip install mock_server-0.1.0-py3-none-any.whl`
-1. run: `python -m mock_server.main --app-config dev.env --log-config logging.conf`
+1. run: `python -m mock.main --env dev.env --log logging.conf`

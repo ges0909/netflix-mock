@@ -5,10 +5,10 @@ from fastapi import Depends, HTTPException
 from fastapi import status
 from sqlalchemy.orm import Session
 
-from mock_server.auth import get_basic_auth
-from mock_server.database import get_db_session
-from mock_server.schemas.user import UserIn, UserOut
-from mock_server.services import user_service
+from netflix_mock.auth import get_basic_auth
+from netflix_mock.database import get_db_session
+from netflix_mock.schemas.user import UserIn, UserOut
+from netflix_mock.services import user_service
 
 router = fastapi.APIRouter()
 

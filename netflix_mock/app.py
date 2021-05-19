@@ -9,9 +9,9 @@ from fastapi.staticfiles import StaticFiles
 from httpx import HTTPError
 from sqlalchemy.exc import SQLAlchemyError
 
-from mock_server.config import get_settings
-from mock_server.routers import user, config, weather, guide, home
-from mock_server.schemas.error import Error
+from netflix_mock.config import get_settings
+from netflix_mock.routers import user, config, weather, guide, home
+from netflix_mock.schemas.error import Error
 
 logger = logging.getLogger(__name__)
 
