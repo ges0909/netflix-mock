@@ -2,7 +2,6 @@ import logging
 from pathlib import Path
 
 import fastapi
-import pkg_resources
 from fastapi import status
 from fastapi.requests import Request
 from fastapi.responses import Response
@@ -17,7 +16,7 @@ from mock_server.schemas.error import Error
 logger = logging.getLogger(__name__)
 
 settings = get_settings()
-version = pkg_resources.get_distribution("mock-server").version
+version = "0.14.9"  # pkg_resources.get_distribution("mock-server").version
 
 app = fastapi.FastAPI(
     title=settings.OPENAPI_TITLE,
