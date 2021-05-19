@@ -2,7 +2,7 @@ import pytest
 from fastapi import status
 
 
-@pytest.mark.skip(reason="jinja2.exceptions.TemplateNotFound: index.html")
+@pytest.mark.skip(reason='assert message["type"] == "http.response.start')
 def test_home(client):
     response = client.get("/")
     assert response.status_code == status.HTTP_200_OK

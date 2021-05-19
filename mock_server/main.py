@@ -1,6 +1,5 @@
 from logging.config import fileConfig
 from pathlib import Path
-from typing import Optional
 
 import typer
 import uvicorn
@@ -8,17 +7,25 @@ import uvicorn
 from mock_server.config import get_settings
 
 
-def main(config: Optional[Path] = None):
-    config_file = config or Path("../config/dev.env")
-    settings = get_settings(config_file=config_file)
-    fileConfig(
-        fname=settings.LOGGING_CONFIG,
-        disable_existing_loggers=False,
-    )
+def main(app_config: Path = "../dev.env", log_config: Path = "../logging.conf"):
+    if not app_config.exists():
+        typer.echo(
+            message=f"option '--app-config': application config file '{app_config}' not found",
+            err=True,
+        )
+        return
+    if not log_config.exists():
+        typer.echo(
+            message=f"option '--log-config': logging config file '{log_config}' not found",
+            err=True,
+        )
+        return
+    settings = get_settings(app_config=app_config)
+    fileConfig(fname=log_config, disable_existing_loggers=False)
     uvicorn.run(
         "mock_server.app:app",
         port=settings.PORT,
-        log_level="info",
+        log_level=settings.SERVER_LOG_LEVEL,
         access_log=False,
         # reload=True,
     )

@@ -25,16 +25,16 @@ app = fastapi.FastAPI(
 )
 
 # mount static files
-site = Path("../site")
-if site.exists():
-    app.mount("/guide", StaticFiles(directory=site), name="guide")
+site_dir = Path(__file__).parent / ".." / "site"
+if site_dir.exists():
+    app.mount("/guide", StaticFiles(directory=site_dir), name="guide")
     app.include_router(guide.router)
 
 # routers
 app.include_router(home.router)
 app.include_router(user.router, prefix="/api/users")
+app.include_router(config.router, prefix="/config")
 app.include_router(weather.router, prefix="/weather")
-app.include_router(config.router)
 
 
 @app.middleware("http")

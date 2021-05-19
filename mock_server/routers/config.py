@@ -7,7 +7,7 @@ from mock_server.config import get_settings
 router = fastapi.APIRouter()
 
 
-@router.get("/config")
+@router.get("/")
 async def read_settings(_: str = Depends(get_basic_auth)):
     """Get app settings."""
     settings = get_settings()

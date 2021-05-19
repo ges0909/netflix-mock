@@ -6,12 +6,11 @@
 ## CentOS on WSL 2
 
 - [How to install CentOS 8 on WSL 1 or 2 of Windows 10](https://www.how2shout.com/how-to/how-to-install-centos-8-on-wsl-windows-10.html)
-- [Configure an interpreter using WSL](https://www.jetbrains.com/help/pycharm/using-wsl-as-a-remote-interpreter.html), requires _PyCharm Professional_
-- [How to package a python project with all of its dependencies for offline install](https://medium.com/@amimahloof/how-to-package-a-python-project-with-all-of-its-dependencies-for-offline-install-7eb240b27418)
+- [Configure an interpreter using WSL](https://www.jetbrains.com/help/pycharm/using-wsl-as-a-remote-interpreter.html) (requires _PyCharm Professional_)
 
 Windows: 
 
-- prerequiste: WSL is **enabled**
+- prerequisite: WSL is **enabled**
 - download CentOS 8 WSL files from [CentWSL](https://github.com/wsldl-pg/CentWSL/releases)
 - unzip _CentOS8.zip_
 - execute _CentOS8.exe_
@@ -30,7 +29,7 @@ python3 --version
 pip3 --version
 ```
 
-## Setup
+## Setup project
 
 ```sh
 poetry new mock-server && cd mock-server
@@ -42,9 +41,7 @@ poetry add -D black
 poetry add -D uvicorn
 ```
 
-## MkDocs
-
-Serve static files:
+### MkDocs
 
 ```sh
 poetry add aiofiles
@@ -53,8 +50,20 @@ poetry run mkdocs new .
 poetry run mkdocs build
 ```
 
-## Run
+## Run locally
 
 ```sh
 uvicorn main:app --reload
 ```
+
+## Deploy
+
+1. create distribution: `poetry update`
+1. copy files _dist/mock_server-0.1.0-py3-none-any.whl_, _dev.env_ and _logging.conf_ to remote
+   
+On remote:
+
+1. create venv: `python -m venv venv`
+1. activate venv: `source venv/bin/activate`
+1. install: `pip install mock_server-0.1.0-py3-none-any.whl`
+1. run: `python -m mock_server.main --app-config dev.env --log-config logging.conf`
