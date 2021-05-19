@@ -38,7 +38,7 @@ app.include_router(weather.router, prefix="/weather")
 
 
 @app.middleware("http")
-async def handle_uncatched_exceptions(request: Request, call_next):
+async def handle_uncatched_exceptions(request: Request, call_next) -> Response:
     try:
         response = await call_next(request)
         return response

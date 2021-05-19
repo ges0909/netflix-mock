@@ -9,16 +9,10 @@ from netflix_mock.config import get_settings
 
 def main(env: Path = "../dev.env", log: Path = "../logging.conf"):
     if not env.exists():
-        typer.echo(
-            message=f"option '--env': application settings '{env}' not found",
-            err=True,
-        )
+        typer.echo(message=f"option '--env': application settings '{env}' not found", err=True)
         return
     if not log.exists():
-        typer.echo(
-            message=f"option '--log': log settings '{log}' not found",
-            err=True,
-        )
+        typer.echo(message=f"option '--log': log settings '{log}' not found", err=True)
         return
     settings = get_settings(app_config=env)
     fileConfig(fname=log, disable_existing_loggers=False)

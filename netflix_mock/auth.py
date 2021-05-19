@@ -22,7 +22,7 @@ def get_basic_auth(credentials: HTTPBasicCredentials = Depends(security)):
     if not (correct_username and correct_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
+            detail="incorrect username or password",
             headers={"WWW-Authenticate": "Basic"},
         )
     return credentials.username
