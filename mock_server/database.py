@@ -1,34 +1,47 @@
+from typing import Optional
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker
 
-from mock_server.config import get_settings
+from mock_server.config import get_settings, Settings
 
 # async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
 
 Base = declarative_base()
 
-settings = get_settings()
 
-engine = create_engine(
-    url=settings.DATABASE_URL,
-    echo=settings.DATABASE_LOGGING,
-    connect_args={"check_same_thread": False},  # for SQLite only
-)
+class Database:
+    def __init__(self, settings: Settings):
+        self.engine = create_engine(
+            url=settings.DATABASE_URL,
+            echo=settings.DATABASE_LOGGING,
+            connect_args={
+                "check_same_thread": False,
+            },  # for SQLite only
+        )
+        # create session factory
+        self._session_maker = sessionmaker(
+            # autocommit=False,
+            # autoflush=False,
+            bind=self.engine,
+        )
+        # generate model schemas
+        with self.engine.begin() as conn:
+            Base.metadata.drop_all(conn)
+            Base.metadata.create_all(conn)
 
-# create session factory
-Session = sessionmaker(
-    # autocommit=False,
-    # autoflush=False,
-    bind=engine,
-)
+    @property
+    def session_maker(self):
+        return self._session_maker
 
-# generate model schemas
-with engine.begin() as conn:
-    Base.metadata.drop_all(conn)
-    Base.metadata.create_all(conn)
+
+_database: Optional[Database] = None
 
 
 def get_db_session():
-    with Session() as session:
+    global _database
+    if not _database:
+        _database = Database(settings=get_settings())
+    with _database.session_maker() as session:
         yield session

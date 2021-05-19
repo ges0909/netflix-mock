@@ -20,8 +20,8 @@ settings = get_settings()
 version = pkg_resources.get_distribution("mock-server").version
 
 app = fastapi.FastAPI(
-    title=settings.TITLE,
-    description=settings.DESCRIPTION,
+    title=settings.OPENAPI_TITLE,
+    description=settings.OPENAPI_DESCRIPTION,
     version=version,
 )
 

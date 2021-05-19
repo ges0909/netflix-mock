@@ -6,15 +6,17 @@ import typer
 import uvicorn
 
 from mock_server.config import get_settings
+from mock_server.database import get_db_session
 
 
 def main(config: Optional[Path] = None):
-    env_file = config or Path("../config/dev.env")
-    settings = get_settings(env_file=env_file)
+    config_file = config or Path("../config/dev.env")
+    settings = get_settings(config_file=config_file)
     fileConfig(
         fname=settings.LOGGING_CONFIG,
         disable_existing_loggers=False,
     )
+    _ = get_db_session()
     uvicorn.run(
         "mock_server.app:app",
         port=settings.PORT,
