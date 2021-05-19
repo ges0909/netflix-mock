@@ -9,10 +9,8 @@ from mock_server.config import Settings, get_settings
 security = HTTPBasic()
 
 
-def get_basic_auth(
-    credentials: HTTPBasicCredentials = Depends(security),
-    settings: Settings = Depends(get_settings),
-):
+def get_basic_auth(credentials: HTTPBasicCredentials = Depends(security)):
+    settings = get_settings()
     correct_username = secrets.compare_digest(
         credentials.username,
         settings.BASIC_AUTH_USERNAME,

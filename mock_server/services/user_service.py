@@ -1,6 +1,7 @@
 from typing import Optional, List
 
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.functions import now
 
 from mock_server.models.user import User
 from mock_server.schemas.user import UserIn
@@ -22,6 +23,7 @@ def update_user_by_id(session: Session, id: int, user: UserIn) -> Optional[User]
     if _user := _get_user_by_id(session=session, id=id):
         _user.username = user.username
         _user.password = user.password + "not_really_hashed"
+        _user.updated_at = now()
         session.add(_user)
         session.commit()
         return _user
