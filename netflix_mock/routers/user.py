@@ -32,7 +32,8 @@ async def update_user(
     session: Session = Depends(get_db_session),
 ) -> UserOut:
     """Updates the user data."""
-    if user_ := user_service.update_user_by_id(session=session, id=id, user=user):
+    user_ = user_service.update_user_by_id(session=session, id=id, user=user)
+    if user_:
         return UserOut(id=user_.id, username=user_.username)
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
@@ -47,7 +48,8 @@ async def get_user_by_id(
     session: Session = Depends(get_db_session),
 ) -> UserOut:
     """Gets the user data."""
-    if user := user_service.get_user_by_id(session=session, id=id):
+    user = user_service.get_user_by_id(session=session, id=id)
+    if user:
         return UserOut(id=user.id, username=user.username)
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,

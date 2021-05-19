@@ -20,7 +20,8 @@ def create_user(session: Session, user: UserIn) -> User:
 
 
 def update_user_by_id(session: Session, id: int, user: UserIn) -> Optional[User]:
-    if _user := _get_user_by_id(session=session, id=id):
+    _user = _get_user_by_id(session=session, id=id)
+    if _user:
         _user.username = user.username
         _user.password = user.password + "not_really_hashed"
         _user.updated_at = now()
@@ -31,13 +32,15 @@ def update_user_by_id(session: Session, id: int, user: UserIn) -> Optional[User]
 
 
 def get_user_by_id(session: Session, id: int) -> Optional[User]:
-    if _user := _get_user_by_id(session=session, id=id):
+    _user = _get_user_by_id(session=session, id=id)
+    if _user:
         return _user
     return None
 
 
 def delete_user_by_id(session: Session, id: int) -> Optional[User]:
-    if _user := _get_user_by_id(session=session, id=id):
+    _user = _get_user_by_id(session=session, id=id)
+    if _user:
         session.delete(_user)
         session.commit()
         return _user
