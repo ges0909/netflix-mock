@@ -4,6 +4,8 @@
 venv/
 site/
 dist/
+
+__pychache__/
 .pytest_cache/
 
 *.db

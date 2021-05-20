@@ -16,7 +16,7 @@ from netflix_mock.schemas.error import Error
 logger = logging.getLogger(__name__)
 
 settings = get_settings()
-version = "0.14.9"  # pkg_resources.get_distribution("mock-server").version
+version = "0.14.9"  # pkg_resources.get_distribution("netflix-mock").version
 
 app = fastapi.FastAPI(
     title=settings.OPENAPI_TITLE,
