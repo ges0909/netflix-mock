@@ -21,7 +21,7 @@ poetry add -D black requests requests-toolbelt mkdocs mkdocs-material
 uvicorn main:app --reload
 ```
 
-## Mkdocs
+## MkDocs
 
 Generate static HTML site from Markdown.
 
@@ -74,13 +74,3 @@ useradd develop
 passwd develop
 su - develop
 ```
-
-
-## Problems
-
-- greenlet
-- MarkupSafe
-- pydantic 
-
-Linux b-dev-sbp-mock-1001.dev.app.kd-labs.de 3.10.0-1127.19.1.el7.x86_64    #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64 x86_64 x86_64 GNU/Linux
-Linux SY-378-NB                              5.4.72-microsoft-standard-WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
