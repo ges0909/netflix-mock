@@ -11,7 +11,7 @@
 
 ```sh
 poetry new netflix-mock && cd netflix-mock
-poetry add fastapi typer pydantic pydantic[dotenv] sqlalchemy httpx jinja2 aiofiles uvicorn
+poetry add fastapi typer pydantic python-dotenv sqlalchemy httpx jinja2 aiofiles uvicorn python-multipart
 poetry add -D black requests mkdocs mkdocs-material
 ```
 

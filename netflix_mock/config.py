@@ -5,14 +5,14 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    PORT: int = 9961
+    SERVER_PORT: int = 9961
+    SERVER_LOG_LEVEL: str
     BASIC_AUTH_USERNAME: str
     BASIC_AUTH_PASSWORD: str
     DATABASE_URL: str
     DATABASE_LOGGING: bool = False
     OPENAPI_TITLE: str
     OPENAPI_DESCRIPTION: str
-    SERVER_LOG_LEVEL: str
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
