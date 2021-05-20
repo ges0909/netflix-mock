@@ -17,7 +17,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     return {"filename": file.filename}
 
 
-@router.post("/upload/multiple")
+@router.post("/multiple/")
 async def create_upload_files(files: List[UploadFile] = File(...)):
     return {
         "filenames": [file.filename for file in files],

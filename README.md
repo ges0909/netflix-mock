@@ -34,13 +34,14 @@ poetry run mkdocs build
 
 On local (Windows):
 
-1. `poetry shell`
-1. `pip wheel --no-binary :all: -w wheelhouse fastapi httpx SQLAlchemy typer aiofiles Jinja2 uvicorn async-exit-stack async_generator python-multipart python-dotenv`
-1. `exit`
+1. `poetry export -f requirements.txt -o requirements.txt --without-hashes`
+1. `pip wheel --no-binary :all: --wheel-dir wheelhouse -r requirements.txt`
 1. `poetry build`
 1. `cp dist/netflix_mock-0.1.0-py3-none-any.whl wheelhouse`
 1. `tar cf netflix-mock.tar wheelhouse/`
 1. `gzip netflix-mock.tar`
+
+- `pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
 
 On remote (Linux):
 
@@ -59,10 +60,10 @@ On remote (Linux):
 Windows:
 
 - prerequisite: WSL is **enabled**
-- download CentOS*.zip from [CentOS-WSL](https://github.com/mishamosher/CentOS-WSL)
-- unzip CentOS*.zip
-- execute CentOS*.exe
-- execute CentOS*.exe again; issue `dnf update`
+- download CentOS\*.zip from [CentOS-WSL](https://github.com/mishamosher/CentOS-WSL)
+- unzip CentOS\*.zip
+- execute CentOS\*.exe
+- execute CentOS\*.exe again; issue `dnf update`
 - show installed distros: `wsl --list --verbose`
 - remove distro: `./CentOS8.exe clean` (as _Admin_) or `wsl --unregister CentOS8`
 

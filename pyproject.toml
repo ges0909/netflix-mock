@@ -38,7 +38,6 @@ requests = "^2.25.1"
 Faker = "^8.1.4"
 
 #[tool.poetry.scripts]
-requests-toolbelt = "^0.9.1"
 # netflix_mock = "netflix_mock.main:main"
 
 [build-system]
