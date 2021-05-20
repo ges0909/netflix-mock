@@ -10,7 +10,7 @@ from httpx import HTTPError
 from sqlalchemy.exc import SQLAlchemyError
 
 from netflix_mock.config import get_settings
-from netflix_mock.routers import user, config, weather, guide, home
+from netflix_mock.routers import user, config, weather, guide, home, files
 from netflix_mock.schemas.error import Error
 
 logger = logging.getLogger(__name__)
@@ -35,6 +35,7 @@ app.include_router(home.router)
 app.include_router(user.router, prefix="/api/users")
 app.include_router(config.router, prefix="/config")
 app.include_router(weather.router, prefix="/weather")
+app.include_router(files.router, prefix="/files")
 
 
 @app.middleware("http")

@@ -5,6 +5,7 @@
 - [Let's Build a Fast, Modern Python API with FastAPI](https://www.youtube.com/watch?v=sBVb4IB3O_U)
 - [FastAPI logging](https://philstories.medium.com/fastapi-logging-f6237b84ea64)
 - [Deploy to Production](https://flask.palletsprojects.com/en/latest/tutorial/deploy/)
+- [How to create a Systemd service in Linux](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 
 ## Setup
 

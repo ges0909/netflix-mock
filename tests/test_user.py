@@ -100,4 +100,4 @@ def test_wrong_basic_auth(client, basic_auth, user):
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
     data = response.json()
-    assert data["detail"] == "Incorrect username or password"
+    assert data["detail"] == "incorrect username or password"
