@@ -4,6 +4,7 @@
 venv/
 site/
 dist/
+wheelhouse/
 
 __pychache__/
 .pytest_cache/

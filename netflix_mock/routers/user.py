@@ -16,7 +16,7 @@ router = fastapi.APIRouter()
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserOut)
 async def create_user(
     user: UserIn,
-    _: str = Depends(get_basic_auth),
+    _: int = Depends(get_basic_auth),
     session: Session = Depends(get_db_session)
 ) -> UserOut:
     """Creates a new user."""

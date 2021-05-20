@@ -12,7 +12,7 @@
 ```sh
 poetry new netflix-mock && cd netflix-mock
 poetry add fastapi typer pydantic python-dotenv sqlalchemy httpx jinja2 aiofiles uvicorn python-multipart
-poetry add -D black requests mkdocs mkdocs-material
+poetry add -D black requests requests-toolbelt mkdocs mkdocs-material
 ```
 
 ## Run
@@ -34,16 +34,22 @@ poetry run mkdocs build
 
 On local (Windows):
 
-1. create a wheel: `python setup.py bdist_wheel` (requires `setup.py`) or `poetry build`
-1. copy files to remote, e.g. dist/netflix-mock-0.1.0-py3-none-any.whl, dev.env, logging.conf
+1. `poetry shell`
+1. `pip wheel --no-binary :all: -w wheelhouse fastapi httpx SQLAlchemy typer aiofiles Jinja2 uvicorn async-exit-stack async_generator python-multipart python-dotenv`
+1. `exit`
+1. `poetry build`
+1. `cp dist/netflix_mock-0.1.0-py3-none-any.whl wheelhouse`
+1. `tar cf netflix-mock.tar wheelhouse/`
+1. `gzip netflix-mock.tar`
 
 On remote (Linux):
 
 1. create installation dir: `mkdir netflix-mock && cd netflix-mock`
+1. `gzip -d netflix-mock.tar.gz`
+1. `tar xf netflix-mock.tar`
 1. create venv: `python3 -m venv venv`
 1. activate venv: `. venv/bin/activate`
-1. install: `pip3 install netflix-mock-0.1.0-py3-none-any.whl`
-1. run: `python3 -m netflix-mock.main --env dev.env --log logging.conf`
+1. `pip install wheelhouse/*`
 
 ## Install CentOS on WSL 2
 
@@ -53,17 +59,28 @@ On remote (Linux):
 Windows:
 
 - prerequisite: WSL is **enabled**
-- download CentOS 8 WSL files from [CentWSL](https://github.com/wsldl-pg/CentWSL/releases)
-- unzip CentOS8.zip
-- execute CentOS8.exe
-- execute CentOS8.exe again; issue `dnf update`
+- download CentOS*.zip from [CentOS-WSL](https://github.com/mishamosher/CentOS-WSL)
+- unzip CentOS*.zip
+- execute CentOS*.exe
+- execute CentOS*.exe again; issue `dnf update`
 - show installed distros: `wsl --list --verbose`
 - remove distro: `./CentOS8.exe clean` (as _Admin_) or `wsl --unregister CentOS8`
 
 CentOS:
 
 ```sh
-sudo yum install python3 python3-wheel
-python3 --version
-pip3 --version
+yum -y install python3 python3-wheel git gcc gcc-c++ python3-devel
+useradd develop
+passwd develop
+su - develop
 ```
+
+
+## Problems
+
+- greenlet
+- MarkupSafe
+- pydantic 
+
+Linux b-dev-sbp-mock-1001.dev.app.kd-labs.de 3.10.0-1127.19.1.el7.x86_64    #1 SMP Tue Aug 11 19:12:04 EDT 2020 x86_64 x86_64 x86_64 GNU/Linux
+Linux SY-378-NB                              5.4.72-microsoft-standard-WSL2 #1 SMP Wed Oct 28 23:40:43 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
