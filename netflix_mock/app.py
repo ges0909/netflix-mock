@@ -2,15 +2,9 @@ import logging
 from pathlib import Path
 
 import fastapi
-from fastapi import status
-from fastapi.requests import Request
-from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
-from httpx import HTTPError
-from sqlalchemy.exc import SQLAlchemyError
 
 from netflix_mock.routers import users, settings, weather, home, upload
-from netflix_mock.schemas.error import Error
 from netflix_mock.settings import get_settings
 
 logger = logging.getLogger(__name__)
@@ -35,20 +29,6 @@ app.include_router(users.router, prefix="/api/users", tags=["Get, add, update an
 app.include_router(settings.router, prefix="/settings", include_in_schema=False)
 app.include_router(weather.router, prefix="/weather", include_in_schema=False)
 app.include_router(upload.router, tags=["Upload file(s)"])
-
-
-@app.middleware("http")
-async def handle_uncatched_exceptions(request: Request, call_next) -> Response:
-    try:
-        response = await call_next(request)
-        return response
-    except (HTTPError, SQLAlchemyError) as error:
-        detail = ", ".join(error.args)
-        return Response(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content=Error(detail=detail).json(),
-            media_type="application/json",
-        )
 
 
 @app.on_event("startup")
