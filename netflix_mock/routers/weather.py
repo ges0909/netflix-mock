@@ -13,8 +13,9 @@ router = fastapi.APIRouter()
 
 
 @router.get("/", response_model=WeatherStatus)
-async def do_i_need_an_umbrella(location: Location = Depends()):
-    # Location requires a POST body normally. To get its value as query use Depends().
+async def do_i_need_an_umbrella(
+    location: Location = Depends(),  # Location requires a POST body normally. To get its value as query use Depends().
+):
     data = await get_weather(location=location)
 
     weather = data.get("weather", {})

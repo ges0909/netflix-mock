@@ -16,7 +16,12 @@ router = fastapi.APIRouter()
 async def create_user(
     user: UserIn, _: int = Depends(get_basic_auth), session: Session = Depends(get_db_session)
 ) -> UserOut:
-    """Creates a new user."""
+    """
+    Create an user:
+
+    - **username**: each user must have a name
+    - **password**: each user must have a password
+    """
     user_ = user_service.create_user(session=session, user=user)
     return UserOut(id=user_.id, username=user_.username)
 

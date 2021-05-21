@@ -27,7 +27,7 @@ class Database:
         )
         # generate model schemas
         with self._engine.begin() as conn:
-            Base.metadata.drop_all(conn)
+            # Base.metadata.drop_all(conn)
             Base.metadata.create_all(conn)
 
     @property

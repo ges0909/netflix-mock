@@ -1,4 +1,62 @@
-site_name: Mock Server with FastAPI
+site_name: Netflix Mock Manual
+
+use_directory_urls: false # otherwise FastAPI is not able to resolve to 'index.html'
+
+repo_name: sbp-test/netflix-mock
+repo_url: https://github.com/ges0909/netflix-mock.git
 
 theme:
   name: material
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - header.autohide
+  palette:
+    # Light mode
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    # Dark mode
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.highlight:
+      linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      type: date
+      fallback_to_build_date: true
+
+extra:
+  homepage: https://www.syrocon.de/
+  version:
+    provider: mike
+
+nav:
+  - Home: index.md
+  - Install: install.md
+  - About: about.md
