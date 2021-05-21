@@ -1,10 +1,10 @@
-from typing import Optional
+from typing import Optional, Iterator
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm.session import sessionmaker
+from sqlalchemy.orm.session import sessionmaker, Session
 
-from netflix_mock.config import get_settings
+from netflix_mock.settings import get_settings
 
 # async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
 
@@ -17,9 +17,7 @@ class Database:
         self._engine = create_engine(
             url=settings.DATABASE_URL,
             echo=settings.DATABASE_LOGGING,
-            connect_args={
-                "check_same_thread": False,
-            },  # for SQLite only
+            connect_args={"check_same_thread": False},  # for SQLite only
         )
         # create session factory
         self._session_maker = sessionmaker(
@@ -40,9 +38,10 @@ class Database:
 _database: Optional[Database] = None
 
 
-def get_db_session():
+def get_db_session() -> Iterator[Session]:
     global _database
     if not _database:
         _database = Database()
-    with _database.session_maker() as session:
+    with _database.session_maker() as session:  # 'session_maker' is called
         yield session
+        # session is closed automatically by context manager

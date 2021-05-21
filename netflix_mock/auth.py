@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException
 from fastapi import status
 from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
-from netflix_mock.config import Settings, get_settings
+from netflix_mock.settings import get_settings
 
 security = HTTPBasic()
 

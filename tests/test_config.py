@@ -4,7 +4,7 @@ from fastapi import status
 def test_read_settings(client, basic_auth):
     response = client.get(
         headers=dict(Authorization=basic_auth),
-        url="/config",
+        url="/settings/",
     )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()

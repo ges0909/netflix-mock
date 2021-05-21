@@ -2,7 +2,7 @@ import fastapi
 from fastapi import Depends
 
 from netflix_mock.auth import get_basic_auth
-from netflix_mock.config import get_settings
+from netflix_mock.settings import get_settings
 
 router = fastapi.APIRouter()
 

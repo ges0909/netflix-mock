@@ -16,18 +16,18 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6.2"
+python = "3.6.8"
 fastapi = "^0.65.0"
-httpx = "^0.18.1"
-SQLAlchemy = "^1.4.15"
 typer = "^0.3.2"
-aiofiles = "^0.7.0"
-Jinja2 = "^2.11.3"
-uvicorn = "^0.13.4" # workaround
-async-exit-stack = "^1.0.1" # for py3.6 compatibilty only
-async_generator = "^1.10" # for py3.6 compatibilty only
-python-multipart = "^0.0.5"
+SQLAlchemy = "^1.4.15"
+httpx = "^0.18.1"
 python-dotenv = "^0.17.1"
+Jinja2 = "^2.11.3"              # for static files
+aiofiles = "^0.7.0"             # for static files
+python-multipart = "^0.0.5"     # for file uploads ony
+uvicorn = "^0.13.4"             # workaround
+async-exit-stack = "^1.0.1"     # for py3.6 compatibility only
+async_generator = "^1.10"       # for py3.6 compatibility only
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"

@@ -11,8 +11,6 @@ class Settings(BaseSettings):
     BASIC_AUTH_PASSWORD: str
     DATABASE_URL: str
     DATABASE_LOGGING: bool = False
-    OPENAPI_TITLE: str
-    OPENAPI_DESCRIPTION: str
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
@@ -21,10 +19,9 @@ class Settings(BaseSettings):
 _settings: Optional[Settings] = None
 
 
-def get_settings(app_config=Path("../dev.env")):
-    """load settings only once"""
+def get_settings(app_config=Path("../dev.env")) -> Settings:
     global _settings
-    if not _settings:
+    if not _settings:  # load settings only once
         if app_config and app_config.exists():
             _settings = Settings(_env_file=app_config)
     return _settings

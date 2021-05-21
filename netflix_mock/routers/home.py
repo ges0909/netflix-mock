@@ -13,7 +13,7 @@ templates_dir = Path(__file__).parent / ".." / "templates"
 templates = Jinja2Templates(directory=str(templates_dir))
 
 
-@router.get("/", response_class=HTMLResponse, include_in_schema=False)
+@router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse(
         name="index.html",

@@ -4,7 +4,7 @@ from pathlib import Path
 import typer
 import uvicorn
 
-from netflix_mock.config import get_settings
+from netflix_mock.settings import get_settings
 
 
 def main(env: Path = "../dev.env", log: Path = "../logging.conf"):
