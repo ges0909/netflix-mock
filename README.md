@@ -6,6 +6,7 @@
 - [FastAPI logging](https://philstories.medium.com/fastapi-logging-f6237b84ea64)
 - [Deploy to Production](https://flask.palletsprojects.com/en/latest/tutorial/deploy/)
 - [How to create a Systemd service in Linux](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
+- [How to Save Uploaded Files in FastAPI](https://levelup.gitconnected.com/how-to-save-uploaded-files-in-fastapi-90786851f1d3)
 
 ## Setup
 
@@ -32,7 +33,7 @@ poetry run mkdocs build
 
 ## Deploy to production
 
-On local (Windows):
+On local (WSL2):
 
 1. `poetry export -f requirements.txt -o requirements.txt --without-hashes`
 1. `pip wheel --no-binary :all: --wheel-dir wheelhouse -r requirements.txt`

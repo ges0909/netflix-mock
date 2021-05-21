@@ -11,11 +11,16 @@ fake = Faker()
 
 
 @pytest.fixture
-def client(tmp_path):
+def settings():
+    return get_settings()
+
+
+@pytest.fixture
+def client(settings, tmp_path):
     db_file = tmp_path / "test.db"
     client = TestClient(app)
-    settings = get_settings()
     settings.DATABASE_URL = f"sqlite:///{db_file}"
+    settings.UPLOAD_DIR = tmp_path
     return client
 
 

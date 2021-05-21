@@ -4,14 +4,14 @@ from fastapi import status
 
 fake = Faker()
 
-prefix = "/api/users"
+BASE_URL = "/api/users"
 
 
 @pytest.fixture
 def id_(client, basic_auth, user):
     response = client.post(
         headers=dict(Authorization=basic_auth),
-        url=f"{prefix}/",
+        url=f"{BASE_URL}/",
         json=user,
     )
     assert response.status_code == status.HTTP_201_CREATED
@@ -22,7 +22,7 @@ def id_(client, basic_auth, user):
 def test_create_user(client, basic_auth, user):
     response = client.post(
         headers=dict(Authorization=basic_auth),
-        url=f"{prefix}/",
+        url=f"{BASE_URL}/",
         json=user,
     )
     assert response.status_code == status.HTTP_201_CREATED
@@ -37,7 +37,7 @@ def test_update_user(client, basic_auth, id_):
     username = fake.pystr()
     response = client.put(
         headers=dict(Authorization=basic_auth),
-        url=f"{prefix}/{id_}",
+        url=f"{BASE_URL}/{id_}",
         json=dict(username=username, password=fake.pystr()),
     )
     assert response.status_code == status.HTTP_200_OK
@@ -49,7 +49,7 @@ def test_update_user(client, basic_auth, id_):
 def test_read_user_by_id(client, basic_auth, id_):
     response = client.get(
         headers=dict(Authorization=basic_auth),
-        url=f"{prefix}/{id_}",
+        url=f"{BASE_URL}/{id_}",
     )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
@@ -60,6 +60,6 @@ def test_read_user_by_id(client, basic_auth, id_):
 def test_delete_user_by_id(client, basic_auth, id_):
     response = client.delete(
         headers=dict(Authorization=basic_auth),
-        url=f"{prefix}/{id_}",
+        url=f"{BASE_URL}/{id_}",
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT

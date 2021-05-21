@@ -9,9 +9,9 @@ from fastapi.staticfiles import StaticFiles
 from httpx import HTTPError
 from sqlalchemy.exc import SQLAlchemyError
 
-from netflix_mock.settings import get_settings
-from netflix_mock.routers import users, settings, weather, guide, home, files
+from netflix_mock.routers import users, settings, weather, home, upload
 from netflix_mock.schemas.error import Error
+from netflix_mock.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -27,15 +27,14 @@ app = fastapi.FastAPI(
 # mount static files
 site_dir = Path(__file__).parent / ".." / "site"
 if site_dir.exists():
-    app.mount("/guide", StaticFiles(directory=site_dir), name="guide")
-    app.include_router(guide.router, include_in_schema=False)
+    app.mount("/manual", StaticFiles(directory=site_dir))
 
 # routers
 app.include_router(home.router, include_in_schema=False)
-app.include_router(users.router, prefix="/api/users", tags=["Users"])
+app.include_router(users.router, prefix="/api/users", tags=["Get, add, update and delete users"])
 app.include_router(settings.router, prefix="/settings", include_in_schema=False)
 app.include_router(weather.router, prefix="/weather", include_in_schema=False)
-app.include_router(files.router, prefix="/files", tags=["Files"])
+app.include_router(upload.router, tags=["Upload file(s)"])
 
 
 @app.middleware("http")

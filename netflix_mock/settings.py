@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     BASIC_AUTH_PASSWORD: str
     DATABASE_URL: str
     DATABASE_LOGGING: bool = False
+    UPLOAD_DIR: Path
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)

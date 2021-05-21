@@ -1,8 +1,7 @@
 from typing import List
 
 import fastapi
-from fastapi import Depends, HTTPException
-from fastapi import status
+from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from netflix_mock.auth import get_basic_auth
@@ -15,9 +14,7 @@ router = fastapi.APIRouter()
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserOut)
 async def create_user(
-    user: UserIn,
-    _: int = Depends(get_basic_auth),
-    session: Session = Depends(get_db_session)
+    user: UserIn, _: int = Depends(get_basic_auth), session: Session = Depends(get_db_session)
 ) -> UserOut:
     """Creates a new user."""
     user_ = user_service.create_user(session=session, user=user)

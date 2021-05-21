@@ -1,4 +1,4 @@
-# Mock Server with FastAPI
+# Netflix Mock
 
 This documentation is generated with [MkDocs](https://www.mkdocs.org/),
 a _Static Site Generator_ (SSG). An SSG takes files in _Markdown_ format
