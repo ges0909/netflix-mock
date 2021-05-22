@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from httpx import HTTPError
 from sqlalchemy.exc import SQLAlchemyError
 
-from netflix_mock.routers import users, settings, weather, home, upload
+from netflix_mock.routers import users, settings, weather, templates, upload, home
 from netflix_mock.schemas.error import Error
 from netflix_mock.settings import get_settings
 
@@ -32,6 +32,7 @@ if site_dir.exists():
 
 # routers
 app.include_router(home.router, include_in_schema=False)
+app.include_router(templates.router, prefix="/templates", include_in_schema=False)
 app.include_router(users.router, prefix="/api/users", tags=["Get, add, update and delete users"])
 app.include_router(settings.router, prefix="/settings", include_in_schema=False)
 app.include_router(weather.router, prefix="/weather", include_in_schema=False)
@@ -54,10 +55,10 @@ async def unhandled_exceptions(request: Request, call_next) -> Response:
         response = await call_next(request)
         return response
     except (HTTPError, SQLAlchemyError) as error:
-        detail = ", ".join(error.args)
+        error = ", ".join(error.args)
         return Response(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content=Error(detail=detail).json(),
+            content=Error(error=error).json(),
             media_type="application/json",
         )
 
