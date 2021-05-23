@@ -10,11 +10,13 @@ def test_read_settings(client, admin_user):
     data = response.json()
     assert "server_port" in data
     assert "server_log_level" in data
-    assert "basic_auth_username" in data
     assert "database_url" in data
     assert "database_logging" in data
+    assert "mock_username" in data
 
-    assert "basic_auth_password" not in data
+    assert "mock_password" not in data
+    assert "admin_username" not in data
+    assert "admin_password" not in data
 
 
 def test_change_settings(client, admin_user):

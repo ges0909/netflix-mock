@@ -19,4 +19,4 @@ mkdocs build
 
 ## Weather API (Proxy)
 
-See: **[/weather?city=berlin](/weather?city=berlin)**
+See: [/weather?city=berlin](/weather?city=berlin)

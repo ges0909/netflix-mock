@@ -9,6 +9,8 @@ from netflix_mock.settings import get_settings
 
 router = fastapi.APIRouter()
 
+# single file
+
 
 @router.post("/file/")
 async def file_(file: bytes = File(...)):
