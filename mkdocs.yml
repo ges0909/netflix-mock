@@ -1,4 +1,4 @@
-site_name: Netflix Mock Manual
+site_name: Manual Netflix Mock
 
 use_directory_urls: false # otherwise FastAPI is not able to resolve to 'index.html'
 

@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 
 import fastapi
+import pkg_resources
 from fastapi import status
 from fastapi.requests import Request
 from fastapi.responses import Response
@@ -16,10 +17,10 @@ from netflix_mock.settings import get_settings
 logger = logging.getLogger(__name__)
 
 settings_ = get_settings()
-version = "0.14.9"  # pkg_resources.get_distribution("netflix-mock").version
+version = pkg_resources.get_distribution("netflix-mock").version
 
 app = fastapi.FastAPI(
-    title="Netflix Mock with FastAPI",
+    title="Netflix Mock",
     description="A configurable quick starter for mock server implementations.",
     version=version,
     openapi_url="/api/openapi.json",

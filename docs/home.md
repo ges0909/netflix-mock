@@ -1,7 +1,5 @@
 # Netflix Mock
 
-## User manual
-
 [MkDocs](https://www.mkdocs.org/) is used for this user manual.
 
 It translates files written in **Markdown** to static HTML.
@@ -14,10 +12,11 @@ To generate or update the user manual, run the command:
 mkdocs build
 ```
 
-## Open API UI
+## Open API
 
-See [/docs](http://localhost:8000/docs) .
+- UI: [/docs](/docs)
+- Spec: [/api/openapi.json](/api/openapi.json)
 
-## Open API Spec.
+## Weather API (Proxy)
 
-See [/api/openapi.json](http://localhost:8000/api/openapi.json) .
+See: **[/weather?city=berlin](/weather?city=berlin)**
