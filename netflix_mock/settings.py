@@ -5,16 +5,18 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    SERVER_PORT: int = 9961
-    SERVER_LOG_LEVEL: str
-    BASIC_AUTH_USERNAME: str
-    BASIC_AUTH_PASSWORD: str
-    DATABASE_URL: str
-    DATABASE_LOGGING: bool = False
-    UPLOAD_DIR: Path
+    server_port: int = 9961
+    server_log_level: str
+    database_url: str
+    database_logging: bool = False
+    upload_dir: Path
+    mock_username: str
+    mock_password: str
+    admin_username: str
+    admin_password: str
 
-    def __init__(self, **kwargs: Any) -> None:
-        super().__init__(**kwargs)
+    class Config:
+        validate_assignment = True
 
 
 _settings: Optional[Settings] = None

@@ -15,8 +15,8 @@ class Database:
     def __init__(self):
         settings = get_settings()
         self._engine = create_engine(
-            url=settings.DATABASE_URL,
-            echo=settings.DATABASE_LOGGING,
+            url=settings.database_url,
+            echo=settings.database_logging,
             connect_args={"check_same_thread": False},  # for SQLite only
         )
         # create session factory

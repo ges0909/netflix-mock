@@ -22,6 +22,9 @@ app = fastapi.FastAPI(
     title="Netflix Mock with FastAPI",
     description="A configurable quick starter for mock server implementations.",
     version=version,
+    openapi_url="/api/openapi.json",
+    # docs_url="/docs",
+    redoc_url=None,
 )
 
 # mount static files
@@ -33,10 +36,10 @@ if site_dir.exists():
 # routers
 app.include_router(home.router, include_in_schema=False)
 app.include_router(templates.router, prefix="/templates", include_in_schema=False)
-app.include_router(users.router, prefix="/api/users", tags=["Get, add, update and delete users"])
-app.include_router(settings.router, prefix="/settings", include_in_schema=False)
+app.include_router(users.router, prefix="/api/users", tags=["Users"])
+app.include_router(settings.router, prefix="/settings", tags=["Settings"])
 app.include_router(weather.router, prefix="/weather", include_in_schema=False)
-app.include_router(upload.router, tags=["Upload file(s)"])
+app.include_router(upload.router, tags=["Upload"])
 
 
 @app.on_event("startup")

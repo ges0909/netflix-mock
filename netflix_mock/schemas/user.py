@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class UserOut(BaseModel):
-    id: int
+    id_: int = Field(alias="id")
     username: str
 
 

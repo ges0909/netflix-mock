@@ -1,8 +1,4 @@
-# Installation
-
-Write how to install (deploy) and start the _Mock_.
-
-## Deploy to production
+# Deploy
 
 On local (WSL2):
 

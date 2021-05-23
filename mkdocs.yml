@@ -57,6 +57,6 @@ extra:
     provider: mike
 
 nav:
-  - Home: index.md
-  - Install: install.md
+  - Home: home.md
+  - Deploy: deploy.md
   - About: about.md

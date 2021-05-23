@@ -8,9 +8,9 @@ BASE_URL = "/api/users"
 
 
 @pytest.fixture
-def id_(client, basic_auth, user):
+def id_(client, mock_user, user):
     response = client.post(
-        headers=dict(Authorization=basic_auth),
+        headers=dict(Authorization=mock_user),
         url=f"{BASE_URL}/",
         json=user,
     )
@@ -19,9 +19,9 @@ def id_(client, basic_auth, user):
     return data["id"]
 
 
-def test_create_user(client, basic_auth, user):
+def test_create_user(client, mock_user, user):
     response = client.post(
-        headers=dict(Authorization=basic_auth),
+        headers=dict(Authorization=mock_user),
         url=f"{BASE_URL}/",
         json=user,
     )
@@ -33,10 +33,10 @@ def test_create_user(client, basic_auth, user):
     assert data["username"] == user["username"]
 
 
-def test_update_user(client, basic_auth, id_):
+def test_update_user(client, mock_user, id_):
     username = fake.pystr()
     response = client.put(
-        headers=dict(Authorization=basic_auth),
+        headers=dict(Authorization=mock_user),
         url=f"{BASE_URL}/{id_}",
         json=dict(username=username, password=fake.pystr()),
     )
@@ -46,9 +46,9 @@ def test_update_user(client, basic_auth, id_):
     assert data["username"] == username
 
 
-def test_read_user_by_id(client, basic_auth, id_):
+def test_read_user_by_id(client, mock_user, id_):
     response = client.get(
-        headers=dict(Authorization=basic_auth),
+        headers=dict(Authorization=mock_user),
         url=f"{BASE_URL}/{id_}",
     )
     assert response.status_code == status.HTTP_200_OK
@@ -57,9 +57,9 @@ def test_read_user_by_id(client, basic_auth, id_):
     assert "username" in data
 
 
-def test_delete_user_by_id(client, basic_auth, id_):
+def test_delete_user_by_id(client, mock_user, id_):
     response = client.delete(
-        headers=dict(Authorization=basic_auth),
+        headers=dict(Authorization=mock_user),
         url=f"{BASE_URL}/{id_}",
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT

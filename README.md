@@ -7,6 +7,7 @@
 - [Deploy to Production](https://flask.palletsprojects.com/en/latest/tutorial/deploy/)
 - [How to create a Systemd service in Linux](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 - [How to Save Uploaded Files in FastAPI](https://levelup.gitconnected.com/how-to-save-uploaded-files-in-fastapi-90786851f1d3)
+- [Cool Things You Can Do With Pydantic](https://medium.com/swlh/cool-things-you-can-do-with-pydantic-fc1c948fbde0)
 
 ## Setup
 

@@ -19,14 +19,19 @@ def settings():
 def client(settings, tmp_path):
     db_file = tmp_path / "test.db"
     client = TestClient(app)
-    settings.DATABASE_URL = f"sqlite:///{db_file}"
-    settings.UPLOAD_DIR = tmp_path
+    settings.database_url = f"sqlite:///{db_file}"
+    settings.upload_dir = tmp_path
     return client
 
 
 @pytest.fixture
-def basic_auth():
+def mock_user():
     return "Basic " + b64encode(b"test:test").decode("ascii")
+
+
+@pytest.fixture
+def admin_user():
+    return "Basic " + b64encode(b"admin:admin").decode("ascii")
 
 
 @pytest.fixture

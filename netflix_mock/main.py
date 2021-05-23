@@ -18,8 +18,8 @@ def main(env: Path = "../dev.env", log: Path = "../logging.conf"):
     fileConfig(fname=log, disable_existing_loggers=False)
     uvicorn.run(
         "netflix_mock.app:app",
-        port=settings.SERVER_PORT,
-        log_level=settings.SERVER_LOG_LEVEL,
+        port=settings.server_port,
+        log_level=settings.server_log_level,
         access_log=False,
         # reload=True,
     )

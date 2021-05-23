@@ -4,7 +4,7 @@ import fastapi
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from netflix_mock.auth import get_basic_auth
+from netflix_mock.basic_auth import mock_user
 from netflix_mock.database import get_db_session
 from netflix_mock.schemas.user import UserIn, UserOut
 from netflix_mock.services import user_service
@@ -14,7 +14,9 @@ router = fastapi.APIRouter()
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserOut)
 async def create_user(
-    user: UserIn, _: int = Depends(get_basic_auth), session: Session = Depends(get_db_session)
+    user: UserIn,
+    _: bool = Depends(mock_user),
+    session: Session = Depends(get_db_session),
 ) -> UserOut:
     """
     Create an user:
@@ -30,7 +32,7 @@ async def create_user(
 async def update_user(
     id: int,
     user: UserIn,
-    _: str = Depends(get_basic_auth),
+    _: bool = Depends(mock_user),
     session: Session = Depends(get_db_session),
 ) -> UserOut:
     """Updates the user data."""
@@ -46,7 +48,7 @@ async def update_user(
 @router.get("/{id}", response_model=UserOut)
 async def get_user_by_id(
     id: int,
-    _: str = Depends(get_basic_auth),
+    _: bool = Depends(mock_user),
     session: Session = Depends(get_db_session),
 ) -> UserOut:
     """Gets the user data."""
@@ -62,7 +64,7 @@ async def get_user_by_id(
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user_by_id(
     id: int,
-    _: str = Depends(get_basic_auth),
+    _: bool = Depends(mock_user),
     session: Session = Depends(get_db_session),
 ) -> None:
     """Deletes the user."""
@@ -75,7 +77,7 @@ async def delete_user_by_id(
 
 @router.get("/", response_model=List[UserOut])
 async def get_all_users(
-    _: str = Depends(get_basic_auth),
+    _: bool = Depends(mock_user),
     session: Session = Depends(get_db_session),
 ) -> List[UserOut]:
     """Get all users."""
