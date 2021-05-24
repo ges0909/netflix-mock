@@ -9,8 +9,6 @@ On local (WSL2):
 1. `tar cf netflix-mock.tar wheelhouse/`
 1. `gzip netflix-mock.tar`
 
-- `pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
-
 On remote (Linux):
 
 1. create installation dir: `mkdir netflix-mock && cd netflix-mock`

@@ -1,6 +1,5 @@
 from io import StringIO
 
-import pytest
 from fastapi import status
 
 
@@ -39,13 +38,21 @@ def test_upload_file(client, tmp_path):
     assert content == file_content
 
 
-@pytest.mark.skip(reason="not implemenetd")
 def test_files(client):
-    pass
+    response = client.post(
+        url="/files/",
+        files=(
+            ("files", ("file1.txt", StringIO("test content"), "text/plain")),
+            ("files", ("file2.txt", StringIO("test content"), "text/plain")),
+            ("files", ("file3.txt", StringIO("test content"), "text/plain")),
+        ),
+    )
+    assert response.status_code == status.HTTP_200_OK
+    data = response.json()
+    assert data == [12, 12, 12]
 
 
 def test_upload_files(client, tmp_path):
-    file_names = ["file1.txt", "file2.txt", "file3.txt"]
     response = client.post(
         url="/uploadfiles/",
         files=(
@@ -57,13 +64,7 @@ def test_upload_files(client, tmp_path):
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert "detail" in data
-    assert data["detail"] == f"files {', '.join(file_names)} uploaded"
-    assert all([(tmp_path / name).exists() for name in file_names])
-
-
-files = (
-    (
-        ("files", ("test.txt", StringIO("test content"))),
-        ("files", ("test2.txt", StringIO("test content"))),
-    ),
-)
+    assert data["detail"] == f"files file1.txt, file2.txt, file3.txt uploaded"
+    assert (tmp_path / "file1.txt").exists()
+    assert (tmp_path / "file2.txt").exists()
+    assert (tmp_path / "file3.txt").exists()

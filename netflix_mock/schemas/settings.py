@@ -9,6 +9,7 @@ class SettingsOut(BaseModel):
     server_log_level: Optional[str]
     database_url: Optional[str]
     database_logging: Optional[bool]
+    logging_conf: Optional[Path]
     upload_dir: Optional[Path]
     mock_username: Optional[str]
 

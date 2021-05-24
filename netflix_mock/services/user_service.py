@@ -12,7 +12,7 @@ def _get_user_by_id(session: Session, id: int) -> User:
 
 
 def create_user(session: Session, user: UserIn) -> User:
-    password = user.password + "not_really_hashed"
+    password = user.password.get_secret_value() + "not_really_hashed"
     _user = User(username=user.username, hashed_password=password)
     session.add(_user)
     session.commit()
@@ -23,7 +23,7 @@ def update_user_by_id(session: Session, id: int, user: UserIn) -> Optional[User]
     _user = _get_user_by_id(session=session, id=id)
     if _user:
         _user.username = user.username
-        _user.password = user.password + "not_really_hashed"
+        _user.password = user.password.get_secret_value() + "not_really_hashed"
         _user.updated_at = now()
         session.add(_user)
         session.commit()

@@ -7,16 +7,13 @@ import uvicorn
 from netflix_mock.settings import Settings
 
 
-def main(env: Path = "../dev.env", log: Path = "../logging.conf"):
-    if not env.exists():
-        typer.echo(message=f"option '--env': application settings '{env}' not found", err=True)
+def main(config: Path = "../dev.env"):
+    if not config.exists():
+        typer.echo(message=f"option '--env': application settings '{config}' not found", err=True)
         return
-    if not log.exists():
-        typer.echo(message=f"option '--log': log settings '{log}' not found", err=True)
-        return
-    settings = Settings(env_file=env)
+    settings = Settings(env_file=config)
     fileConfig(
-        fname=log,
+        fname=settings.logging_conf,
         disable_existing_loggers=False,
     )
     uvicorn.run(

@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     server_log_level: str
     database_url: str
     database_logging: bool = False
+    logging_conf: Path
     upload_dir: Path
     mock_username: str
     mock_password: str

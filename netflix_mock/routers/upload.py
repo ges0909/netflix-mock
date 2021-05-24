@@ -32,8 +32,8 @@ async def upload_file(
 
 
 @router.post("/files/")
-async def files_(file: List[bytes] = File(...)):
-    return {"file_size": len(file)}
+async def files_(files: List[bytes] = File(...)):
+    return [len(file) for file in files]
 
 
 @router.post("/uploadfiles/")

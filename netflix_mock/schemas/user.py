@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, SecretStr
 
 
 class UserOut(BaseModel):
@@ -8,4 +8,4 @@ class UserOut(BaseModel):
 
 class UserIn(BaseModel):
     username: str
-    password: str
+    password: SecretStr
