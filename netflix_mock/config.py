@@ -4,7 +4,7 @@ from typing import Any
 from pydantic import BaseSettings
 
 
-class Settings(BaseSettings):
+class Config(BaseSettings):
     server_port: int = 8000
     server_log_level: str
     database_url: str
@@ -21,11 +21,11 @@ class Settings(BaseSettings):
     class Config:
         validate_assignment = True
 
-    def __new__(cls, env_file=None, *args, **kwargs):
-        if env_file:
-            Settings._instance = object.__new__(cls)
-        return Settings._instance
+    def __new__(cls, config=None, *args, **kwargs):
+        if config:
+            Config._instance = object.__new__(cls)
+        return Config._instance
 
-    def __init__(self, env_file=None, **values: Any):
-        if env_file:
-            super().__init__(_env_file=env_file, **values)
+    def __init__(self, config=None, **values: Any):
+        if config:
+            super().__init__(_env_file=config, **values)
