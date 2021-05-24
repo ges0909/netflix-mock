@@ -1,8 +1,9 @@
 # Netflix Mock
 
-[MkDocs](https://www.mkdocs.org/) is used for this user manual.
+To create this user manual, [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
+are used. 
 
-It translates files written in **Markdown** to static HTML.
+_MkDocs_ translates files written in _Markdown_ to static HTML.
 
 The translation is controlled by the file _mkdocs.yml_.
 

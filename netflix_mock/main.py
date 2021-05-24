@@ -4,7 +4,7 @@ from pathlib import Path
 import typer
 import uvicorn
 
-from netflix_mock.settings import get_settings
+from netflix_mock.settings import Settings
 
 
 def main(env: Path = "../dev.env", log: Path = "../logging.conf"):
@@ -14,8 +14,11 @@ def main(env: Path = "../dev.env", log: Path = "../logging.conf"):
     if not log.exists():
         typer.echo(message=f"option '--log': log settings '{log}' not found", err=True)
         return
-    settings = get_settings(app_config=env)
-    fileConfig(fname=log, disable_existing_loggers=False)
+    settings = Settings(env_file=env)
+    fileConfig(
+        fname=log,
+        disable_existing_loggers=False,
+    )
     uvicorn.run(
         "netflix_mock.app:app",
         port=settings.server_port,

@@ -1,3 +1,3 @@
 # About
 
-Write something about you.
+To be added.

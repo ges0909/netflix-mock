@@ -5,14 +5,14 @@ from faker import Faker
 from fastapi.testclient import TestClient
 
 from netflix_mock.app import app
-from netflix_mock.settings import get_settings
+from netflix_mock.settings import Settings
 
 fake = Faker()
 
 
 @pytest.fixture
 def settings():
-    return get_settings()
+    return Settings()
 
 
 @pytest.fixture

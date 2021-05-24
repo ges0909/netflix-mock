@@ -2,10 +2,10 @@ import shutil
 from typing import List
 
 import fastapi
-from fastapi import File, UploadFile, Depends
+from fastapi import File, UploadFile
 
 from netflix_mock.schemas.success import Success
-from netflix_mock.settings import get_settings
+from netflix_mock.settings import Settings
 
 router = fastapi.APIRouter()
 
@@ -20,9 +20,9 @@ async def file_(file: bytes = File(...)):
 @router.post("/uploadfile/")
 async def upload_file(
     file: UploadFile = File(...),
-    settings=Depends(get_settings),
 ):
     # contents = await file.read()
+    settings = Settings()
     with open(settings.upload_dir / file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     return Success(detail=f"file '{file.filename}' uploaded")
@@ -39,8 +39,8 @@ async def files_(file: List[bytes] = File(...)):
 @router.post("/uploadfiles/")
 async def upload_files(
     files: List[UploadFile] = File(...),
-    settings=Depends(get_settings),
 ):
+    settings = Settings()
     for file in files:
         with open(settings.upload_dir / file.filename, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)

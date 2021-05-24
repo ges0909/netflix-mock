@@ -12,11 +12,11 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from netflix_mock.routers import users, settings, weather, templates, upload, home
 from netflix_mock.schemas.error import Error
-from netflix_mock.settings import get_settings
+from netflix_mock.settings import Settings
 
 logger = logging.getLogger(__name__)
 
-settings_ = get_settings()
+settings_ = Settings()
 version = pkg_resources.get_distribution("netflix-mock").version
 
 app = fastapi.FastAPI(

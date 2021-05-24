@@ -4,16 +4,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker, Session
 
-from netflix_mock.settings import get_settings
 
 # async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
+from netflix_mock.settings import Settings
 
 Base = declarative_base()
 
 
 class Database:
     def __init__(self):
-        settings = get_settings()
+        settings = Settings()
         self._engine = create_engine(
             url=settings.database_url,
             echo=settings.database_logging,

@@ -1,11 +1,11 @@
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    server_port: int = 9961
+    server_port: int = 8000
     server_log_level: str
     database_url: str
     database_logging: bool = False
@@ -15,16 +15,20 @@ class Settings(BaseSettings):
     admin_username: str
     admin_password: str
 
+    __instance = None
+    __initialized = False
+
     class Config:
         validate_assignment = True
 
+    # mimic singleton with args
 
-_settings: Optional[Settings] = None
+    def __new__(cls, *args, **kwargs):
+        if not Settings.__instance:
+            Settings.__instance = object.__new__(cls)
+        return Settings.__instance
 
-
-def get_settings(app_config=Path("../dev.env")) -> Settings:
-    global _settings
-    if not _settings:  # load settings only once
-        if app_config and app_config.exists():
-            _settings = Settings(_env_file=app_config)
-    return _settings
+    def __init__(self, env_file=Path("../dev.env"), **values: Any):
+        if not Settings.__initialized:
+            super().__init__(_env_file=env_file, **values)
+            Settings.__initialized = True
