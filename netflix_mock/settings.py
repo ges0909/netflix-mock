@@ -15,20 +15,16 @@ class Settings(BaseSettings):
     admin_username: str
     admin_password: str
 
-    __instance = None
-    __initialized = False
+    _instance = None
 
     class Config:
         validate_assignment = True
 
-    # mimic singleton with args
+    def __new__(cls, env_file=None, *args, **kwargs):
+        if env_file:
+            Settings._instance = object.__new__(cls)
+        return Settings._instance
 
-    def __new__(cls, *args, **kwargs):
-        if not Settings.__instance:
-            Settings.__instance = object.__new__(cls)
-        return Settings.__instance
-
-    def __init__(self, env_file=Path("../dev.env"), **values: Any):
-        if not Settings.__initialized:
+    def __init__(self, env_file=None, **values: Any):
+        if env_file:
             super().__init__(_env_file=env_file, **values)
-            Settings.__initialized = True

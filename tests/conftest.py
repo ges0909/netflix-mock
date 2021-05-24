@@ -4,7 +4,6 @@ import pytest
 from faker import Faker
 from fastapi.testclient import TestClient
 
-from netflix_mock.app import app
 from netflix_mock.settings import Settings
 
 fake = Faker()
@@ -12,11 +11,13 @@ fake = Faker()
 
 @pytest.fixture
 def settings():
-    return Settings()
+    return Settings(env_file="../dev.env")
 
 
 @pytest.fixture
 def client(settings, tmp_path):
+    from netflix_mock.app import app
+
     db_file = tmp_path / "test.db"
     client = TestClient(app)
     settings.database_url = f"sqlite:///{db_file}"

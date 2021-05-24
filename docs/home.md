@@ -1,13 +1,21 @@
 # Netflix Mock
 
-To create this user manual, [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
-are used. 
+<!-- disable 'Edit this page'
+<style>
+  .md-content__button {
+    display: none;
+  }
+</style>
+-->
 
-_MkDocs_ translates files written in _Markdown_ to static HTML.
+This manual is created with [MkDocs](https://www.mkdocs.org/) and
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+
+_MkDocs_ translates _Markdown_ files to static HTML.
 
 The translation is controlled by the file _mkdocs.yml_.
 
-To generate or update the user manual, run the command:
+To build or update the user manual, run the command:
 
 ```shell
 mkdocs build
@@ -15,8 +23,7 @@ mkdocs build
 
 ## Open API
 
-- UI: [/docs](/docs)
-- Spec: [/api/openapi.json](/api/openapi.json)
+See: [/docs](/docs)
 
 ## Weather API (Proxy)
 
