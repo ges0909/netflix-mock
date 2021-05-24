@@ -1,4 +1,5 @@
 import logging
+import re
 from pathlib import Path
 
 import fastapi
@@ -8,6 +9,7 @@ from fastapi.requests import Request
 from fastapi.responses import Response
 from fastapi.staticfiles import StaticFiles
 from httpx import HTTPError
+from pydantic import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 
 from netflix_mock.routers import users, settings, weather, templates, upload, home
@@ -59,12 +61,15 @@ async def unhandled_exceptions(request: Request, call_next) -> Response:
         response = await call_next(request)
         return response
     except (HTTPError, SQLAlchemyError) as error:
-        error = ", ".join(error.args)
-        return Response(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content=Error(error=error).json(),
-            media_type="application/json",
-        )
+        error_msg = ", ".join(error.args)
+    except ValidationError as error:
+        msg_parts = re.split(r"\s*\n+\s*", str(error))
+        error_msg = ", ".join(msg_parts)
+    return Response(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content=Error(error=error_msg).json(),
+        media_type="application/json",
+    )
 
 
 # @app.middleware("http")
