@@ -18,9 +18,8 @@ def settings():
 def client(settings, tmp_path):
     from netflix_mock.app import app
 
-    db_file = tmp_path / "test.db"
     client = TestClient(app)
-    settings.database_url = f"sqlite:///{db_file}"
+    settings.database_url = f"sqlite:///{tmp_path / 'test.db'}"
     settings.upload_dir = tmp_path
 
     return client

@@ -1,5 +1,7 @@
+import logging
 from functools import lru_cache
 from pathlib import Path
+from pprint import pformat
 from typing import Optional, Dict
 
 import fastapi
@@ -9,6 +11,8 @@ from fastapi.responses import JSONResponse
 from jsf import JSF
 
 from netflix_mock.settings import Settings
+
+logger = logging.getLogger(__name__)
 
 router = fastapi.APIRouter()
 
@@ -42,8 +46,10 @@ async def fake_put(path: str = None, status_code: str = "200"):
             schema = spec["paths"][path]["put"]["responses"][status_code]["schema"]
         else:
             schema = spec["paths"]["put"]["responses"][status_code]["schema"]
+        logger.debug("schema=%s", pformat(schema))
         faker = JSF(schema=schema)
-        response = faker.generate(n=1)
+        response = faker.generate()
+        logger.debug("faked=%s", pformat(response))
         return JSONResponse(content=response, status_code=int(status_code))
 
 
@@ -55,6 +61,8 @@ async def fake_delete(path: str = None, status_code: str = "204"):
             schema = spec["paths"][path]["delete"]["responses"][status_code]["schema"]
         else:
             schema = spec["paths"]["put"]["responses"][status_code]["schema"]
+            logger.debug("schema=%s", pformat(schema))
         faker = JSF(schema=schema)
-        response = faker.generate(n=1)
+        response = faker.generate()
+        logger.debug("faked=%s", pformat(response))
         return JSONResponse(content=response, status_code=int(status_code))
