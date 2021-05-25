@@ -4,14 +4,14 @@ from pathlib import Path
 import typer
 import uvicorn
 
-from netflix_mock.config import Config
+from netflix_mock.settings import Settings
 
 
 def main(config: Path = "../dev.env"):
     if not config.exists():
         typer.echo(message=f"option '--config': application config file '{config}' not found", err=True)
         return
-    config_ = Config(config=config)
+    config_ = Settings(config=config)
     fileConfig(
         fname=config_.logging_conf,
         disable_existing_loggers=False,

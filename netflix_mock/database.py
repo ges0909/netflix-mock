@@ -6,17 +6,17 @@ from sqlalchemy.orm.session import sessionmaker, Session
 
 
 # async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
-from netflix_mock.config import Config
+from netflix_mock.settings import Settings
 
 Base = declarative_base()
 
 
 class Database:
     def __init__(self):
-        config = Config()
+        settings = Settings()
         self._engine = create_engine(
-            url=config.database_url,
-            echo=config.database_logging,
+            url=settings.database_url,
+            echo=settings.database_logging,
             connect_args={"check_same_thread": False},  # for SQLite only
         )
         # create session factory

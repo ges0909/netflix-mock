@@ -4,7 +4,7 @@ from typing import Any
 from pydantic import BaseSettings
 
 
-class Config(BaseSettings):
+class Settings(BaseSettings):
     server_port: int = 8000
     server_log_level: str
     database_url: str
@@ -23,8 +23,8 @@ class Config(BaseSettings):
 
     def __new__(cls, config=None, *args, **kwargs):
         if config:
-            Config._instance = object.__new__(cls)
-        return Config._instance
+            Settings._instance = object.__new__(cls)
+        return Settings._instance
 
     def __init__(self, config=None, **values: Any):
         if config:
