@@ -4,9 +4,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker, Session
 
+from netflix_mock.settings import Settings
 
 # async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
-from netflix_mock.settings import Settings
 
 Base = declarative_base()
 
