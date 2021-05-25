@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Optional
 
-from pydantic import BaseSettings
+from pydantic import BaseSettings, validator
 
 
 class Settings(BaseSettings):
@@ -21,6 +21,18 @@ class Settings(BaseSettings):
 
     class Config:
         validate_assignment = True
+
+    @validator("logging_conf")
+    def logging_conf_file_exists(cls, v):
+        if not v or not v.exists():
+            raise ValueError(f"logging conf file '{v}' not found")
+        return v
+
+    @validator("er_if_open_api_spec")
+    def open_api_spec_exists(cls, v):
+        if v and not v.exists():
+            raise ValueError(f"open api spec file '{v}' not found")
+        return v
 
     def __new__(cls, config=None, *args, **kwargs):
         if config:

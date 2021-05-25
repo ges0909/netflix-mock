@@ -4,20 +4,20 @@ from typing import List
 import fastapi
 from fastapi import File, UploadFile
 
-from netflix_mock.settings import Settings
 from netflix_mock.schemas.success import Success
+from netflix_mock.settings import Settings
 
 router = fastapi.APIRouter()
 
 # single file
 
 
-@router.post("/file/")
+@router.post(path="/file")
 async def file_(file: bytes = File(...)):
     return {"file_size": len(file)}
 
 
-@router.post("/uploadfile/")
+@router.post(path="/uploadfile")
 async def upload_file(
     file: UploadFile = File(...),
 ):
@@ -31,12 +31,12 @@ async def upload_file(
 # multiple files
 
 
-@router.post("/files/")
+@router.post(path="/files")
 async def files_(files: List[bytes] = File(...)):
     return [len(file) for file in files]
 
 
-@router.post("/uploadfiles/")
+@router.post(path="/uploadfiles")
 async def upload_files(
     files: List[UploadFile] = File(...),
 ):

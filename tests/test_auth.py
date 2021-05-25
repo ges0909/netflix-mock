@@ -3,12 +3,12 @@ from base64 import b64encode
 import pytest
 from fastapi import status
 
-prefix = "/api/users"
+BASE_URL = "/api/users"
 
 
 def test_missing_auth(client, user):
     response = client.post(
-        url=f"{prefix}/",
+        url=f"{BASE_URL}",
         json=user,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -26,7 +26,7 @@ def test_missing_auth(client, user):
 def test_wrong_basic_auth(client, basic_auth, user):
     response = client.post(
         headers=dict(Authorization=basic_auth),
-        url=f"{prefix}/",
+        url=f"{BASE_URL}",
         json=user,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED

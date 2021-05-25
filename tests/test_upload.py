@@ -7,7 +7,7 @@ def test_file(client):
     file_name = "file.txt"
     file_content = "test content"
     response = client.post(
-        url="/file/",
+        url="/file",
         files={
             "file": (file_name, StringIO(file_content), "text/plain"),
         },
@@ -22,7 +22,7 @@ def test_upload_file(client, tmp_path):
     file_name = "file.txt"
     file_content = "test content"
     response = client.post(
-        url="/uploadfile/",
+        url="/uploadfile",
         files={
             "file": (file_name, StringIO(file_content), "text/plain"),
         },
@@ -40,7 +40,7 @@ def test_upload_file(client, tmp_path):
 
 def test_files(client):
     response = client.post(
-        url="/files/",
+        url="/files",
         files=(
             ("files", ("file1.txt", StringIO("test content"), "text/plain")),
             ("files", ("file2.txt", StringIO("test content"), "text/plain")),
@@ -54,7 +54,7 @@ def test_files(client):
 
 def test_upload_files(client, tmp_path):
     response = client.post(
-        url="/uploadfiles/",
+        url="/uploadfiles",
         files=(
             ("files", ("file1.txt", StringIO("test content"), "text/plain")),
             ("files", ("file2.txt", StringIO("test content"), "text/plain")),

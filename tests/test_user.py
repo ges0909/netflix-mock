@@ -11,7 +11,7 @@ BASE_URL = "/api/users"
 def id_(client, mock_user, user):
     response = client.post(
         headers=dict(Authorization=mock_user),
-        url=f"{BASE_URL}/",
+        url=f"{BASE_URL}",
         json=user,
     )
     assert response.status_code == status.HTTP_201_CREATED
@@ -22,7 +22,7 @@ def id_(client, mock_user, user):
 def test_create_user(client, mock_user, user):
     response = client.post(
         headers=dict(Authorization=mock_user),
-        url=f"{BASE_URL}/",
+        url=f"{BASE_URL}",
         json=user,
     )
     assert response.status_code == status.HTTP_201_CREATED

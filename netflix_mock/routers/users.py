@@ -12,7 +12,7 @@ from netflix_mock.services import user_service
 router = fastapi.APIRouter()
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserOut)
+@router.post(path="", status_code=status.HTTP_201_CREATED, response_model=UserOut)
 async def create_user(
     user: UserIn,
     _: bool = Depends(mock_user),
@@ -28,7 +28,7 @@ async def create_user(
     return UserOut(id=user_.id, username=user_.username)
 
 
-@router.put("/{id}", response_model=UserOut)
+@router.put(path="/{id}", response_model=UserOut)
 async def update_user(
     id: int,
     user: UserIn,
@@ -45,7 +45,7 @@ async def update_user(
     )
 
 
-@router.get("/{id}", response_model=UserOut)
+@router.get(path="/{id}", response_model=UserOut)
 async def get_user_by_id(
     id: int,
     _: bool = Depends(mock_user),
@@ -61,7 +61,7 @@ async def get_user_by_id(
     )
 
 
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(path="/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user_by_id(
     id: int,
     _: bool = Depends(mock_user),
@@ -75,7 +75,7 @@ async def delete_user_by_id(
         )
 
 
-@router.get("/", response_model=List[UserOut])
+@router.get(path="/", response_model=List[UserOut])
 async def get_all_users(
     _: bool = Depends(mock_user),
     session: Session = Depends(get_db_session),

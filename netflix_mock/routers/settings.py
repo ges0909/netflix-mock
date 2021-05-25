@@ -11,14 +11,14 @@ from netflix_mock.schemas.success import Success
 router = fastapi.APIRouter()
 
 
-@router.get("/")
+@router.get(path="")
 async def read_settings(_: bool = Depends(admin_user)):
     """Read application settings."""
     settings = Settings()
     return SettingsOut.from_orm(settings)
 
 
-@router.post("/")
+@router.post(path="")
 async def change_settings(
     settings_in: Dict[str, Any] = Body(...),
     _: bool = Depends(admin_user),

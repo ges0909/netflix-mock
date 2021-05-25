@@ -1,13 +1,12 @@
 site_name: Netflix Mock
-
 use_directory_urls: false # otherwise FastAPI is not able to resolve to 'index.html'
-
 repo_name: sbp-test/netflix-mock
 repo_url: https://github.com/ges0909/netflix-mock.git
-edit_uri:
 
 nav:
   - Home: home.md
+  - API: /docs
+  - Weather: /weather?city=berlin
   - Deploy: deploy.md
   - About: about.md
 

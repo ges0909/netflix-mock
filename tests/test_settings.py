@@ -3,7 +3,7 @@ from fastapi import status
 
 def test_read_settings(client, admin_user):
     response = client.get(
-        url="/settings/",
+        url="/settings",
         headers=dict(Authorization=admin_user),
     )
     assert response.status_code == status.HTTP_200_OK
@@ -21,7 +21,7 @@ def test_read_settings(client, admin_user):
 
 def test_change_settings(client, admin_user):
     response = client.post(
-        url="/settings/",
+        url="/settings",
         json=dict(server_port=1305, upload_dir="/tmp"),
         headers=dict(Authorization=admin_user),
     )

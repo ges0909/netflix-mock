@@ -34,7 +34,7 @@ def _load_open_api_spec(path: Path) -> Optional[Dict]:
         return jsonref.load(stream)
 
 
-@router.put("/")
+@router.put(path="")
 async def fake_put(path: str = None, status_code: str = "200"):
     settings = Settings()
     if spec := _load_open_api_spec(path=settings.er_if_open_api_spec):
@@ -47,7 +47,7 @@ async def fake_put(path: str = None, status_code: str = "200"):
         return JSONResponse(content=response, status_code=int(status_code))
 
 
-@router.delete("/")
+@router.delete(path="")
 async def fake_delete(path: str = None, status_code: str = "204"):
     settings = Settings()
     if spec := _load_open_api_spec(path=settings.er_if_open_api_spec):
