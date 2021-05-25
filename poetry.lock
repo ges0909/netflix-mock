@@ -283,6 +283,14 @@ smart-open = "*"
 typer = "*"
 
 [[package]]
+name = "jsonref"
+version = "0.2"
+description = "An implementation of JSON Reference for Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "jsonschema"
 version = "3.2.0"
 description = "An implementation of JSON Schema validation for Python"
@@ -814,7 +822,7 @@ standard = ["websockets (>=8.0.0,<9.0.0)", "watchgod (>=0.6)", "python-dotenv (>
 [metadata]
 lock-version = "1.1"
 python-versions = "3.9"
-content-hash = "fbf4efd23086c4dec22ad03a08901b502dee5c98fd21c198672c450ceaa684dd"
+content-hash = "b3b381fdfbfb1fc536f23bac5908e38c90aeecf0724eb49e87d1b4d5ddfe6a6a"
 
 [metadata.files]
 aiofiles = [
@@ -966,6 +974,10 @@ joblib = [
 jsf = [
     {file = "jsf-0.3.2-py3-none-any.whl", hash = "sha256:d38e45adbf60c985255e509cf37ae25e23f110495cad4419813f7c0e442acfb1"},
     {file = "jsf-0.3.2.tar.gz", hash = "sha256:9f13fa01d0c2ea5d15487b2da225176797ff6e710b7ca3903b982cd537b9d046"},
+]
+jsonref = [
+    {file = "jsonref-0.2-py3-none-any.whl", hash = "sha256:b1e82fa0b62e2c2796a13e5401fe51790b248f6d9bf9d7212a3e31a3501b291f"},
+    {file = "jsonref-0.2.tar.gz", hash = "sha256:f3c45b121cf6257eafabdc3a8008763aed1cd7da06dbabc59a9e4d2a5e4e6697"},
 ]
 jsonschema = [
     {file = "jsonschema-3.2.0-py2.py3-none-any.whl", hash = "sha256:4e5b3cf8216f577bee9ce139cbe72eca3ea4f292ec60928ff24758ce626cd163"},

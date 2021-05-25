@@ -7,11 +7,11 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     server_port: int = 8000
     server_log_level: str
+    logging_conf: Path
     database_url: str
     database_logging: bool = False
-    logging_conf: Path
-    er_if: Optional[Path] = None
     upload_dir: Path
+    er_if_open_api_spec: Optional[Path] = None
     mock_username: str
     mock_password: str
     admin_username: str

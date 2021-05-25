@@ -173,7 +173,7 @@
     },
     "Error": {
       "type": "object",
-      "description": "Vielleict können wir hier noch einen error code als Element einfügen für angenehmeres Fehleranalysen, könnte gesendet werden bei internen Problemen in ER-IF oder ER",
+      "description": "Vielleicht können wir hier noch einen error code als Element einfügen für angenehmeres Fehleranalysen, könnte gesendet werden bei internen Problemen in ER-IF oder ER",
       "properties": {
         "message": {
           "type": "string"
