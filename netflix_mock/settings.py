@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from pydantic import BaseSettings
 
@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     database_url: str
     database_logging: bool = False
     logging_conf: Path
+    er_if: Optional[Path] = None
     upload_dir: Path
     mock_username: str
     mock_password: str

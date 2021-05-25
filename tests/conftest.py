@@ -11,7 +11,7 @@ fake = Faker()
 
 @pytest.fixture
 def settings():
-    return Settings(config="../dev.env")
+    return Settings(config="dev.env")
 
 
 @pytest.fixture
@@ -22,6 +22,7 @@ def client(settings, tmp_path):
     client = TestClient(app)
     settings.database_url = f"sqlite:///{db_file}"
     settings.upload_dir = tmp_path
+
     return client
 
 

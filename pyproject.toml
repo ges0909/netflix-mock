@@ -16,7 +16,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "3.6.8"
+python = "3.9"
 fastapi = "^0.65.0"
 typer = "^0.3.2"
 SQLAlchemy = "^1.4.15"
@@ -28,6 +28,7 @@ python-multipart = "^0.0.5"     # for file uploads ony
 uvicorn = "^0.13.4"             # workaround
 async-exit-stack = "^1.0.1"     # for py3.6 compatibility only
 async_generator = "^1.10"       # for py3.6 compatibility only
+jsf = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
