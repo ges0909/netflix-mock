@@ -7,7 +7,6 @@ nav:
   - Home: home.md
   - API: /docs
   - Weather: /weather?city=berlin
-  - Develop: develop.md
   - Deploy: deploy.md
   - About: about.md
 

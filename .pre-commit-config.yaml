@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: create requirements
+        name: create requirements
+        entry: poetry export -f requirements.txt -o requirements.txt --without-hashes
+        language: system
+        always_run: true
+        pass_filenames: false
+      - id: build docs
+        name: build docs
+        entry: poetry run mkdocs build
+        language: system
+        always_run: true
+        pass_filenames: false

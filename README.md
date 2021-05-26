@@ -8,13 +8,13 @@
 - [How to create a Systemd service in Linux](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 - [How to Save Uploaded Files in FastAPI](https://levelup.gitconnected.com/how-to-save-uploaded-files-in-fastapi-90786851f1d3)
 - [Cool Things You Can Do With Pydantic](https://medium.com/swlh/cool-things-you-can-do-with-pydantic-fc1c948fbde0)
+- [Getting Started with Python Pre-commit Hooks](https://towardsdatascience.com/getting-started-with-python-pre-commit-hooks-28be2b2d09d5)
 
 ## Setup
 
 ```sh
 poetry new netflix-mock && cd netflix-mock
-poetry add fastapi typer pydantic python-dotenv sqlalchemy httpx jinja2 aiofiles uvicorn python-multipart
-poetry add -D black requests requests-toolbelt mkdocs mkdocs-material
+poetry install # or update
 ```
 
 ## Run
@@ -25,10 +25,9 @@ uvicorn main:app --reload
 
 ## MkDocs
 
-Generate static HTML site from Markdown.
+Build user manual:
 
 ```sh
-poetry run mkdocs new .
 poetry run mkdocs build
 ```
 
@@ -43,7 +42,9 @@ On local (WSL2):
 1. `tar cf netflix-mock.tar wheelhouse/`
 1. `gzip netflix-mock.tar`
 
-- `pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
+<!--
+`pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
+-->
 
 On remote (Linux):
 

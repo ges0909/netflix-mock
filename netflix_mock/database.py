@@ -33,4 +33,4 @@ class Database(metaclass=Singleton):
     def session(self):
         with self._session_maker() as session:  # 'session_maker' is called
             yield session
-            # session is closed automatically by context manager
+        # session is closed by context manager
