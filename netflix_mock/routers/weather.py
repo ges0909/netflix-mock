@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 router = fastapi.APIRouter()
 
 
-@router.get("/", response_model=WeatherStatus)
+@router.get(path="", response_model=WeatherStatus)
 async def do_i_need_an_umbrella(
     location: Location = Depends(),  # Location requires a POST body normally. To get its value as query use Depends().
 ):

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 router = fastapi.APIRouter()
 
 
-@router.put("/{any_path:path}/{charging_id}")
+@router.put(path="/{any_path:path}/{charging_id}")
 async def put(
     any_path: str,
     charging_id: str,
@@ -19,7 +19,7 @@ async def put(
     return Forbidden(message="I don't know why")
 
 
-@router.delete("/{any_path:path}/{charging_id}")
+@router.delete(path="/{any_path:path}/{charging_id}")
 async def delete(
     any_path: str,
     charging_id: str,
