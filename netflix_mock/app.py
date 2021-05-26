@@ -4,6 +4,7 @@ import fastapi
 import pkg_resources
 from fastapi.staticfiles import StaticFiles
 
+from netflix_mock.database import Database
 from netflix_mock.middleware.uncaught_exceptions import UncaughtExceptions
 from netflix_mock.routers import users, settings, weather, templates, upload, home, fake, ef_ir
 from netflix_mock.ws.echo import echo
@@ -43,7 +44,7 @@ app.add_middleware(UncaughtExceptions)
 
 @app.on_event("startup")
 async def startup():
-    """models connect"""
+    _ = Database()  # drop/create database tables
 
 
 @app.on_event("shutdown")

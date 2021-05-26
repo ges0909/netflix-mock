@@ -1,20 +1,19 @@
-from typing import Optional, Iterator
+# async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm.session import sessionmaker, Session
+from sqlalchemy.orm.session import sessionmaker
 
 from netflix_mock.settings import Settings
-
-# async: https://docs.sqlalchemy.org/en/14/_modules/examples/asyncio/async_orm.html
+from netflix_mock.singleton import Singleton
 
 Base = declarative_base()
 
 
-class Database:
+class Database(metaclass=Singleton):
     def __init__(self):
         settings = Settings()
-        self._engine = create_engine(
+        engine = create_engine(
             url=settings.database_url,
             echo=settings.database_logging,
             connect_args={"check_same_thread": False},  # for SQLite only
@@ -23,25 +22,15 @@ class Database:
         self._session_maker = sessionmaker(
             # autocommit=False,
             # autoflush=False,
-            bind=self._engine,
+            bind=engine,
         )
         # generate model schemas
-        with self._engine.begin() as conn:
-            # Base.metadata.drop_all(conn)
+        with engine.begin() as conn:
+            if settings.database_drop_tables:
+                Base.metadata.drop_all(conn)
             Base.metadata.create_all(conn)
 
-    @property
-    def session_maker(self):
-        return self._session_maker
-
-
-_database: Optional[Database] = None
-
-
-def get_db_session() -> Iterator[Session]:
-    global _database
-    if not _database:
-        _database = Database()
-    with _database.session_maker() as session:  # 'session_maker' is called
-        yield session
-        # session is closed automatically by context manager
+    def session(self):
+        with self._session_maker() as session:  # 'session_maker' is called
+            yield session
+            # session is closed automatically by context manager

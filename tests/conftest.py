@@ -11,7 +11,7 @@ fake = Faker()
 
 @pytest.fixture
 def settings():
-    return Settings(config="dev.env")
+    return Settings(env_file="dev.env")
 
 
 @pytest.fixture

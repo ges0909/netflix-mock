@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     logging_conf: Path
     database_url: str
     database_logging: bool = False
+    database_drop_tables: bool = False
     upload_dir: Path
     er_if_open_api_spec: Optional[Path] = None
     mock_username: str
@@ -34,11 +35,13 @@ class Settings(BaseSettings):
             raise ValueError(f"open api spec file '{v}' not found")
         return v
 
-    def __new__(cls, config=None, *args, **kwargs):
-        if config:
+    # mimic singleton
+
+    def __new__(cls, env_file=None, *args, **kwargs):
+        if env_file:
             Settings._instance = object.__new__(cls)
         return Settings._instance
 
-    def __init__(self, config=None, **values: Any):
-        if config:
-            super().__init__(_env_file=config, **values)
+    def __init__(self, env_file=None, **values: Any):
+        if env_file:
+            super().__init__(_env_file=env_file, **values)
