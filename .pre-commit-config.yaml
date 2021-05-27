@@ -1,19 +1,26 @@
+# apply to all files without committing:
+#   poetry run pre-commit run --all-files
+# update this file:
+#   poetry run pre-commit autoupdate
+
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: check-added-large-files
+      - id: check-docstring-first
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.18.3
+    hooks:
+      - id: pyupgrade
+        name: Upgrade Python Syntax
   - repo: local
     hooks:
-      - id: requirements_txt
-        name: Update Requirements
-        entry: poetry export -f requirements.txt -o requirements.txt --without-hashes
-        language: system
-        always_run: true
-        pass_filenames: false
-        verbose: false
-      - id: user_manual
-        name: Update User Manual
-        entry: poetry run mkdocs build
-        language: system
-        pass_filenames: false
-        verbose: false
       - id: isort
         name: Sort Source Files Imports
         entry: poetry run isort
@@ -27,4 +34,17 @@ repos:
         entry: poetry run black
         language: system
         types: [python]
+        verbose: false
+      - id: requirements_txt
+        name: Update Requirements
+        entry: poetry export -f requirements.txt -o requirements.txt --without-hashes
+        language: system
+        always_run: true
+        pass_filenames: false
+        verbose: false
+      - id: user_manual
+        name: Update User Manual
+        entry: poetry run mkdocs build
+        language: system
+        pass_filenames: false
         verbose: false
