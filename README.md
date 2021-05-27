@@ -14,8 +14,8 @@
 
 ```sh
 poetry new netflix-mock && cd netflix-mock
-poetry add fastapi typer pydantic python-dotenv sqlalchemy httpx jinja2 aiofiles uvicorn python-multipart
-poetry add -D black requests requests-toolbelt mkdocs mkdocs-material
+poetry install
+poetry run pre-commit install
 ```
 
 ## Run
