@@ -1,11 +1,12 @@
-from typing import Optional, List
+from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ProvCustomerData(BaseModel):
-    chargingType: Optional[str] = "cable"
+    chargingType: Optional[str] = Field(default="cable", description="expected value 'cable'")
     externalIdentifier1: str
+    """is on provisioning side (SBP) the serviceId"""
     products: List[str]
 
 

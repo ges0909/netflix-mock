@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, DateTime, func, String
+from sqlalchemy import Column, DateTime, Integer, String, func
 
-from netflix_mock.database import Base
+from netflix_mock.utils.database import Base
 
 
 class User(Base):

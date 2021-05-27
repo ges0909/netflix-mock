@@ -4,8 +4,8 @@ from pathlib import Path
 import typer
 import uvicorn
 
-from netflix_mock.database import Database
-from netflix_mock.settings import Settings
+from netflix_mock.utils.database import Database
+from netflix_mock.utils.settings import Settings
 
 
 def main(config: Path = "dev.env"):

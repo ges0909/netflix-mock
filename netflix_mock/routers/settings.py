@@ -1,12 +1,12 @@
-from typing import Dict, Any
+from typing import Any, Dict
 
 import fastapi
-from fastapi import Depends, Body
+from fastapi import Body, Depends
 
-from netflix_mock.basic_auth import admin_user
-from netflix_mock.settings import Settings
+from netflix_mock.depends.basic_auth import admin_user
 from netflix_mock.schemas.settings import SettingsOut
 from netflix_mock.schemas.success import Success
+from netflix_mock.utils.settings import Settings
 
 router = fastapi.APIRouter()
 

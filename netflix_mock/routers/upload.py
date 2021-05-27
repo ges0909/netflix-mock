@@ -5,7 +5,7 @@ import fastapi
 from fastapi import File, UploadFile
 
 from netflix_mock.schemas.success import Success
-from netflix_mock.settings import Settings
+from netflix_mock.utils.settings import Settings
 
 router = fastapi.APIRouter()
 

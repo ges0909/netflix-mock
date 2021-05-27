@@ -2,15 +2,15 @@ import logging
 from functools import lru_cache
 from pathlib import Path
 from pprint import pformat
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 import fastapi
 import jsonref
-from fastapi import status, HTTPException
+from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from jsf import JSF
 
-from netflix_mock.settings import Settings
+from netflix_mock.utils.settings import Settings
 
 logger = logging.getLogger(__name__)
 

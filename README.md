@@ -8,14 +8,22 @@
 - [How to create a Systemd service in Linux](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 - [How to Save Uploaded Files in FastAPI](https://levelup.gitconnected.com/how-to-save-uploaded-files-in-fastapi-90786851f1d3)
 - [Cool Things You Can Do With Pydantic](https://medium.com/swlh/cool-things-you-can-do-with-pydantic-fc1c948fbde0)
+- [Getting Started with Python Pre-commit Hooks](https://towardsdatascience.com/getting-started-with-python-pre-commit-hooks-28be2b2d09d5)
 - [README As A Service](https://readme.so/de)
 
-## Setup
+## Install
 
 ```sh
-poetry new netflix-mock && cd netflix-mock
+git clone git@github.com:ges0909/netflix-mock.git
+poetry cd netflix-mock
 poetry install
 poetry run pre-commit install
+```
+
+# MkDocs
+
+```sh
+poetry run mkdocs build
 ```
 
 ## Run
@@ -24,13 +32,10 @@ poetry run pre-commit install
 uvicorn main:app --reload
 ```
 
-## MkDocs
-
-Generate static HTML site from Markdown.
+## Pre-commit Hooks
 
 ```sh
-poetry run mkdocs new .
-poetry run mkdocs build
+poetry run pre-commit run --all-files
 ```
 
 ## Deploy to Production
@@ -44,7 +49,9 @@ On local (WSL2):
 1. copy app wheel to other wheels: `cp dist/netflix_mock-0.1.0-py3-none-any.whl wheelhouse`
 1. `tar -cvzf netflix-mock.tar wheelhouse/`
 
-- `pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
+<!--
+`pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
+-->
 
 On remote (Linux):
 

@@ -5,7 +5,16 @@ import pkg_resources
 from fastapi.staticfiles import StaticFiles
 
 from netflix_mock.middleware.uncaught_exceptions import UncaughtExceptions
-from netflix_mock.routers import users, settings, weather, templates, upload, home, fake, ef_ir
+from netflix_mock.routers import (
+    ef_ir,
+    fake,
+    home,
+    settings,
+    templates,
+    upload,
+    users,
+    weather,
+)
 from netflix_mock.ws.echo import echo
 
 version = pkg_resources.get_distribution("netflix-mock").version
@@ -22,7 +31,7 @@ app = fastapi.FastAPI(
 # mount static files
 site_dir = Path(__file__).parent / ".." / "site"
 if site_dir.exists():
-    app.mount("/manual", StaticFiles(directory=site_dir))
+    app.mount(path="/manual", app=StaticFiles(directory=site_dir))
 
 # routers
 app.include_router(router=home.router, include_in_schema=False)

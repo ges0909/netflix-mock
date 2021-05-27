@@ -2,7 +2,7 @@ import logging
 
 import fastapi
 
-from netflix_mock.schemas.ef_ir import ProvCustomerData, Forbidden
+from netflix_mock.schemas.ef_ir import Forbidden, ProvCustomerData
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +10,7 @@ router = fastapi.APIRouter()
 
 
 @router.put(path="/{any_path:path}/{charging_id}")
-async def put(
+async def createCustomer(
     any_path: str,
     charging_id: str,
     data: ProvCustomerData,

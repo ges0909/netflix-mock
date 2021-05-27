@@ -39,7 +39,8 @@ mkdocs-material = "^7.1.4"
 mkdocs-git-revision-date-localized-plugin = "^0.9.2"
 requests = "^2.25.1"
 Faker = "^8.1.4"
-pre-commit = "^2.13.0"
+pre-commit = "^2.13.0"          # pre-commit hook management
+isort = "^5.8.0"
 
 [tool.poetry.scripts]
 # netflix_mock = "netflix_mock.main:main"

@@ -1,15 +1,30 @@
 repos:
   - repo: local
     hooks:
-      - id: create requirements
-        name: create requirements
+      - id: requirements_txt
+        name: Update Requirements
         entry: poetry export -f requirements.txt -o requirements.txt --without-hashes
         language: system
         always_run: true
         pass_filenames: false
-      - id: build docs
-        name: build docs
+        verbose: false
+      - id: user_manual
+        name: Update User Manual
         entry: poetry run mkdocs build
         language: system
-        always_run: true
         pass_filenames: false
+        verbose: false
+      - id: isort
+        name: Sort Source Files Imports
+        entry: poetry run isort
+        language: system
+        types: [python]
+        args: [ "--profile", "black", "--filter-files" ]
+        verbose: false
+      - id: black
+        name: Format Source Files With Black
+        description: "Black: The uncompromising Python code formatter"
+        entry: poetry run black
+        language: system
+        types: [python]
+        verbose: false
