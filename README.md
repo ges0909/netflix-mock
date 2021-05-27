@@ -1,6 +1,6 @@
-# README
+# Netflix Mock
 
-## Read
+## Related
 
 - [Let's Build a Fast, Modern Python API with FastAPI](https://www.youtube.com/watch?v=sBVb4IB3O_U)
 - [FastAPI logging](https://philstories.medium.com/fastapi-logging-f6237b84ea64)
@@ -8,13 +8,14 @@
 - [How to create a Systemd service in Linux](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 - [How to Save Uploaded Files in FastAPI](https://levelup.gitconnected.com/how-to-save-uploaded-files-in-fastapi-90786851f1d3)
 - [Cool Things You Can Do With Pydantic](https://medium.com/swlh/cool-things-you-can-do-with-pydantic-fc1c948fbde0)
-- [Getting Started with Python Pre-commit Hooks](https://towardsdatascience.com/getting-started-with-python-pre-commit-hooks-28be2b2d09d5)
+- [README As A Service](https://readme.so/de)
 
 ## Setup
 
 ```sh
 poetry new netflix-mock && cd netflix-mock
-poetry install # or update
+poetry add fastapi typer pydantic python-dotenv sqlalchemy httpx jinja2 aiofiles uvicorn python-multipart
+poetry add -D black requests requests-toolbelt mkdocs mkdocs-material
 ```
 
 ## Run
@@ -25,35 +26,49 @@ uvicorn main:app --reload
 
 ## MkDocs
 
-Build user manual:
+Generate static HTML site from Markdown.
 
 ```sh
+poetry run mkdocs new .
 poetry run mkdocs build
 ```
 
-## Deploy to production
+## Deploy to Production
 
 On local (WSL2):
 
-1. `poetry export -f requirements.txt -o requirements.txt --without-hashes`
+1. export without _dev_ dependencies: `poetry export -f requirements.txt -o requirements.txt --without-hashes`
 1. `pip wheel --no-binary :all: --wheel-dir wheelhouse -r requirements.txt`
-1. `poetry build`
-1. `cp dist/netflix_mock-0.1.0-py3-none-any.whl wheelhouse`
-1. `tar cf netflix-mock.tar wheelhouse/`
-1. `gzip netflix-mock.tar`
+1. update doc: `poetry run mkdocs build`
+1. create app wheel (doc's included): `poetry build`
+1. copy app wheel to other wheels: `cp dist/netflix_mock-0.1.0-py3-none-any.whl wheelhouse`
+1. `tar -cvzf netflix-mock.tar wheelhouse/`
 
-<!--
-`pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
--->
+- `pip download --only-binary :all: --dest wheelhouse --platform linux_x86_64 --python-version 3.6.8 --implementation cp -r requirements.txt `
 
 On remote (Linux):
 
 1. create installation dir: `mkdir netflix-mock && cd netflix-mock`
-1. `gzip -d netflix-mock.tar.gz`
-1. `tar xf netflix-mock.tar`
+1. `tar -xvzf netflix-mock.tar.gz`
 1. create venv: `python3 -m venv venv`
 1. activate venv: `. venv/bin/activate`
 1. `pip install wheelhouse/*`
+
+Create a _Systemd_ service:
+
+```ini
+[Unit]
+Description=<project description>
+
+[Service]
+User=<user e.g. root>
+WorkingDirectory=<path to your project directory>
+Environment="PATH=<path to virtual environment>/bin"
+ExecStart=<path to python script>
+
+[Install]
+WantedBy=multi-user.target
+```
 
 ## Install CentOS on WSL 2
 
