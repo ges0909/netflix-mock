@@ -25,7 +25,7 @@ theme:
     - search.highlight
     - header.autohide
   palette:
-    # Light mode
+    # light mode
     - media: '(prefers-color-scheme: light)'
       scheme: default
       primary: indigo
@@ -33,7 +33,7 @@ theme:
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to dark mode
-    # Dark mode
+    # dark mode
     - media: '(prefers-color-scheme: dark)'
       scheme: slate
       primary: blue
