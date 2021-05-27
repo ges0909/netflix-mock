@@ -4,6 +4,7 @@ from pathlib import Path
 import typer
 import uvicorn
 
+from netflix_mock.database import Database
 from netflix_mock.settings import Settings
 
 
@@ -16,6 +17,7 @@ def main(config: Path = "dev.env"):
         fname=settings.logging_conf,
         disable_existing_loggers=False,
     )
+    _ = Database()  # drop/create database tables
     uvicorn.run(
         "netflix_mock.app:app",
         port=settings.server_port,
