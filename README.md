@@ -10,6 +10,7 @@
 - [Cool Things You Can Do With Pydantic](https://medium.com/swlh/cool-things-you-can-do-with-pydantic-fc1c948fbde0)
 - [Getting Started with Python Pre-commit Hooks](https://towardsdatascience.com/getting-started-with-python-pre-commit-hooks-28be2b2d09d5)
 - [README As A Service](https://readme.so/de)
+- [Using Hypothesis and Schemathesis to Test FastAPI](https://testdriven.io/blog/fastapi-hypothesis/)
 
 ## Install
 
@@ -36,6 +37,14 @@ uvicorn main:app --reload
 
 ```sh
 poetry run pre-commit run --all-files
+```
+
+## Schemathesis
+
+```sh
+poetry run schemathesis run --checks all http://localhost:8000/api/openapi.json
+poetry run schemathesis run --method GET http://localhost:8000/api/openapi.json
+poetry run schemathesis run --endpoint /api http://localhost:8000/api/openapi.json
 ```
 
 ## Deploy to Production

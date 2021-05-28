@@ -41,6 +41,7 @@ requests = "^2.25.1"
 Faker = "^8.1.4"
 pre-commit = "^2.13.0"          # pre-commit hook management
 isort = "^5.8.0"
+schemathesis = "^3.7.2"
 
 [tool.poetry.scripts]
 # netflix_mock = "netflix_mock.main:main"
