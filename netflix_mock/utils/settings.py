@@ -2,9 +2,16 @@ from pathlib import Path
 from typing import Any, Optional
 
 from pydantic import BaseSettings, validator
+from pydantic.main import ModelMetaclass
+
+from netflix_mock.utils.singleton import Singleton
 
 
-class Settings(BaseSettings):
+class CombinedClass(ModelMetaclass, Singleton):
+    pass
+
+
+class Settings(BaseSettings, metaclass=CombinedClass):
     server_port: int = 8000
     server_log_level: str
     logging_conf: Path
@@ -17,8 +24,6 @@ class Settings(BaseSettings):
     mock_password: str
     admin_username: str
     admin_password: str
-
-    _instance = None
 
     class Config:
         validate_assignment = True
@@ -34,13 +39,6 @@ class Settings(BaseSettings):
         if v and not v.exists():
             raise ValueError(f"open api spec file '{v}' not found")
         return v
-
-    # mimic singleton
-
-    def __new__(cls, env_file=None, *args, **kwargs):
-        if env_file:
-            Settings._instance = object.__new__(cls)
-        return Settings._instance
 
     def __init__(self, env_file=None, **values: Any):
         if env_file:
