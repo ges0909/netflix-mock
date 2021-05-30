@@ -14,8 +14,8 @@ class Database(metaclass=Singleton):
     def __init__(self):
         settings = Settings()
         engine = create_engine(
-            url=settings.database_url,
-            echo=settings.database_logging,
+            url=settings.database.url,
+            echo=settings.database.logging,
             connect_args={"check_same_thread": False},  # for SQLite only
         )
         # create session factory
@@ -26,7 +26,7 @@ class Database(metaclass=Singleton):
         )
         # generate model schemas
         with engine.begin() as conn:
-            if settings.database_drop_tables:
+            if settings.database.drop_tables:
                 Base.metadata.drop_all(conn)
             Base.metadata.create_all(conn)
 
