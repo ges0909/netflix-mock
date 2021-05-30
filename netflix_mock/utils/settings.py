@@ -4,31 +4,33 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 import pydantic.main
+import typer
 import yaml
 from dotenv import load_dotenv
 from pydantic import BaseModel, BaseSettings, validator
 
 from netflix_mock.utils.singleton import Singleton
 
-var_matcher = re.compile(r".*\$\{([\w]+)\}.*")
+env_var_pattern = re.compile(r".*(\$\{([\w]+)\}).*")
 
 
 def var_constructor(loader, node):
-    """extract the matched value, expand env variable, and replace the match"""
     value = node.value
-    match = var_matcher.match(value)
-    var = match.group(1)
-    val = os.environ.get(var)
-    return value.replace(f"${{{var}}}", val)
+    match = env_var_pattern.match(value)
+    env_var_name = match.group(2)  # 2 = inner group
+    if env_var_value := os.environ.get(env_var_name):
+        return value[: match.start(1)] + env_var_value + value[match.end(1) :]  # 1 = outer group
+    raise typer.Exit(f"environment variable '{env_var_name}' not found")
 
 
-yaml.add_implicit_resolver("!var", var_matcher)
-yaml.add_constructor("!var", var_constructor)
+yaml.add_implicit_resolver("!env_var", env_var_pattern)
+yaml.add_constructor("!env_var", var_constructor)
 
 
 def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
-    load_dotenv(dotenv_path="../dev.env")
+    env_file = getattr(settings.Config, "env_file")
     config_file = getattr(settings.Config, "config_file")
+    load_dotenv(dotenv_path=env_file)
     with open(config_file, "r") as stream:
         return yaml.load(stream, Loader=yaml.FullLoader)
 
@@ -94,8 +96,8 @@ class Settings(BaseSettings, metaclass=CombinedMetaClasses):
             file_secret_settings,
         ):
             return (
-                init_settings,
+                # init_settings,
                 yaml_settings,
-                env_settings,
-                file_secret_settings,
+                # env_settings,
+                # file_secret_settings,
             )
