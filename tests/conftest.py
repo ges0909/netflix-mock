@@ -4,7 +4,7 @@ import pytest
 from faker import Faker
 from fastapi.testclient import TestClient
 
-from netflix_mock.utils.settings import Settings
+from netflix_mock.common.settings import Settings
 
 fake = Faker()
 

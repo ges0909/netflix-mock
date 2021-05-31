@@ -4,8 +4,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker
 
-from netflix_mock.utils.settings import Settings
-from netflix_mock.utils.singleton import Singleton
+from netflix_mock.common.settings import Settings
+from netflix_mock.common.singleton import Singleton
 
 Base = declarative_base()
 

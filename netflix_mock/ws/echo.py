@@ -1,8 +1,11 @@
-from starlette.websockets import WebSocket
+from starlette.websockets import WebSocket, WebSocketDisconnect
 
 
 async def echo(ws: WebSocket):
     await ws.accept()
-    while True:
-        data = await ws.receive_json()
-        await ws.send_json(data=data)
+    try:
+        while True:
+            data = await ws.receive_json()
+            await ws.send_json(data=data)
+    except WebSocketDisconnect:
+        pass

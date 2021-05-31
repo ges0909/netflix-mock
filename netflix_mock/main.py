@@ -5,14 +5,14 @@ from typing import Tuple
 import typer
 import uvicorn
 
-from netflix_mock.utils.database import Database
-from netflix_mock.utils.settings import Settings
+from netflix_mock.common.database import Database
+from netflix_mock.common.settings import Settings
 
 
 def has_suffix(path: Path, suffixes: Tuple[str, ...]) -> Path:
-    if not (path.suffix in suffixes):
-        raise typer.BadParameter(f"file '{path}' must have suffix '{suffixes}'")
-    return path
+    if path.suffix in suffixes:
+        return path
+    raise typer.BadParameter(f"file '{path}' must have suffix '{suffixes}'")
 
 
 def main(

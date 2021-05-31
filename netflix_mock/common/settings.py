@@ -9,9 +9,12 @@ import yaml
 from dotenv import load_dotenv
 from pydantic import BaseModel, BaseSettings, validator
 
-from netflix_mock.utils.singleton import Singleton
+from netflix_mock.common.singleton import Singleton
 
-env_var_pattern = re.compile(r".*(\$\{([\w]+)\}).*")
+# -- resolve environment variables while loading YAML files
+
+
+env_var_pattern = re.compile(r".*(\${([\w]+)}).*")
 
 
 def var_constructor(loader, node):
@@ -35,17 +38,26 @@ def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
         return yaml.load(stream, Loader=yaml.FullLoader)
 
 
+# -- models
+
+
 class Server(BaseModel):
     port: int = 8000
     log_level: str
     upload_dir: Path
 
+    class Config:
+        validate_assignment = True
+
 
 class Logging(BaseModel):
     config: Path
 
+    class Config:
+        validate_assignment = True
+
     @validator("config")
-    def logging_conf_file_exists(cls, v):
+    def file_exists(cls, v):
         if not v or not v.exists():
             raise ValueError(f"logging conf file '{v}' not found")
         return v
@@ -56,14 +68,20 @@ class Database(BaseModel):
     logging: bool = False
     drop_tables: bool = False
 
+    class Config:
+        validate_assignment = True
+
 
 class Mock(BaseModel):
     username: str
     password: str
     open_api: Optional[Path] = None
 
+    class Config:
+        validate_assignment = True
+
     @validator("open_api")
-    def open_api_spec_exists(cls, v):
+    def spec_exists(cls, v):
         if v and not v.exists():
             raise ValueError(f"open api spec file '{v}' not found")
         return v
@@ -72,6 +90,9 @@ class Mock(BaseModel):
 class Admin(BaseModel):
     username: str
     password: str
+
+    class Config:
+        validate_assignment = True
 
 
 class CombinedMetaClasses(pydantic.main.ModelMetaclass, Singleton):

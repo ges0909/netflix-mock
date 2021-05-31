@@ -10,7 +10,7 @@ from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from jsf import JSF
 
-from netflix_mock.utils.settings import Settings
+from netflix_mock.common.settings import Settings
 
 logger = logging.getLogger(__name__)
 

@@ -4,30 +4,30 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class Server(BaseModel):
+class ServerOut(BaseModel):
     port: Optional[int]
     log_level: Optional[str]
     upload_dir: Optional[Path]
 
 
-class Database(BaseModel):
+class DatabaseOut(BaseModel):
     url: Optional[str]
     logging: Optional[bool]
 
 
-class Logging(BaseModel):
+class LoggingOut(BaseModel):
     config: Optional[Path]
 
 
-class Mock(BaseModel):
+class MockOut(BaseModel):
     username: Optional[str]
 
 
 class SettingsOut(BaseModel):
-    server: Optional[Server]
-    database: Optional[Database]
-    logging: Optional[Logging]
-    mock: Optional[Mock]
+    server: Optional[ServerOut]
+    database: Optional[DatabaseOut]
+    logging: Optional[LoggingOut]
+    mock: Optional[MockOut]
 
     class Config:
         orm_mode = True
