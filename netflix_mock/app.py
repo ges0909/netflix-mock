@@ -4,7 +4,7 @@ import fastapi
 import pkg_resources
 from fastapi.staticfiles import StaticFiles
 
-from netflix_mock.middleware.uncaught_exceptions import UncaughtExceptions
+from netflix_mock.middleware.catch_all import CatchAll
 from netflix_mock.routers import (
     ef_ir,
     fake,
@@ -47,7 +47,7 @@ app.include_router(router=ef_ir.router, prefix="/efir", tags=["EF-IR Mock"])
 app.add_websocket_route(route=echo, path="/ws/echo")
 
 # middleware
-app.add_middleware(UncaughtExceptions)
+app.add_middleware(CatchAll)
 
 
 @app.on_event("startup")

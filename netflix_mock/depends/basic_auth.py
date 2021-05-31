@@ -4,7 +4,6 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 from netflix_mock.common.settings import Settings
-from netflix_mock.schemas.error import Error
 
 security = HTTPBasic()
 
@@ -20,7 +19,7 @@ class BasicAuth:
         if not (correct_username and correct_password):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=Error(detail="incorrect username or password").json(),
+                detail="incorrect username or password",
                 headers={"WWW-Authenticate": "Basic"},
             )
 
