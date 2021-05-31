@@ -41,7 +41,7 @@ def _load_open_api_spec(path: Path) -> Optional[Dict]:
 @router.put(path="")
 async def fake_put(path: str = None, status_code: str = "200"):
     settings = Settings()
-    if spec := _load_open_api_spec(path=settings.er_if_open_api_spec):
+    if spec := _load_open_api_spec(path=settings.mock.open_api):
         if path and path in spec["paths"]:
             schema = spec["paths"][path]["put"]["responses"][status_code]["schema"]
         else:
@@ -56,7 +56,7 @@ async def fake_put(path: str = None, status_code: str = "200"):
 @router.delete(path="")
 async def fake_delete(path: str = None, status_code: str = "204"):
     settings = Settings()
-    if spec := _load_open_api_spec(path=settings.er_if_open_api_spec):
+    if spec := _load_open_api_spec(path=settings.mock.open_api):
         if path and path in spec["paths"]:
             schema = spec["paths"][path]["delete"]["responses"][status_code]["schema"]
         else:

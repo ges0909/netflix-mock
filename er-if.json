@@ -3,7 +3,7 @@
     "info": {
         "description": "Provisioning of Netflix Contracts for Customer with TV contract It's a proposal how a create and delete could look like",
         "version": "0.0.2",
-        "title": "Netflix Provisioning",
+        "title": "Netflix Provisioning"
     },
     "schemes": ["https"],
     "tags": [{"name": "ErIf", "description": "Operations to manage netflix contracts"}],
@@ -21,30 +21,30 @@
                     "in": "path",
                     "description": "chargingId on ER",
                     "required": true,
-                    "type": "string",
+                    "type": "string"
                 },
                 {
                     "in": "body",
                     "name": "ProvCustomerData",
                     "description": "contains all necessary data for creation of an account on ER/netflix",
                     "required": true,
-                    "schema": {"$ref": "#/definitions/ProvCustomerData"},
-                },
+                    "schema": {"$ref": "#/definitions/ProvCustomerData"}
+                }
             ],
             "responses": {
                 "201": {"description": null, "schema": {"$ref": "#/definitions/ProfileCreation"}},
                 "400": {
                     "description": "Bad request. Account info is missing or invalid",
-                    "schema": {"$ref": "#/definitions/Error"},
+                    "schema": {"$ref": "#/definitions/Error"}
                 },
                 "401": {
                     "description": "Unauthorized, Wrong Credentials",
-                    "schema": {"$ref": "#/definitions/Forbidden"},
+                    "schema": {"$ref": "#/definitions/Forbidden"}
                 },
                 "403": {"description": "Forbidden", "schema": {"$ref": "#/definitions/Forbidden"}},
                 "404": {"description": "Wrong Input", "schema": {"$ref": "#/definitions/Error"}},
-                "503": {"description": "Unexpected Error", "schema": {"$ref": "#/definitions/Error"}},
-            },
+                "503": {"description": "Unexpected Error", "schema": {"$ref": "#/definitions/Error"}}
+            }
         },
         "delete": {
             "summary": "remove customer",
@@ -58,49 +58,57 @@
                     "in": "path",
                     "description": "chargingId on ER",
                     "required": true,
-                    "type": "string",
+                    "type": "string"
                 }
             ],
             "responses": {
                 "204": {"description": "Success"},
                 "401": {
                     "description": "Unauthorized, Wrong Credentials",
-                    "schema": {"$ref": "#/definitions/Forbidden"},
+                    "schema": {"$ref": "#/definitions/Forbidden"}
                 },
                 "403": {"description": "Forbidden", "schema": {"$ref": "#/definitions/Forbidden"}},
                 "404": {"description": null, "schema": {"$ref": "#/definitions/CustomerNotFound"}},
-                "503": {"description": "Unexpected Error", "schema": {"$ref": "#/definitions/Error"}},
-            },
-        },
+                "503": {"description": "Unexpected Error", "schema": {"$ref": "#/definitions/Error"}}
+            }
+        }
     },
     "definitions": {
         "ProvCustomerData": {
             "type": "object",
             "properties": {
-                "chargingType": {"type": "string", "description": 'expected value "cable"', "default": "cable"},
+                "chargingType": {
+                    "type": "string",
+                    "description": "expected value 'cable'",
+                    "default": "cable"
+                },
                 "externalIdentifier1": {
                     "type": "string",
                     "description": "is on provisioning side (SBP) the serviceId",
-                    "required": true,
+                    "required": true
                 },
                 "products": {
                     "type": "array",
                     "description": "the booked products: it can be either only PK_NetflixBundle2S or PK_NetflixBundle2S and PK_NetflixBundle4S",
                     "required": true,
-                    "items": {"type": "string"},
-                },
-            },
+                    "items": {"type": "string"}
+                }
+            }
         },
         "Forbidden": {
             "type": "object",
             "description": "The credentials are invalid or the access is forbidden, rights are missing",
-            "properties": {"message": {"type": "string", "example": "Forbidden"}},
+            "properties": {"message": {"type": "string", "example": "Forbidden"}}
         },
         "CustomerNotFound": {"type": "object", "properties": {"message": {"type": "string", "example": "NOT_FOUND"}}},
         "Error": {
             "type": "object",
             "description": "Vielleicht können wir hier noch einen error code als Element einfügen für angenehmeres Fehleranalysen, könnte gesendet werden bei internen Problemen in ER-IF oder ER",
-            "properties": {"message": {"type": "string"}},
-        },
-    },
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

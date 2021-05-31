@@ -11,7 +11,9 @@ fake = Faker()
 
 @pytest.fixture
 def settings():
-    return Settings(env_file="dev.env")
+    setattr(Settings.Config, "env_file", "../dev.env")
+    setattr(Settings.Config, "config_file", "../dev.yaml")
+    return Settings()
 
 
 @pytest.fixture
@@ -19,8 +21,8 @@ def client(settings, tmp_path):
     from netflix_mock.app import app
 
     client = TestClient(app)
-    settings.database_url = f"sqlite:///{tmp_path / 'test.db'}"
-    settings.upload_dir = tmp_path
+    settings.database.url = f"sqlite:///{tmp_path / 'test.db'}"
+    settings.server.upload_dir = tmp_path
 
     return client
 

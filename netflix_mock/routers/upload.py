@@ -23,7 +23,7 @@ async def upload_file(
 ):
     # contents = await file.read()
     settings = Settings()
-    with open(settings.upload_dir / file.filename, "wb") as buffer:
+    with open(settings.server.upload_dir / file.filename, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     return Success(detail=f"file '{file.filename}' uploaded")
 
@@ -42,7 +42,7 @@ async def upload_files(
 ):
     settings = Settings()
     for file in files:
-        with open(settings.upload_dir / file.filename, "wb") as buffer:
+        with open(settings.server.upload_dir / file.filename, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
     file_names = [file.filename for file in files]
     return Success(detail=f"files {', '.join(file_names)} uploaded")
