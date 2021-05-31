@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 import fastapi
 from fastapi import Body, Depends, HTTPException, status
@@ -12,15 +12,19 @@ from netflix_mock.schemas.success import Success
 router = fastapi.APIRouter()
 
 
-def _update_settings(settings: Settings, settings_to_update: Dict[str, Any]):
+def _update_settings(settings: Settings, settings_to_update: Dict[str, Any]) -> List[str]:
+    changed_keys = []
     for key, value in settings_to_update.items():
         if key in settings.dict():
             if isinstance(value, dict):
-                _update_settings(getattr(settings, key), settings_to_update[key])
+                changed_keys_ = _update_settings(getattr(settings, key), settings_to_update[key])
+                changed_keys.extend(changed_keys_)
             elif isinstance(value, list):
                 pass
             else:
                 setattr(settings, key, value)  # validate_assignment = True
+                changed_keys.append(key)
+    return changed_keys
 
 
 @router.get(path="")
@@ -36,10 +40,10 @@ async def change_settings(
 ):
     """Update settings."""
     try:
-        _update_settings(settings=Settings(), settings_to_update=settings)
+        changed_keys = _update_settings(settings=Settings(), settings_to_update=settings)
     except ValidationError as error:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=str(error),
         )
-    return Success(detail="settings changed")
+    return Success(detail=f"settings changed: {', '.join(changed_keys)}")

@@ -47,6 +47,7 @@ class Server(BaseModel):
     upload_dir: Path
 
     class Config:
+        extra = "forbid"
         validate_assignment = True
 
 
@@ -54,6 +55,7 @@ class Logging(BaseModel):
     config: Path
 
     class Config:
+        extra = "forbid"
         validate_assignment = True
 
     @validator("config")
@@ -69,18 +71,20 @@ class Database(BaseModel):
     drop_tables: bool = False
 
     class Config:
+        extra = "forbid"
         validate_assignment = True
 
 
-class Mock(BaseModel):
+class Api(BaseModel):
     username: str
     password: str
-    open_api: Optional[Path] = None
+    spec: Optional[Path] = None
 
     class Config:
+        extra = "forbid"
         validate_assignment = True
 
-    @validator("open_api")
+    @validator("spec")
     def spec_exists(cls, v):
         if v and not v.exists():
             raise ValueError(f"open api spec file '{v}' not found")
@@ -92,6 +96,7 @@ class Admin(BaseModel):
     password: str
 
     class Config:
+        extra = "forbid"
         validate_assignment = True
 
 
@@ -103,10 +108,11 @@ class Settings(BaseSettings, metaclass=CombinedMetaClasses):
     server: Server
     logging: Logging
     database: Database
-    mock: Mock
+    api: Api
     admin: Admin
 
     class Config:
+        extra = "forbid"
         validate_assignment = True
 
         @classmethod

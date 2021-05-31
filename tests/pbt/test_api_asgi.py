@@ -1,6 +1,6 @@
 import schemathesis
 
-from netflix_mock.utils.settings import Settings
+from netflix_mock.common.settings import Settings
 
 Settings.Config.env_file = "../dev.env"
 Settings.Config.config_file = "../dev.yaml"

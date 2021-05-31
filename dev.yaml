@@ -10,15 +10,15 @@ database:
   # url: sqlite:///test-db.db
   # url: sqlite:///..\\test-db.db
   url: sqlite:///${HOME}/Projekte/netflix-mock/test-db.db
-  # url: postgresql://test:test@$localhost/test.db
+  # url: postgresql://test:test@localhost/test.db
   logging: true
   drop_tables: true # dev = true, prod = false
 
-mock:
-  username: ${MOCK_USERNAME}
-  password: ${MOCK_PASSWORD}
-  open_api: ${HOME}/Projekte/netflix-mock/er-if.json
+api:
+  username: ${MOCK_USERNAME}  # basic auth
+  password: ${MOCK_PASSWORD}  # basic auth
+  spec: ${HOME}/Projekte/netflix-mock/er-if.json
 
 admin:
-  username: ${ADMIN_USERNAME}
-  password: ${ADMIN_USERNAME}
+  username: ${ADMIN_USERNAME} # basic auth to change settings
+  password: ${ADMIN_USERNAME} # basic auth to change settings

@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, SecretStr
 
 
 class ServerOut(BaseModel):
@@ -19,15 +19,16 @@ class LoggingOut(BaseModel):
     config: Optional[Path]
 
 
-class MockOut(BaseModel):
+class ApiOut(BaseModel):
     username: Optional[str]
+    password: Optional[SecretStr]
 
 
 class SettingsOut(BaseModel):
     server: Optional[ServerOut]
     database: Optional[DatabaseOut]
     logging: Optional[LoggingOut]
-    mock: Optional[MockOut]
+    api: Optional[ApiOut]
 
     class Config:
         orm_mode = True

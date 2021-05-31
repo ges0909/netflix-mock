@@ -13,8 +13,8 @@ def test_read(client, admin_user):
     assert data["server"]["upload_dir"]
     assert data["database"]["url"]
     assert data["database"]["logging"]
-    assert data["mock"]["username"]
-    assert "password" not in data["mock"]
+    assert data["api"]["username"]
+    assert data["api"]["password"] == "**********"
 
 
 def test_update(client, admin_user):
@@ -25,7 +25,7 @@ def test_update(client, admin_user):
     )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert data["detail"] == "settings changed"
+    assert data["detail"] == "settings changed: port, upload_dir"
     response = client.get(
         url="/settings",
         headers=dict(Authorization=admin_user),
