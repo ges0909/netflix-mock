@@ -20,11 +20,3 @@ To build or update the user manual, run the command:
 ```shell
 mkdocs build
 ```
-
-## Open API
-
-See: [/docs](/docs)
-
-## Weather API (Proxy)
-
-See: [/weather?city=berlin](/weather?city=berlin)

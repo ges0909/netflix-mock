@@ -6,7 +6,7 @@ repo_url: https://github.com/ges0909/netflix-mock.git
 nav:
   - Home: home.md
   - API: /docs
-  - Weather: /weather?city=berlin
+  - Weather (Proxy): /weather?city=berlin
   - Deploy: deploy.md
   - About: about.md
 
