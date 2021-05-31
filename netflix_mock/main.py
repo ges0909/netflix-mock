@@ -1,5 +1,6 @@
 from logging.config import fileConfig
 from pathlib import Path
+from typing import Tuple
 
 import typer
 import uvicorn
@@ -8,9 +9,25 @@ from netflix_mock.utils.database import Database
 from netflix_mock.utils.settings import Settings
 
 
+def has_suffix(path: Path, suffixes: Tuple[str, ...]) -> Path:
+    if not (path.suffix in suffixes):
+        raise typer.BadParameter(f"file '{path}' must have suffix '{suffixes}'")
+    return path
+
+
 def main(
-    env_file: Path = typer.Option(..., "--env", exists=True),
-    config_file: Path = typer.Option(..., "--config", exists=True),
+    env_file: Path = typer.Option(
+        ...,
+        "--env",
+        exists=True,
+        callback=lambda path: has_suffix(path, (".env",)),
+    ),
+    config_file: Path = typer.Option(
+        ...,
+        "--config",
+        exists=True,
+        callback=lambda path: has_suffix(path, (".yml", ".yaml")),
+    ),
 ):
     setattr(Settings.Config, "env_file", env_file)
     setattr(Settings.Config, "config_file", config_file)

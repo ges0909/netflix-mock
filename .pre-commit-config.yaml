@@ -46,8 +46,8 @@ repos:
         language: system
         pass_filenames: false
         verbose: false
-      - id: requirements_txt_prod
-        name: Update Prod Requirements
+      - id: requirements_txt
+        name: Update Requirements
         entry: poetry export -f requirements.txt -o requirements.txt --without-hashes
         language: system
         always_run: true

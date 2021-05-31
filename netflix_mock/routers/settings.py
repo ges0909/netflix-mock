@@ -11,11 +11,22 @@ from netflix_mock.utils.settings import Settings
 router = fastapi.APIRouter()
 
 
+# def _update_settings(settings: Settings, new_settings: Dict[str, Any]):
+#     settings_ = settings.dict()
+#     for key, value in new_settings.items():
+#         if key in settings:
+#             if isinstance(value, dict):
+#                 _update_settings(settings[key], new_settings[key])
+#             elif isinstance(value, list):
+#                 pass
+#             else:
+#                 setattr(settings, key, value)  # validate_assignment = True
+
+
 @router.get(path="")
 async def read_settings(_: bool = Depends(admin_user)):
-    """Read application settings."""
-    settings = Settings()
-    return SettingsOut.from_orm(settings)
+    """Read settings."""
+    return SettingsOut.from_orm(Settings())
 
 
 @router.post(path="")
@@ -23,8 +34,6 @@ async def change_settings(
     settings_in: Dict[str, Any] = Body(...),
     _: bool = Depends(admin_user),
 ):
-    """Change application settings."""
-    settings = Settings()
-    for key, value in settings_in.items():
-        setattr(settings, key, value)  # validate_assignment = True
-    return Success(detail=f"{', '.join(settings_in.keys())} changed sucessfully")
+    """Update settings."""
+    # _update_settings(settings=Settings(), new_settings=settings_in)
+    return Success(detail="settings changed")

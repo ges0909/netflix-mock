@@ -2,8 +2,9 @@ import schemathesis
 
 from netflix_mock.utils.settings import Settings
 
-setattr(Settings.Config, "env_file", "../dev.env")
-setattr(Settings.Config, "config_file", "../dev.yaml")
+Settings.Config.env_file = "../dev.env"
+Settings.Config.config_file = "../dev.yaml"
+
 from netflix_mock.app import app
 
 schema = schemathesis.from_asgi(schema_path="/api/openapi.json", app=app)

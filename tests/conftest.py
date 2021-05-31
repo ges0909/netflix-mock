@@ -11,8 +11,8 @@ fake = Faker()
 
 @pytest.fixture
 def settings():
-    setattr(Settings.Config, "env_file", "../dev.env")
-    setattr(Settings.Config, "config_file", "../dev.yaml")
+    Settings.Config.env_file = "../dev.env"
+    Settings.Config.config_file = "../dev.yaml"
     return Settings()
 
 
