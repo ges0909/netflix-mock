@@ -10,7 +10,7 @@ router = fastapi.APIRouter()
 
 
 @router.put(path="/{any_path:path}/{charging_id}")
-async def createCustomer(
+async def create_customer(
     any_path: str,
     charging_id: str,
     data: ProvCustomerData,

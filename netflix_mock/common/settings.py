@@ -11,13 +11,11 @@ from pydantic import BaseModel, BaseSettings, validator
 
 from netflix_mock.common.singleton import Singleton
 
-# -- resolve environment variables while loading YAML files
-
-
 env_var_pattern = re.compile(r".*(\${([\w]+)}).*")
 
 
 def var_constructor(loader, node):
+    """resolve environment variables while loading YAML files"""
     value = node.value
     match = env_var_pattern.match(value)
     env_var_name = match.group(2)  # 2 = inner group

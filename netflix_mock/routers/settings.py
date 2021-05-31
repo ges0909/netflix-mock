@@ -49,7 +49,7 @@ async def read_settings(
         401: {"model": Error},
     },
 )
-async def change_settings(
+async def update_settings(
     settings: Dict[str, Any] = Body(...),
     _: None = Depends(admin_user),
 ):

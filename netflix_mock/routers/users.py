@@ -15,6 +15,7 @@ router = fastapi.APIRouter()
 
 @router.post(
     path="",
+    description="Create an user",
     status_code=status.HTTP_201_CREATED,
     response_model=UserOut,
     responses={
@@ -38,6 +39,7 @@ async def create_user(
 
 @router.put(
     path="/{id}",
+    description="Update an user",
     response_model=UserOut,
     responses={
         401: {"model": Error},
@@ -61,6 +63,7 @@ async def update_user(
 
 @router.get(
     path="/{id}",
+    description="Get an user by id",
     response_model=UserOut,
     responses={
         401: {"model": Error},
@@ -83,6 +86,7 @@ async def get_user_by_id(
 
 @router.delete(
     path="/{id}",
+    description="Delete an user by id",
     status_code=status.HTTP_204_NO_CONTENT,
     responses={
         401: {"model": Error},
@@ -103,6 +107,7 @@ async def delete_user_by_id(
 
 @router.get(
     path="/",
+    description="Get all users",
     response_model=List[UserOut],
     responses={
         401: {"model": Error},
