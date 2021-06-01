@@ -21,7 +21,7 @@ poetry install
 poetry run pre-commit install
 ```
 
-# MkDocs
+## MkDocs
 
 ```sh
 poetry run mkdocs build
@@ -39,7 +39,17 @@ uvicorn main:app --reload
 poetry run pre-commit run --all-files
 ```
 
+## Coverage
+
+```shell
+pytest --cov netflix_mock .
+coverage html
+start htmlcov/ide.html
+```
+
 ## Schemathesis
+
+Property Based Testing (PBT)
 
 ```sh
 poetry run schemathesis run --checks all http://localhost:8000/api/openapi.json
@@ -47,7 +57,7 @@ poetry run schemathesis run --method GET http://localhost:8000/api/openapi.json
 poetry run schemathesis run --endpoint /api http://localhost:8000/api/openapi.json
 ```
 
-## Deploy to Production
+## Deploy to Prod
 
 On local (WSL2):
 

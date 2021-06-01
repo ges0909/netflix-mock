@@ -1,6 +1,9 @@
+from pathlib import Path
+
 import schemathesis
 
-schema = schemathesis.from_path(path="openapi.json")
+spec = Path(__file__).parent / "openapi.json"
+schema = schemathesis.from_path(path=spec)
 
 
 @schema.parametrize(endpoint="/api")

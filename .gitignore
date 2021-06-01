@@ -1,4 +1,6 @@
 .idea/
+.run/
+
 .vscode/
 
 venv/
@@ -12,3 +14,6 @@ __pychache__/
 *.db
 
 .hypothesis/
+
+.coverage
+htmlcov/
