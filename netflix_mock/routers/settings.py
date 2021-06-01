@@ -4,9 +4,13 @@ import fastapi
 from fastapi import Body, Depends, HTTPException, status
 from pydantic import ValidationError
 
+from netflix_mock.common.responses import (
+    HTTP_401_UNAUTHORIZED,
+    HTTP_409_CONFLICT,
+    HTTP_500_INTERNAL_SERVER_ERROR,
+)
 from netflix_mock.common.settings import Settings
 from netflix_mock.depends.basic_auth import admin_user
-from netflix_mock.schemas.error import Error
 from netflix_mock.schemas.settings import SettingsOut
 from netflix_mock.schemas.success import Success
 
@@ -32,7 +36,8 @@ def _update_settings(settings: Settings, settings_to_update: Dict[str, Any]) -> 
     path="",
     response_model=SettingsOut,
     responses={
-        401: {"model": Error},
+        **HTTP_401_UNAUTHORIZED,
+        **HTTP_500_INTERNAL_SERVER_ERROR,
     },
 )
 async def read_settings(
@@ -46,7 +51,9 @@ async def read_settings(
     path="",
     response_model=Success,
     responses={
-        401: {"model": Error},
+        **HTTP_401_UNAUTHORIZED,
+        **HTTP_409_CONFLICT,
+        **HTTP_500_INTERNAL_SERVER_ERROR,
     },
 )
 async def update_settings(

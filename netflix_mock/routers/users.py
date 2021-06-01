@@ -5,8 +5,12 @@ from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from netflix_mock.common.database import Database
+from netflix_mock.common.responses import (
+    HTTP_401_UNAUTHORIZED,
+    HTTP_404_NOT_FOUND,
+    HTTP_500_INTERNAL_SERVER_ERROR,
+)
 from netflix_mock.depends.basic_auth import mock_user
-from netflix_mock.schemas.error import Error
 from netflix_mock.schemas.user import UserIn, UserOut
 from netflix_mock.services import user_service
 
@@ -19,7 +23,8 @@ router = fastapi.APIRouter()
     status_code=status.HTTP_201_CREATED,
     response_model=UserOut,
     responses={
-        401: {"model": Error},
+        **HTTP_401_UNAUTHORIZED,
+        **HTTP_500_INTERNAL_SERVER_ERROR,
     },
 )
 async def create_user(
@@ -42,7 +47,9 @@ async def create_user(
     description="Update an user",
     response_model=UserOut,
     responses={
-        401: {"model": Error},
+        **HTTP_401_UNAUTHORIZED,
+        **HTTP_404_NOT_FOUND,
+        **HTTP_500_INTERNAL_SERVER_ERROR,
     },
 )
 async def update_user(
@@ -66,7 +73,9 @@ async def update_user(
     description="Get an user by id",
     response_model=UserOut,
     responses={
-        401: {"model": Error},
+        **HTTP_401_UNAUTHORIZED,
+        **HTTP_404_NOT_FOUND,
+        **HTTP_500_INTERNAL_SERVER_ERROR,
     },
 )
 async def get_user_by_id(
@@ -89,7 +98,9 @@ async def get_user_by_id(
     description="Delete an user by id",
     status_code=status.HTTP_204_NO_CONTENT,
     responses={
-        401: {"model": Error},
+        **HTTP_401_UNAUTHORIZED,
+        **HTTP_404_NOT_FOUND,
+        **HTTP_500_INTERNAL_SERVER_ERROR,
     },
 )
 async def delete_user_by_id(
@@ -110,7 +121,8 @@ async def delete_user_by_id(
     description="Get all users",
     response_model=List[UserOut],
     responses={
-        401: {"model": Error},
+        **HTTP_401_UNAUTHORIZED,
+        **HTTP_500_INTERNAL_SERVER_ERROR,
     },
 )
 async def get_all_users(
