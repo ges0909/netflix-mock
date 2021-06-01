@@ -1,10 +1,7 @@
 import fastapi
 from starlette.responses import JSONResponse
 
-from netflix_mock.common.responses import (
-    HTTP_401_UNAUTHORIZED,
-    HTTP_500_INTERNAL_SERVER_ERROR,
-)
+from netflix_mock.schemas.error import Error
 from netflix_mock.services.fake_service import get_fake_response
 
 router = fastapi.APIRouter()
@@ -13,8 +10,8 @@ router = fastapi.APIRouter()
 @router.put(
     path="",
     responses={
-        **HTTP_401_UNAUTHORIZED,
-        **HTTP_500_INTERNAL_SERVER_ERROR,
+        401: {"model": Error},
+        500: {"model": Error},
     },
 )
 async def fake_put(
@@ -34,8 +31,8 @@ async def fake_put(
 @router.delete(
     path="",
     responses={
-        **HTTP_401_UNAUTHORIZED,
-        **HTTP_500_INTERNAL_SERVER_ERROR,
+        401: {"model": Error},
+        500: {"model": Error},
     },
 )
 async def fake_delete(
