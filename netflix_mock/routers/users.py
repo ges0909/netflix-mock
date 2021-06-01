@@ -1,7 +1,7 @@
 from typing import List
 
 import fastapi
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Path, status
 from sqlalchemy.orm import Session
 
 from netflix_mock.common.database import Database
@@ -49,13 +49,13 @@ async def create_user(
     },
 )
 async def update_user(
-    id: int,
     user: UserIn,
+    id_: int = Path(..., alias="id"),
     _: None = Depends(mock_user),
     session: Session = Depends(Database().session),
 ) -> UserOut:
     """Updates the user data."""
-    user_ = user_service.update_user_by_id(session=session, id=id, user=user)
+    user_ = user_service.update_user_by_id(session=session, id=id_, user=user)
     if user_:
         return UserOut(id=user_.id, username=user_.username)
     raise HTTPException(
@@ -75,17 +75,17 @@ async def update_user(
     },
 )
 async def get_user_by_id(
-    id: int,
+    id_: int = Path(..., alias="id"),
     _: None = Depends(mock_user),
     session: Session = Depends(Database().session),
 ) -> UserOut:
     """Gets the user data."""
-    user = user_service.get_user_by_id(session=session, id=id)
+    user = user_service.get_user_by_id(session=session, id=id_)
     if user:
         return UserOut(id=user.id, username=user.username)
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f"user id='{id}' not found",
+        detail=f"user id='{id_}' not found",
     )
 
 
@@ -100,12 +100,12 @@ async def get_user_by_id(
     },
 )
 async def delete_user_by_id(
-    id: int,
+    id_: int = Path(..., alias="id"),
     _: None = Depends(mock_user),
     session: Session = Depends(Database().session),
 ) -> None:
     """Deletes the user."""
-    if not user_service.delete_user_by_id(session, id=id):
+    if not user_service.delete_user_by_id(session, id=id_):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"user id='{id}' not found",

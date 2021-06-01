@@ -37,7 +37,7 @@ def _load_open_api_spec(path: Path) -> Optional[Dict]:
         return jsonref.load(stream)
 
 
-def get_fake_response(method: str, path: str, status_code: str) -> Dict:
+def generate_response(method: str, path: str, status_code: str) -> Dict:
     settings = Settings()
     if spec := _load_open_api_spec(path=settings.api.spec):
         if path and path in spec["paths"]:

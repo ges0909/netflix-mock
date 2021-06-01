@@ -2,7 +2,7 @@ import fastapi
 from starlette.responses import JSONResponse
 
 from netflix_mock.schemas.error import Error
-from netflix_mock.services.fake_service import get_fake_response
+from netflix_mock.services import fake_service
 
 router = fastapi.APIRouter()
 
@@ -18,12 +18,13 @@ async def fake_put(
     path: str = None,
     status_code: str = "200",
 ):
+    response = fake_service.generate_response(
+        method="put",
+        path=path,
+        status_code=status_code,
+    )
     return JSONResponse(
-        content=get_fake_response(
-            method="put",
-            path=path,
-            status_code=status_code,
-        ),
+        content=response,
         status_code=int(status_code),
     )
 
@@ -39,11 +40,12 @@ async def fake_delete(
     path: str = None,
     status_code: str = "204",
 ):
+    response = fake_service.generate_response(
+        method="delete",
+        path=path,
+        status_code=status_code,
+    )
     return JSONResponse(
-        content=get_fake_response(
-            method="delete",
-            path=path,
-            status_code=status_code,
-        ),
+        content=response,
         status_code=int(status_code),
     )
