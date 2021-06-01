@@ -22,7 +22,7 @@
       </ENTRIES>
     </EXTENSION>
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/netflix_mock/main.py" />
-    <option name="PARAMETERS" value="--config ../dev.yaml --env ../dev.env" />
+    <option name="PARAMETERS" value="--env ../dev.env --config ../dev.yaml" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

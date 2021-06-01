@@ -1,9 +1,13 @@
-from pathlib import Path
-
 import schemathesis
 
-spec = Path(__file__).parent / "openapi.json"
-schema = schemathesis.from_path(path=spec)
+from netflix_mock.common.settings import Settings
+
+Settings.Config.env_file = "../dev.env"
+Settings.Config.config_file = "../dev.yaml"
+
+from netflix_mock.app import app
+
+schema = schemathesis.from_wsgi(schema_path="/api/openapi.json", app=app)
 
 
 @schema.parametrize(endpoint="/api")
