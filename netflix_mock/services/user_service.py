@@ -3,19 +3,19 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import now
 
-from netflix_mock.models.user import User
-from netflix_mock.schemas.user import UserCreate, UserIn
+import netflix_mock.models.user as models
+import netflix_mock.schemas.user as schemas
 
 
-def _get_user_by_id(session: Session, id_: int) -> User:
-    return session.query(User).filter_by(id=id_).first()
+def _get_user_by_id(session: Session, id_: int) -> models.User:
+    return session.query(models.User).filter_by(id=id_).first()
 
 
 def create_user(
     session: Session,
-    user: UserCreate,
-) -> User:
-    user_ = User(user)
+    user: schemas.UserCreate,
+) -> models.User:
+    user_ = models.User(user)
     session.add(user_)
     session.commit()
     return user_
@@ -24,8 +24,8 @@ def create_user(
 def update_user_by_id(
     session: Session,
     id_: int,
-    user: UserIn,
-) -> Optional[User]:
+    user: schemas.UserUpdate,
+) -> Optional[models.User]:
     if user_ := _get_user_by_id(session, id_):
         if "username" in user:
             user_.username = user.username
@@ -44,13 +44,13 @@ def update_user_by_id(
     return None
 
 
-def get_user_by_id(session: Session, id_: int) -> Optional[User]:
+def get_user_by_id(session: Session, id_: int) -> Optional[models.User]:
     if user_ := _get_user_by_id(session, id_):
         return user_
     return None
 
 
-def delete_user_by_id(session: Session, id_: int) -> Optional[User]:
+def delete_user_by_id(session: Session, id_: int) -> Optional[models.User]:
     if user_ := _get_user_by_id(session, id_):
         session.delete(user_)
         session.commit()
@@ -58,5 +58,5 @@ def delete_user_by_id(session: Session, id_: int) -> Optional[User]:
     return None
 
 
-def get_all_users(session: Session) -> List[User]:
-    return session.query(User).all()
+def get_all_users(session: Session) -> List[models.User]:
+    return session.query(models.User).all()

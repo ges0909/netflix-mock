@@ -3,7 +3,7 @@
 # update this file:
 #   poetry run pre-commit autoupdate
 # apply to all hooks without committing:
-#   poetry run pre-commit run --all-files
+#   poetry run pre-commit run
 
 repos:
 

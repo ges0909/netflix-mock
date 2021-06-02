@@ -2,16 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field, SecretStr
 
-example = {
-    "example": {
-        "username": "frankie",
-        "password": "goes to hollywood",
-        "email": "frankie@hollywood.de",
-        "first_name": "Holly",
-        "last_name": "Johnson",
-    }
-}
-
 
 class UserCreate(BaseModel):
     username: str
@@ -21,25 +11,48 @@ class UserCreate(BaseModel):
     last_name: str
 
     class Config:
-        schema_extra = example
+        schema_extra = {
+            "example": {
+                "username": "frankie",
+                "password": "relax",
+                "email": "frankie.goes.to@hollywood",
+                "first_name": "Holly",
+                "last_name": "Johnson",
+            },
+        }
 
 
-class _User(BaseModel):
+class UserUpdate(BaseModel):
     username: Optional[str]
+    password: Optional[SecretStr]
     email: Optional[EmailStr]
     first_name: Optional[str]
     last_name: Optional[str]
 
-
-class UserIn(_User):
-    password: Optional[SecretStr]
-
     class Config:
-        schema_extra = example
+        exclude_none = True
+        schema_extra = {
+            "example": {
+                "username": "frankie",
+                "password": "relax",
+                "email": "frankie.goes.to@hollywood",
+                "first_name": "Holly",
+                "last_name": "Johnson",
+            },
+        }
 
 
-class UserOut(_User):
+class User(UserUpdate):
     id_: int = Field(alias="id", ge=0)
 
     class Config:
         orm_mode = True
+        schema_extra = {
+            "example": {
+                "username": "frankie",
+                "email": "frankie.goes.to@hollywood",
+                "first_name": "Holly",
+                "last_name": "Johnson",
+                "id": 1,
+            }
+        }
