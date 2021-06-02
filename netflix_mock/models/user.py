@@ -1,6 +1,7 @@
 from sqlalchemy import Column, DateTime, Integer, String, func
 
 from netflix_mock.common.database import Base
+from netflix_mock.schemas.user import UserCreate, UserIn
 
 
 class User(Base):
@@ -8,17 +9,22 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
+    username = Column(String, unique=True, nullable=False)
+    password = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True)
+    first_name = Column(String)
+    last_name = Column(String)
+
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now())
 
-    username = Column(String, unique=True, nullable=False)
-    hashed_password = Column(String)
-
     def __init__(
         self,
-        username: str,
-        hashed_password: str,
+        user: UserCreate,
     ) -> None:
         super().__init__()
-        self.username = username
-        self.hashed_password = hashed_password
+        self.username = user.username
+        self.password = user.password.get_secret_value() + "_not_really_hashed"
+        self.email = user.email
+        self.first_name = user.first_name
+        self.last_name = user.last_name

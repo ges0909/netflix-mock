@@ -39,7 +39,12 @@ def admin_user():
 
 @pytest.fixture
 def user():
+    profile = fake.profile()
+    name = profile["name"].split()
     return dict(
-        username=fake.pystr(min_chars=8, max_chars=16),
-        password=fake.pystr(min_chars=8, max_chars=64),
+        username=profile["username"],
+        password=fake.pystr(min_chars=8, max_chars=16),
+        email=profile["mail"],
+        first_name=name[0],
+        last_name=name[1],
     )

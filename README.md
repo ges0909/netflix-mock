@@ -11,6 +11,7 @@
 - [Getting Started with Python Pre-commit Hooks](https://towardsdatascience.com/getting-started-with-python-pre-commit-hooks-28be2b2d09d5)
 - [README As A Service](https://readme.so/de)
 - [Using Hypothesis and Schemathesis to Test FastAPI](https://testdriven.io/blog/fastapi-hypothesis/)
+- [High-performing Apps with Python](https://www.toptal.com/python/build-high-performing-apps-with-the-python-fastapi-framework)
 
 ## Install
 

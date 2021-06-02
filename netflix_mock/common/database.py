@@ -19,7 +19,7 @@ class Database(metaclass=Singleton):
             connect_args={"check_same_thread": False},  # for SQLite only
         )
         # create session factory
-        self._session_maker = sessionmaker(
+        self._SessionLocal = sessionmaker(
             # autocommit=False,
             # autoflush=False,
             bind=engine,
@@ -31,6 +31,6 @@ class Database(metaclass=Singleton):
             Base.metadata.create_all(conn)
 
     def session(self):
-        with self._session_maker() as session:  # 'session_maker' is called
+        with self._SessionLocal() as session:  # 'session_maker' is called
             yield session
         # session is closed by context manager

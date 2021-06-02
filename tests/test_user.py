@@ -25,25 +25,26 @@ def test_create_user(client, mock_user, user):
         url=f"{BASE_URL}",
         json=user,
     )
-    assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
-    assert "id" in data
+    assert response.status_code == status.HTTP_201_CREATED
     assert data["id"] > 0
-    assert "username" in data
     assert data["username"] == user["username"]
+    assert "password" not in data
+    assert data["email"] == user["email"]
+    assert data["first_name"] == user["first_name"]
+    assert data["last_name"] == user["last_name"]
 
 
 def test_update_user(client, mock_user, id_):
-    username = fake.pystr()
     response = client.put(
         headers=dict(Authorization=mock_user),
         url=f"{BASE_URL}/{id_}",
-        json=dict(username=username, password=fake.pystr()),
+        json=dict(password=fake.pystr(min_chars=8, max_chars=16)),
     )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["id"] == id_
-    assert data["username"] == username
+    assert "password" not in data
 
 
 def test_read_user_by_id(client, mock_user, id_):
