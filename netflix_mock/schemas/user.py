@@ -2,6 +2,16 @@ from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field, SecretStr
 
+example = {
+    "example": {
+        "username": "frankie",
+        "password": "goes to hollywood",
+        "email": "frankie@hollywood.de",
+        "first_name": "Holly",
+        "last_name": "Johnson",
+    }
+}
+
 
 class UserCreate(BaseModel):
     username: str
@@ -11,15 +21,7 @@ class UserCreate(BaseModel):
     last_name: str
 
     class Config:
-        schema_extra = {
-            "example": {
-                "username": "frankie",
-                "password": "goes to hollywood",
-                "email": "frankie@hollywood.de",
-                "first_name": "Holly",
-                "last_name": "Johnson",
-            }
-        }
+        schema_extra = example
 
 
 class _User(BaseModel):
@@ -33,15 +35,7 @@ class UserIn(_User):
     password: Optional[SecretStr]
 
     class Config:
-        schema_extra = {
-            "example": {
-                "username": "frankie",
-                "password": "goes to hollywood",
-                "email": "frankie@hollywood.de",
-                "first_name": "Holly",
-                "last_name": "Johnson",
-            }
-        }
+        schema_extra = example
 
 
 class UserOut(_User):
