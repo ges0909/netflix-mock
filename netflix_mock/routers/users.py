@@ -4,8 +4,10 @@ import fastapi
 from fastapi import Depends, HTTPException, Path, status
 from sqlalchemy.orm import Session
 
+import netflix_mock.models.user as models
+import netflix_mock.schemas.user as schemas
 from netflix_mock.common.database import Database
-from netflix_mock.depends.basic_auth import mock_user
+from netflix_mock.depends.basic_auth import api_user
 from netflix_mock.schemas.error import Error
 from netflix_mock.schemas.user import UserCreate, UserIn, UserOut
 from netflix_mock.services import user_service
@@ -25,18 +27,18 @@ router = fastapi.APIRouter()
     },
 )
 async def create_user(
-    user: UserCreate,
-    _: None = Depends(mock_user),
+    user: schemas.UserCreate,
+    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
-) -> UserOut:
+) -> schemas.UserOut:
     """
     Create an user:
 
     - **username**: each user must have a name
     - **password**: each user must have a password
     """
-    if user_ := user_service.create_user(session, user):
-        return UserOut.from_orm(user_)
+    user_: models.User = user_service.create_user(session, user)
+    return schemas.UserOut.from_orm(user_)
 
 
 @router.put(
@@ -53,7 +55,7 @@ async def create_user(
 async def update_user(
     user: UserIn,
     id_: int = Path(..., alias="id"),
-    _: None = Depends(mock_user),
+    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> UserOut:
     """Updates the user data."""
@@ -77,7 +79,7 @@ async def update_user(
 )
 async def get_user_by_id(
     id_: int = Path(..., alias="id"),
-    _: None = Depends(mock_user),
+    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> UserOut:
     """Gets the user data."""
@@ -101,7 +103,7 @@ async def get_user_by_id(
 )
 async def delete_user_by_id(
     id_: int = Path(..., alias="id"),
-    _: None = Depends(mock_user),
+    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> None:
     """Deletes the user."""
@@ -122,7 +124,7 @@ async def delete_user_by_id(
     },
 )
 async def get_all_users(
-    _: None = Depends(mock_user),
+    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> List[UserOut]:
     """Get all users."""

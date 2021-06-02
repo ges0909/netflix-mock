@@ -61,7 +61,7 @@ repos:
     always_run: true
     pass_filenames: false
     verbose: false
-  - id: requirements_txt_dev
+  - id: requirements_dev_txt
     name: Update Dev Requirements
     entry: poetry export --dev -f requirements.txt -o requirements_dev.txt --without-hashes
     language: system

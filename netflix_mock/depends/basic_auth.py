@@ -26,5 +26,5 @@ class BasicAuth:
 
 settings = Settings()
 
-mock_user = BasicAuth(username=settings.api.username, password=settings.api.password)
+api_user = BasicAuth(username=settings.api.username, password=settings.api.password)
 admin_user = BasicAuth(username=settings.admin.username, password=settings.admin.password)
