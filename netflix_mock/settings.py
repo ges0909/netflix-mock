@@ -9,7 +9,7 @@ import yaml
 from dotenv import load_dotenv
 from pydantic import BaseModel, BaseSettings, validator
 
-from netflix_mock.common.singleton import Singleton
+from netflix_mock.singleton import Singleton
 
 env_var_pattern = re.compile(r".*(\${([\w]+)}).*")
 
@@ -48,6 +48,14 @@ class Server(BaseModel):
         extra = "forbid"
         validate_assignment = True
 
+    @validator("upload_dir")
+    def exists(cls, v):
+        if not v.exists():
+            # v.mkdir(parents=True, exist_ok=True)
+            raise ValueError(f"server upload dir '{v}' not found")
+
+        return v
+
 
 class Logging(BaseModel):
     config: Path
@@ -57,8 +65,8 @@ class Logging(BaseModel):
         validate_assignment = True
 
     @validator("config")
-    def file_exists(cls, v):
-        if not v or not v.exists():
+    def exists(cls, v):
+        if not v.exists():
             raise ValueError(f"logging conf file '{v}' not found")
         return v
 
@@ -83,8 +91,8 @@ class Api(BaseModel):
         validate_assignment = True
 
     @validator("spec")
-    def spec_exists(cls, v):
-        if v and not v.exists():
+    def exists(cls, v):
+        if not v.exists():
             raise ValueError(f"open api spec file '{v}' not found")
         return v
 

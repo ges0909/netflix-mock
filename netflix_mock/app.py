@@ -4,6 +4,7 @@ import fastapi
 import pkg_resources
 from fastapi.staticfiles import StaticFiles
 
+from netflix_mock.database import Database
 from netflix_mock.middleware.catch_all import CatchAll
 from netflix_mock.routers import (
     ef_ir,
@@ -11,6 +12,7 @@ from netflix_mock.routers import (
     home,
     settings,
     templates,
+    todos,
     upload,
     users,
     weather,
@@ -37,6 +39,7 @@ if site_dir.exists():
 app.include_router(router=home.router, include_in_schema=False)
 app.include_router(router=templates.router, prefix="/templates", include_in_schema=False)
 app.include_router(router=users.router, prefix="/api/users", tags=["Users"])
+app.include_router(router=todos.router, prefix="/api/tasks", tags=["Todos"])
 app.include_router(router=settings.router, prefix="/settings", tags=["Settings"])
 app.include_router(router=weather.router, prefix="/weather", include_in_schema=False)
 app.include_router(router=upload.router, tags=["Upload"])
@@ -52,9 +55,9 @@ app.add_middleware(CatchAll)
 
 @app.on_event("startup")
 async def startup():
-    """models connect"""
+    Database().create()
 
 
 @app.on_event("shutdown")
 async def shutdown():
-    """models disconnect"""
+    """shutdown"""

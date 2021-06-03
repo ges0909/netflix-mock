@@ -1,9 +1,8 @@
 from sqlalchemy import Column, DateTime, Integer, String, func
 from sqlalchemy.orm import relationship
 
-from netflix_mock.common.database import Base
-from netflix_mock.schemas.todo import TodoCreate
-from netflix_mock.schemas.user import UserCreate
+import netflix_mock.schemas.user as schemas
+from netflix_mock.database import Base
 
 
 class User(Base):
@@ -20,13 +19,13 @@ class User(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now())
 
-    todo = relationship(
-        "Todo",
-        # back_populates="owner",
+    todos = relationship(
+        "netflix_mock.models.Todo",
+        back_populates="user",  # relation 'user'
         cascade="all, delete-orphan",
     )
 
-    def __init__(self, user: UserCreate, todo: TodoCreate):
+    def __init__(self, user: schemas.UserCreate):
         super().__init__()
 
         self.username = user.username
@@ -34,5 +33,3 @@ class User(Base):
         self.email = user.email
         self.first_name = user.first_name
         self.last_name = user.last_name
-
-        self.todo = todo

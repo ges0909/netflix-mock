@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from netflix_mock.common.settings import Settings
+from netflix_mock.settings import Settings
 
 
 def update_settings(settings: Settings, settings_to_update: Dict[str, Any]) -> List[str]:

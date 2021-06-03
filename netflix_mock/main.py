@@ -6,8 +6,8 @@ import pydantic
 import typer
 import uvicorn
 
-from netflix_mock.common.database import Database
-from netflix_mock.common.settings import Settings
+from netflix_mock.database import Database
+from netflix_mock.settings import Settings
 
 
 def has_suffix(path: Path, suffixes: Tuple[str, ...]) -> Path:

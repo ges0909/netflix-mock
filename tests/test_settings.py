@@ -20,7 +20,7 @@ def test_read(client, admin_user):
 def test_update(client, admin_user):
     response = client.post(
         url="/settings",
-        json=dict(server=dict(port="1305", upload_dir="/tmp")),
+        json=dict(server=dict(port="1305", upload_dir="..\\upload")),
         headers=dict(Authorization=admin_user),
     )
     assert response.status_code == status.HTTP_200_OK
@@ -32,7 +32,7 @@ def test_update(client, admin_user):
     )
     data = response.json()
     assert data["server"]["port"] == 1305
-    assert data["server"]["upload_dir"] == "\\tmp"
+    assert data["server"]["upload_dir"] == "..\\upload"
 
 
 def test_validation(client, admin_user):

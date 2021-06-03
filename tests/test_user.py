@@ -14,8 +14,8 @@ def id_(client, mock_user, user):
         url=f"{BASE_URL}",
         json=user,
     )
-    assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
+    assert response.status_code == status.HTTP_201_CREATED
     return data["id"]
 
 
@@ -41,8 +41,8 @@ def test_update_user(client, mock_user, id_):
         url=f"{BASE_URL}/{id_}",
         json=dict(password=fake.pystr(min_chars=8, max_chars=16)),
     )
-    assert response.status_code == status.HTTP_200_OK
     data = response.json()
+    assert response.status_code == status.HTTP_200_OK
     assert data["id"] == id_
     assert "password" not in data
 
@@ -52,8 +52,8 @@ def test_read_user_by_id(client, mock_user, id_):
         headers=dict(Authorization=mock_user),
         url=f"{BASE_URL}/{id_}",
     )
-    assert response.status_code == status.HTTP_200_OK
     data = response.json()
+    assert response.status_code == status.HTTP_200_OK
     assert data["id"] == id_
     assert "username" in data
 

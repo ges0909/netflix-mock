@@ -4,8 +4,9 @@ import fastapi
 from fastapi import Depends, HTTPException, Path, status
 from sqlalchemy.orm import Session
 
+import netflix_mock.models.user as models
 import netflix_mock.schemas.user as schemas
-from netflix_mock.common.database import Database
+from netflix_mock.database import Database
 from netflix_mock.depends.basic_auth import api_user
 from netflix_mock.schemas.error import Error
 from netflix_mock.services import user_service
@@ -35,7 +36,7 @@ async def create_user(
     - **username**: each user must have a name
     - **password**: each user must have a password
     """
-    user_ = user_service.create_user(session, user)
+    user_: models.User = user_service.create_user(session, user)
     return schemas.User.from_orm(user_)
 
 
@@ -57,7 +58,7 @@ async def update_user(
     session: Session = Depends(Database().session),
 ) -> schemas.User:
     """Updates the user data."""
-    user_ = user_service.update_user_by_id(session, id_, user)
+    user_: models.User = user_service.update_user_by_id(session, id_, user)
     if user_:
         return schemas.User.from_orm(user_)
     raise HTTPException(

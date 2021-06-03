@@ -1,10 +1,10 @@
+logging:
+  config: ${HOME}/Projekte/netflix-mock/logging.conf
+
 server:
   port: 8000
   log_level: debug  # critical, error, warning, info, debug, trace
-  upload_dir: ..
-
-logging:
-  config: ${HOME}/Projekte/netflix-mock/logging.conf
+  upload_dir: ${HOME}/Projekte/netflix-mock/upload
 
 database:
   # url: sqlite:///test-db.db
@@ -12,7 +12,7 @@ database:
   url: sqlite:///${HOME}/Projekte/netflix-mock/test-db.db
   # url: postgresql://test:test@localhost/test.db
   logging: true
-  drop_tables: true # dev = true, prod = false
+  drop_tables: true
 
 api:
   username: ${MOCK_USERNAME}  # basic auth

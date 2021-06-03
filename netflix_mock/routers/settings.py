@@ -4,12 +4,12 @@ import fastapi
 from fastapi import Body, Depends, HTTPException, status
 from pydantic import ValidationError
 
-from netflix_mock.common.settings import Settings
 from netflix_mock.depends.basic_auth import admin_user
 from netflix_mock.schemas.error import Error
 from netflix_mock.schemas.settings import SettingsOut
 from netflix_mock.schemas.success import Success
 from netflix_mock.services import settings_service
+from netflix_mock.settings import Settings
 
 router = fastapi.APIRouter()
 
