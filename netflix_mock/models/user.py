@@ -2,6 +2,7 @@ from sqlalchemy import Column, DateTime, Integer, String, func
 from sqlalchemy.orm import relationship
 
 from netflix_mock.common.database import Base
+from netflix_mock.schemas.todo import TodoCreate
 from netflix_mock.schemas.user import UserCreate
 
 
@@ -19,12 +20,19 @@ class User(Base):
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now())
 
-    todos = relationship("Todo", back_populates="owner", cascade="all, delete-orphan")
+    todo = relationship(
+        "Todo",
+        # back_populates="owner",
+        cascade="all, delete-orphan",
+    )
 
-    def __init__(self, user: UserCreate):
+    def __init__(self, user: UserCreate, todo: TodoCreate):
         super().__init__()
+
         self.username = user.username
         self.password = user.password.get_secret_value() + "_not_really_hashed"
         self.email = user.email
         self.first_name = user.first_name
         self.last_name = user.last_name
+
+        self.todo = todo
