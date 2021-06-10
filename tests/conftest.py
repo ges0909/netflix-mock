@@ -59,7 +59,7 @@ def client(settings, db_session):
 
 
 @pytest.fixture
-def mock_user():
+def api_user():
     return "Basic " + b64encode(b"test:test").decode("ascii")
 
 
@@ -69,7 +69,7 @@ def admin_user():
 
 
 @pytest.fixture
-def user():
+def user_data():
     profile = fake.profile()
     name = profile["name"].split()
     return dict(

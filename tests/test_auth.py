@@ -6,10 +6,10 @@ from fastapi import status
 BASE_URL = "/api/users"
 
 
-def test_missing_auth(client, user):
+def test_missing_auth(client, user_data):
     response = client.post(
         url=f"{BASE_URL}",
-        json=user,
+        json=user_data,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
     data = response.json()
@@ -23,11 +23,11 @@ def test_missing_auth(client, user):
         "Basic " + b64encode(b"test:WRONG").decode("ascii"),
     ],
 )
-def test_wrong_basic_auth(client, basic_auth, user):
+def test_wrong_basic_auth(client, basic_auth, user_data):
     response = client.post(
         headers=dict(Authorization=basic_auth),
         url=f"{BASE_URL}",
-        json=user,
+        json=user_data,
     )
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
     data = response.json()
