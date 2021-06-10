@@ -51,6 +51,9 @@ app.add_websocket_route(route=echo, path="/ws/echo")
 # middleware
 app.add_middleware(CatchAll)
 
+# exception handlers
+# app.add_exception_handler(exc_class_or_status_code=..., handler=...)
+
 
 @app.on_event("startup")
 async def startup():
