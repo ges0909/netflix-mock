@@ -4,7 +4,7 @@ import fastapi
 import pkg_resources
 from fastapi.staticfiles import StaticFiles
 
-from netflix_mock.database import Database
+from netflix_mock.database import create_model
 from netflix_mock.middleware.catch_all import CatchAll
 from netflix_mock.routers import (
     ef_ir,
@@ -55,7 +55,8 @@ app.add_middleware(CatchAll)
 
 @app.on_event("startup")
 async def startup():
-    Database().create()
+    """startup"""
+    create_model()
 
 
 @app.on_event("shutdown")

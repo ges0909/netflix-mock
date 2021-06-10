@@ -6,7 +6,6 @@ import pydantic
 import typer
 import uvicorn
 
-from netflix_mock.database import Database
 from netflix_mock.settings import Settings
 
 
@@ -38,7 +37,6 @@ def main(
             fname=settings.logging.config,
             disable_existing_loggers=False,
         )
-        _ = Database()  # drop/create database tables
         uvicorn.run(
             "netflix_mock.app:app",
             port=settings.server.port,

@@ -7,11 +7,7 @@ server:
   upload_dir: ${HOME}/Projekte/netflix-mock/upload
 
 database:
-  # url: "sqlite+pysqlite:///:memory:"
-  # url: sqlite:///test-db.db
-  # url: sqlite:///..\\test-db.db
-  url: sqlite:///${HOME}/Projekte/netflix-mock/test-db.db
-  # url: postgresql://test:test@localhost/test.db
+  url: 'sqlite+pysqlite:///:memory:'
   logging: true
   drop_tables: true
 

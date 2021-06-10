@@ -5,40 +5,36 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker
 
 from netflix_mock.settings import Settings
-from netflix_mock.singleton import Singleton
+
+settings = Settings()
 
 Base = declarative_base()
 
 
-class Database(metaclass=Singleton):
-    def __init__(self):
-        settings = Settings()
-        self._engine = create_engine(
-            url=settings.database.url,
-            echo=settings.database.logging,
-            connect_args={
-                "check_same_thread": False,  # for SQLite only
-            },
-        )
-        # create session factory
-        self._Session = sessionmaker(
-            # autocommit=False,
-            # autoflush=False,
-            bind=self._engine,
-        )
+engine = create_engine(
+    url=settings.database.url,
+    echo=settings.database.logging,
+    connect_args={"check_same_thread": False},  # for SQLite only
+)
 
-    def session(self):
-        with self._Session() as session:  # 'session_maker' is called
-            yield session
-        # session is closed by context manager
+SessionLocal = sessionmaker(  # 'SessionLocal' is a class
+    # autocommit=False,
+    # autoflush=False,
+    bind=engine,
+)
 
-    def create(self):
-        """generate data model"""
+
+def create_model():
+    with engine.begin() as conn:
         # import netflix_mock.models.user
         # import netflix_mock.models.todo
 
-        settings = Settings()
-        with self._engine.begin() as conn:
-            if settings.database.drop_tables:
-                Base.metadata.drop_all(conn)
-            Base.metadata.create_all(bind=conn)
+        if settings.database.drop_tables:
+            Base.metadata.drop_all(conn)
+        Base.metadata.create_all(bind=conn)
+
+
+def get_session():
+    """create new database session, run sql stmt.s in yielded sessions and close session"""
+    with SessionLocal() as session:
+        yield session

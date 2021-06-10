@@ -6,46 +6,54 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from netflix_mock.database import Base, Database
 from netflix_mock.settings import Settings
 
 fake = Faker()
 
 
-# def override_get_db():
-#     with TestingSessionLocal() as db:
-#         yield db
+@pytest.fixture
+def settings(tmp_path):
+    Settings.Config.env_file = "config/test.env"
+    Settings.Config.config_file = "config/test.yaml"
+    settings = Settings()
+    settings.server.upload_dir = tmp_path
+    return settings
 
 
 @pytest.fixture
-def settings():
-    Settings.Config.env_file = "test.env"
-    Settings.Config.config_file = "test.yaml"
-    return Settings()
+def db_session(settings):
+    from netflix_mock.database import Base
+    from netflix_mock.models.todo import Todo
+    from netflix_mock.models.user import User
 
+    _ = User()
+    _ = Todo()
 
-# @pytest.fixture
-# def session(settings):
-#     engine = create_engine(
-#         settings.database.url,
-#         connect_args={"check_same_thread": False},
-#     )
-#     Base.metadata.create_all(bind=engine)
-#     return sessionmaker(
-#         # autocommit=False,
-#         autoflush=False,
-#         bind=engine,
-#     )
+    engine = create_engine(
+        settings.database.url,
+        connect_args={"check_same_thread": False},
+    )
+    Base.metadata.create_all(bind=engine)
+    with engine.begin() as conn:
+        Base.metadata.create_all(bind=conn)
+    return sessionmaker(
+        # autocommit=False,
+        autoflush=False,
+        bind=engine,
+    )
 
 
 @pytest.fixture
-def client(settings, tmp_path):
+def client(settings, db_session):
     from netflix_mock.app import app
+    from netflix_mock.database import get_session
+
+    def override_get_session():
+        with db_session() as session:
+            yield session
 
     client = TestClient(app)
-    # app.dependency_overrides[session] = override_get_db
-    # settings.database.url = f"sqlite:///{tmp_path / 'test.db'}"
-    settings.server.upload_dir = tmp_path
+    app.dependency_overrides[get_session] = override_get_session
 
     return client
 

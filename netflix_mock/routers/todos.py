@@ -2,9 +2,8 @@ import fastapi
 from fastapi import Depends, status
 from sqlalchemy.orm import Session
 
-import netflix_mock.models.todo as models
 import netflix_mock.schemas.todo as schemas
-from netflix_mock.database import Database
+from netflix_mock.database import get_session
 from netflix_mock.depends.basic_auth import api_user
 from netflix_mock.schemas.error import Error
 
@@ -24,9 +23,6 @@ router = fastapi.APIRouter()
 )
 async def add_todo(
     user: schemas.TodoCreate,
-    session: Session = Depends(Database().session),
+    session: Session = Depends(get_session),
 ) -> schemas.Todo:
-    # user_: models.User = user_service.create_user(session, user)
-    # return schemas.User.from_orm(user_)
-    user_: models.Todo = None
     return schemas.Todo(id=1, text="Any task", completed=True)
