@@ -14,8 +14,9 @@ class CatchAll(BaseHTTPMiddleware):
             response = await call_next(request)
             return response
         except Exception as error:
-            logger.error("%s", str(error))
+            detail = ", ".join(error.args)
+            logger.error("%s", detail)
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                content=dict(detail=str(error)),
+                content=dict(detail=detail),
             )

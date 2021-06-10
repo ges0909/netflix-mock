@@ -13,7 +13,6 @@ database:
   url: sqlite:///${HOME}/Projekte/netflix-mock/test-db.db
   # url: postgresql://test:test@localhost/test.db
   logging: true
-  drop_tables: true
 
 api:
   username: ${MOCK_USERNAME}  # basic auth

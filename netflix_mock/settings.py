@@ -39,7 +39,7 @@ def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
         return yaml.load(stream, Loader=yaml.FullLoader)
 
 
-# -- settings models
+# -- models
 
 
 class Server(BaseModel):
@@ -77,7 +77,6 @@ class Logging(BaseModel):
 class Database(BaseModel):
     url: str
     logging: bool = False
-    drop_tables: bool = False
 
     class Config:
         extra = "forbid"

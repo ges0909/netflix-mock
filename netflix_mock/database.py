@@ -24,17 +24,19 @@ SessionLocal = sessionmaker(  # 'SessionLocal' is a class
 )
 
 
-def create_model():
-    with engine.begin() as conn:
-        # import netflix_mock.models.user
-        # import netflix_mock.models.todo
+with engine.begin() as conn:
+    # import models to be registered for subsequent 'create_all'
+    from netflix_mock.models.todo import Todo
+    from netflix_mock.models.user import User
 
-        if settings.database.drop_tables:
-            Base.metadata.drop_all(conn)
-        Base.metadata.create_all(bind=conn)
+    # use models to avoid removal of local imports when code is refactored by IDE
+    _ = User()
+    _ = Todo()
+
+    Base.metadata.create_all(bind=conn)
 
 
-def get_session():
+def get_db_session():
     """create new database session, run sql stmt.s in yielded sessions and close session"""
     with SessionLocal() as session:
         yield session

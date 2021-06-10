@@ -46,14 +46,14 @@ def db_session(settings):
 @pytest.fixture
 def client(settings, db_session):
     from netflix_mock.app import app
-    from netflix_mock.database import get_session
+    from netflix_mock.database import get_db_session
 
     def override_get_session():
         with db_session() as session:
             yield session
 
     client = TestClient(app)
-    app.dependency_overrides[get_session] = override_get_session
+    app.dependency_overrides[get_db_session] = override_get_session
 
     return client
 
