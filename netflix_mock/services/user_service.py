@@ -3,6 +3,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.functions import now
 
+import netflix_mock.models.todo as models2
 import netflix_mock.models.user as models
 import netflix_mock.schemas.user as schemas
 
@@ -15,7 +16,18 @@ def create_user(
     session: Session,
     user: schemas.UserCreate,
 ) -> models.User:
-    user_ = models.User(user)
+    user_ = models.User(
+        username=user.username,
+        password=user.password.get_secret_value(),
+        email=user.email,
+        first_name=user.first_name,
+        last_name=user.last_name,
+    )
+    # todo = models2.Todo(
+    #     text="something to do",
+    # )
+    # todo.user_id = user_.id
+    # user_.todos.append(todo)
     session.add(user_)
     session.commit()
     return user_

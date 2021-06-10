@@ -3,17 +3,39 @@ from base64 import b64encode
 import pytest
 from faker import Faker
 from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
+from netflix_mock.database import Base, Database
 from netflix_mock.settings import Settings
 
 fake = Faker()
 
 
+# def override_get_db():
+#     with TestingSessionLocal() as db:
+#         yield db
+
+
 @pytest.fixture
 def settings():
-    Settings.Config.env_file = "../dev.env"
-    Settings.Config.config_file = "../dev.yaml"
+    Settings.Config.env_file = "test.env"
+    Settings.Config.config_file = "test.yaml"
     return Settings()
+
+
+# @pytest.fixture
+# def session(settings):
+#     engine = create_engine(
+#         settings.database.url,
+#         connect_args={"check_same_thread": False},
+#     )
+#     Base.metadata.create_all(bind=engine)
+#     return sessionmaker(
+#         # autocommit=False,
+#         autoflush=False,
+#         bind=engine,
+#     )
 
 
 @pytest.fixture
@@ -21,7 +43,8 @@ def client(settings, tmp_path):
     from netflix_mock.app import app
 
     client = TestClient(app)
-    settings.database.url = f"sqlite:///{tmp_path / 'test.db'}"
+    # app.dependency_overrides[session] = override_get_db
+    # settings.database.url = f"sqlite:///{tmp_path / 'test.db'}"
     settings.server.upload_dir = tmp_path
 
     return client

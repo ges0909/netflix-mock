@@ -11,6 +11,9 @@ from pydantic import BaseModel, BaseSettings, validator
 
 from netflix_mock.singleton import Singleton
 
+# -- load yaml
+
+
 env_var_pattern = re.compile(r".*(\${([\w]+)}).*")
 
 
@@ -36,7 +39,7 @@ def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
         return yaml.load(stream, Loader=yaml.FullLoader)
 
 
-# -- models
+# -- settings models
 
 
 class Server(BaseModel):

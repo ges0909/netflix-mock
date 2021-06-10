@@ -24,10 +24,10 @@ router = fastapi.APIRouter()
         401: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(api_user)],
 )
 async def create_user(
     user: schemas.UserCreate,
-    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> schemas.User:
     """
@@ -50,11 +50,11 @@ async def create_user(
         404: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(api_user)],
 )
 async def update_user(
     user: schemas.UserUpdate,
     id_: int = Path(..., alias="id"),
-    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> schemas.User:
     """Updates the user data."""
@@ -77,10 +77,10 @@ async def update_user(
         404: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(api_user)],
 )
 async def get_user_by_id(
     id_: int = Path(..., alias="id"),
-    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> schemas.User:
     """Gets the user data."""
@@ -101,10 +101,10 @@ async def get_user_by_id(
         404: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(api_user)],
 )
 async def delete_user_by_id(
     id_: int = Path(..., alias="id"),
-    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> None:
     """Deletes the user."""
@@ -124,9 +124,9 @@ async def delete_user_by_id(
         401: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(api_user)],
 )
 async def get_all_users(
-    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> List[schemas.User]:
     """Get all users."""

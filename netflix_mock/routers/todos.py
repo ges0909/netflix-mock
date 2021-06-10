@@ -20,10 +20,10 @@ router = fastapi.APIRouter()
         401: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(api_user)],
 )
 async def add_todo(
     user: schemas.TodoCreate,
-    _: None = Depends(api_user),
     session: Session = Depends(Database().session),
 ) -> schemas.Todo:
     # user_: models.User = user_service.create_user(session, user)

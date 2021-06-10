@@ -21,19 +21,22 @@ class Database(metaclass=Singleton):
             },
         )
         # create session factory
-        self._SessionLocal = sessionmaker(
+        self._Session = sessionmaker(
             # autocommit=False,
             # autoflush=False,
             bind=self._engine,
         )
 
     def session(self):
-        with self._SessionLocal() as session:  # 'session_maker' is called
+        with self._Session() as session:  # 'session_maker' is called
             yield session
         # session is closed by context manager
 
     def create(self):
         """generate data model"""
+        # import netflix_mock.models.user
+        # import netflix_mock.models.todo
+
         settings = Settings()
         with self._engine.begin() as conn:
             if settings.database.drop_tables:

@@ -15,7 +15,7 @@ class UserCreate(BaseModel):
             "example": {
                 "username": "frankie",
                 "password": "relax",
-                "email": "frankie.goes.to@hollywood",
+                "email": "frankie.goes@to.hollywood",
                 "first_name": "Holly",
                 "last_name": "Johnson",
             },
@@ -31,15 +31,7 @@ class UserUpdate(BaseModel):
 
     class Config:
         exclude_none = True
-        schema_extra = {
-            "example": {
-                "username": "frankie",
-                "password": "relax",
-                "email": "frankie.goes.to@hollywood",
-                "first_name": "Holly",
-                "last_name": "Johnson",
-            },
-        }
+        schema_extra = UserCreate.Config.schema_extra
 
 
 class User(UserUpdate):

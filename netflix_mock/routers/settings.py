@@ -21,10 +21,9 @@ router = fastapi.APIRouter()
         401: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(admin_user)],
 )
-async def read_settings(
-    _: None = Depends(admin_user),
-):
+async def read_settings():
     """Read settings."""
     return SettingsOut.from_orm(Settings())
 
@@ -37,10 +36,10 @@ async def read_settings(
         409: {"model": Error},
         500: {"model": Error},
     },
+    dependencies=[Depends(admin_user)],
 )
 async def update_settings(
     settings: Dict[str, Any] = Body(...),
-    _: None = Depends(admin_user),
 ):
     """Update settings."""
     try:
