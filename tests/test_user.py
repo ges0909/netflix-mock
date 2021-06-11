@@ -8,31 +8,31 @@ BASE_URL = "/api/users"
 
 
 @pytest.fixture
-def id_(client, api_user, user_data):
+def id_(client, api_user, fake_user):
     response = client.post(
         headers=dict(Authorization=api_user),
         url=f"{BASE_URL}",
-        json=user_data,
+        json=fake_user,
     )
     data = response.json()
     assert response.status_code == status.HTTP_201_CREATED
     return data["id"]
 
 
-def test_create_user(client, api_user, user_data):
+def test_create_user(client, api_user, fake_user):
     response = client.post(
         headers=dict(Authorization=api_user),
         url=f"{BASE_URL}",
-        json=user_data,
+        json=fake_user,
     )
     data = response.json()
     assert response.status_code == status.HTTP_201_CREATED
     assert data["id"] > 0
-    assert data["username"] == user_data["username"]
+    assert data["username"] == fake_user["username"]
     assert "password" not in data
-    assert data["email"] == user_data["email"]
-    assert data["first_name"] == user_data["first_name"]
-    assert data["last_name"] == user_data["last_name"]
+    assert data["email"] == fake_user["email"]
+    assert data["first_name"] == fake_user["first_name"]
+    assert data["last_name"] == fake_user["last_name"]
 
 
 def test_update_user(client, api_user, id_):

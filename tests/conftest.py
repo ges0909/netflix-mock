@@ -48,12 +48,12 @@ def client(settings, db_session):
     from netflix_mock.app import app
     from netflix_mock.database import get_db_session
 
-    def override_get_session():
+    def override_get_db_session():
         with db_session() as session:
             yield session
 
     client = TestClient(app)
-    app.dependency_overrides[get_db_session] = override_get_session
+    app.dependency_overrides[get_db_session] = override_get_db_session
 
     return client
 
@@ -69,7 +69,7 @@ def admin_user():
 
 
 @pytest.fixture
-def user_data():
+def fake_user():
     profile = fake.profile()
     name = profile["name"].split()
     return dict(

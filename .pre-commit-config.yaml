@@ -10,12 +10,12 @@ repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.0.1
   hooks:
-      # - id: end-of-file-fixer   # done by 'black'
-      # - id: trailing-whitespace # done by 'black'
+#  - id: end-of-file-fixer   # done by 'black'
+#  - id: trailing-whitespace # done by 'black'
   - id: mixed-line-ending
   - id: check-case-conflict
   - id: detect-private-key
-  - id: check-added-large-files
+#  - id: check-added-large-files
   - id: check-docstring-first
 
 - repo: https://github.com/asottile/pyupgrade

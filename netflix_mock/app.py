@@ -14,6 +14,7 @@ from netflix_mock.routers import (
     todos,
     upload,
     users,
+    video,
     weather,
 )
 from netflix_mock.ws.echo import echo
@@ -44,6 +45,7 @@ app.include_router(router=weather.router, prefix="/weather", include_in_schema=F
 app.include_router(router=upload.router, tags=["Upload"])
 app.include_router(router=fake.router, prefix="/fake", tags=["Fake Generator"])
 app.include_router(router=ef_ir.router, prefix="/efir", tags=["EF-IR Mock"])
+app.include_router(router=video.router, tags=["Streaming"])
 
 # websocket
 app.add_websocket_route(route=echo, path="/ws/echo")
