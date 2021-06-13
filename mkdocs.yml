@@ -12,6 +12,7 @@ nav:
 - Autodoc:
   - Routers:
     - Users: routers/users.md
+    - Todos: routers/todos.md
 - Video: /video
 - Related: related.md
 - About: about.md
@@ -59,19 +60,10 @@ markdown_extensions:
 plugins:
 - search
 - mkdocstrings:
-#    default_handler: python
-#    handlers:
-#      python:
-#        setup_commands:
-#        - import sys
-#        - from pathlib import Path
-#        - project = Path.home() / "Projekte" / "netflix_mock"
-#        - sys.path.insert(0, str(project))
-#        - from netflix_mock.settings import Settings
-#        - setattr(Settings.Config, "env_file", "dev.env")
-#        - setattr(Settings.Config, "config_file", "dev.yaml")
-    rendering:
-      show_source: false
+    handlers:
+      python:
+        rendering:
+          show_source: false
 - git-revision-date-localized:
     type: date
     fallback_to_build_date: true
