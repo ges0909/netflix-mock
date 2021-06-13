@@ -1,3 +1,3 @@
-# Users
+# User routers
 
-::: netflix_mock.depends.basic_auth
+::: netflix_mock.routers.users

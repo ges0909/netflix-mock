@@ -24,8 +24,7 @@ SessionLocal = sessionmaker(  # 'SessionLocal' is a class
 )
 
 
-with engine.begin() as conn:
-    # import models to be registered for subsequent 'create_all'
+def create_model():
     from netflix_mock.models.todo import Todo
     from netflix_mock.models.user import User
 
@@ -33,7 +32,8 @@ with engine.begin() as conn:
     _ = User()
     _ = Todo()
 
-    Base.metadata.create_all(bind=conn)
+    with engine.begin() as conn:
+        Base.metadata.create_all(bind=conn)
 
 
 def get_db_session():

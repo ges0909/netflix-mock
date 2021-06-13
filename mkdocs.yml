@@ -8,10 +8,10 @@ nav:
 - Home: home.md
 - API: /docs
 - Weather (Proxy): /weather?city=berlin
-- Dok:
+- Deploy: deploy.md
+- Autodoc:
   - Routers:
     - Users: routers/users.md
-- Deploy: deploy.md
 - Video: /video
 - Related: related.md
 - About: about.md
@@ -58,21 +58,23 @@ markdown_extensions:
 
 plugins:
 - search
-# - mkdocstrings:
-#     default_handler: python
-#     handlers:
-#       python:
-#         setup_commands:
-# #          - import sys
-# #          - sys.path.append("netflix_mock")
-#         - from netflix_mock.settings import Settings
-#         - setattr(Settings.Config, "env_file", "dev.env")
-#         - setattr(Settings.Config, "config_file", "dev.yaml")
-#         rendering:
-#           show_source: false
-#- git-revision-date-localized:
-#    type: date
-#    fallback_to_build_date: true
+- mkdocstrings:
+#    default_handler: python
+#    handlers:
+#      python:
+#        setup_commands:
+#        - import sys
+#        - from pathlib import Path
+#        - project = Path.home() / "Projekte" / "netflix_mock"
+#        - sys.path.insert(0, str(project))
+#        - from netflix_mock.settings import Settings
+#        - setattr(Settings.Config, "env_file", "dev.env")
+#        - setattr(Settings.Config, "config_file", "dev.yaml")
+    rendering:
+      show_source: false
+- git-revision-date-localized:
+    type: date
+    fallback_to_build_date: true
 
 extra:
   homepage: https://www.syrocon.de/

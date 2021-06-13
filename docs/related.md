@@ -10,3 +10,5 @@
 - [README As A Service](https://readme.so/de)
 - [Using Hypothesis and Schemathesis to Test FastAPI](https://testdriven.io/blog/fastapi-hypothesis/)
 - [High-performing Apps with Python](https://www.toptal.com/python/build-high-performing-apps-with-the-python-fastapi-framework)
+- [Dependency Injection in FastAPI](https://levelup.gitconnected.com/dependency-injection-in-fastapi-111e3e7aad28)
+- [Streaming video with FastAPI](https://stribny.name/blog/fastapi-video/)

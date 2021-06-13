@@ -32,8 +32,8 @@ yaml.add_constructor("!env_var", var_constructor)
 
 
 def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
-    env_file = getattr(settings.Config, "env_file")
-    config_file = getattr(settings.Config, "config_file")
+    env_file = getattr(settings.Config, "env_file", "dev.env")
+    config_file = getattr(settings.Config, "config_file", "dev.yaml")
     load_dotenv(dotenv_path=env_file)
     with open(config_file, "r") as stream:
         return yaml.load(stream, Loader=yaml.FullLoader)
