@@ -4,7 +4,9 @@ logging:
 server:
   port: 8000
   log_level: debug  # critical, error, warning, info, debug, trace
+  template_dir: ${HOME}/Projekte/netflix-mock/templates
   upload_dir: ${HOME}/Projekte/netflix-mock/upload
+  video_dir: ${HOME}/Projekte/netflix-mock/videos
 
 database:
   # url: "sqlite+pysqlite:///:memory:"

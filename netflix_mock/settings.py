@@ -45,7 +45,9 @@ def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
 class Server(BaseModel):
     port: int = 8000
     log_level: str
+    template_dir: Path
     upload_dir: Path
+    video_dir: Path
 
     class Config:
         extra = "forbid"

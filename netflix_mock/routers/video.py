@@ -8,6 +8,7 @@ from fastapi.responses import Response
 from fastapi.templating import Jinja2Templates
 
 # from fastapi.responses import StreamingResponse
+from netflix_mock.settings import Settings
 
 logger = logging.getLogger(__name__)
 
@@ -15,11 +16,9 @@ router = fastapi.APIRouter()
 
 CHUNK_SIZE = 1024 * 1014
 
-templates_dir = Path(__file__).parent / ".." / "templates"
-templates = Jinja2Templates(directory=str(templates_dir))
+settings = Settings()
 
-videos_dir = Path(__file__).parent / ".." / "videos"
-video_path = videos_dir / "sample.mp4"
+templates = Jinja2Templates(directory=str(settings.server.template_dir))
 
 
 @router.get("/video")
@@ -41,11 +40,12 @@ async def read_root(request: Request):
 
 
 @router.get("/video/play")
-async def play(range_: str = Header(alias="range", default=None)):
+async def play(file: str, range_: str = Header(alias="range", default=None)):
     range_ = range_.replace("bytes=", "")
     start, end = range_.split("-")
     start = int(start)
     end = int(end) if end else start + CHUNK_SIZE
+    video_path = settings.server.video_dir / file
     filesize = video_path.stat().st_size
     with open(video_path, "rb") as stream:
         stream.seek(start)
