@@ -43,6 +43,9 @@ async def add_todo(
             Multiple paragraphs are supported in parameter
             descriptions.
 
+    ## Alias:
+    add todo
+
     Args:
         param1 (int): The first parameter.
         param2 (:obj:`str`, optional): The second parameter. Defaults to None.
@@ -78,9 +81,6 @@ async def add_todo(
 
         >>> print([i for i in example_generator(4)])
         [0, 1, 2, 3]
-
-    Alias:
-        add todo
 
     """
     return schemas.Todo(id=1, text="Any task", completed=True)

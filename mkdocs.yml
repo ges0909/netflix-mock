@@ -6,16 +6,15 @@ repo_url: https://github.com/ges0909/netflix-mock.git
 
 nav:
 - Home: home.md
-- API: /docs
-- Weather (Proxy): /weather?city=berlin
 - Deploy: deploy.md
 - Autodoc:
   - Routers:
     - Users: routers/users.md
     - Todos: routers/todos.md
+- API: /docs
+- Weather (Proxy): /weather?city=berlin
 - Video: /video
 - Related: related.md
-- About: about.md
 
 theme:
   name: material
@@ -59,11 +58,14 @@ markdown_extensions:
 
 plugins:
 - search
+# - admonition
+- autorefs
 - mkdocstrings:
     handlers:
       python:
         rendering:
           show_source: false
+          heading_level: 2
 - git-revision-date-localized:
     type: date
     fallback_to_build_date: true

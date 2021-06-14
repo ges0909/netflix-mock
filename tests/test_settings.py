@@ -10,7 +10,10 @@ def test_read(client, admin_user):
     data = response.json()
     assert data["server"]["port"]
     assert data["server"]["log_level"]
-    assert data["server"]["upload_dir"]
+    assert data["server"]["template"]["dir"]
+    assert data["server"]["upload"]["dir"]
+    assert data["server"]["video"]["dir"]
+    assert data["server"]["video"]["chunk_size"]
     assert data["database"]["url"]
     assert data["database"]["logging"]
     assert data["api"]["username"]
@@ -20,19 +23,24 @@ def test_read(client, admin_user):
 def test_update(client, admin_user):
     response = client.post(
         url="/settings",
-        json=dict(server=dict(port="1305", upload_dir="..\\upload")),
+        json=dict(
+            server=dict(
+                port="1305",
+                upload=dict(dir="..\\upload"),  # has to exists, otherwise validation error
+            ),
+        ),
         headers=dict(Authorization=admin_user),
     )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
-    assert data["detail"] == "settings changed: port, upload_dir"
+    assert data["detail"] == "settings changed: port, dir"
     response = client.get(
         url="/settings",
         headers=dict(Authorization=admin_user),
     )
     data = response.json()
     assert data["server"]["port"] == 1305
-    assert data["server"]["upload_dir"] == "..\\upload"
+    assert data["server"]["upload"]["dir"] == "..\\upload"
 
 
 def test_validation(client, admin_user):

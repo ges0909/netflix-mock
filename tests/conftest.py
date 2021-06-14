@@ -16,7 +16,9 @@ def settings(tmp_path):
     Settings.Config.env_file = "config/test.env"
     Settings.Config.config_file = "config/test.yaml"
     settings = Settings()
-    settings.server.upload_dir = tmp_path
+    settings.server.template.dir = tmp_path
+    settings.server.upload.dir = tmp_path
+    settings.server.video.dir = tmp_path
     return settings
 
 

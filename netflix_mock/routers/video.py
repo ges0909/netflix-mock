@@ -1,5 +1,4 @@
 import logging
-from pathlib import Path
 
 import fastapi
 from fastapi import Header, status
@@ -14,11 +13,9 @@ logger = logging.getLogger(__name__)
 
 router = fastapi.APIRouter()
 
-CHUNK_SIZE = 1024 * 1014
-
 settings = Settings()
 
-templates = Jinja2Templates(directory=str(settings.server.template_dir))
+templates = Jinja2Templates(directory=str(settings.server.template.dir))
 
 
 @router.get("/video")
@@ -44,8 +41,8 @@ async def play(file: str, range_: str = Header(alias="range", default=None)):
     range_ = range_.replace("bytes=", "")
     start, end = range_.split("-")
     start = int(start)
-    end = int(end) if end else start + CHUNK_SIZE
-    video_path = settings.server.video_dir / file
+    end = int(end) if end else start + settings.server.video.chunk_size
+    video_path = settings.server.video.dir / file
     filesize = video_path.stat().st_size
     with open(video_path, "rb") as stream:
         stream.seek(start)

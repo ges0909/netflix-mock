@@ -7,7 +7,7 @@ import pydantic.main
 import typer
 import yaml
 from dotenv import load_dotenv
-from pydantic import BaseModel, BaseSettings, validator
+from pydantic import BaseModel, BaseSettings, Field, validator
 
 from netflix_mock.singleton import Singleton
 
@@ -42,24 +42,49 @@ def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
 # -- models
 
 
-class Server(BaseModel):
-    port: int = 8000
-    log_level: str
-    template_dir: Path
-    upload_dir: Path
-    video_dir: Path
+class Template(BaseModel):
+    dir: Path
 
     class Config:
         extra = "forbid"
         validate_assignment = True
 
-    @validator("upload_dir")
+
+class Upload(BaseModel):
+    dir: Path
+
+    class Config:
+        extra = "forbid"
+        validate_assignment = True
+
+    @validator("dir")
     def exists(cls, v):
         if not v.exists():
             # v.mkdir(parents=True, exist_ok=True)
             raise ValueError(f"server upload dir '{v}' not found")
 
         return v
+
+
+class Video(BaseModel):
+    dir: Path
+    chunk_size: int = 1_048_576
+
+    class Config:
+        extra = "forbid"
+        validate_assignment = True
+
+
+class Server(BaseModel):
+    port: int = 8000
+    log_level: str
+    template: Template
+    upload: Upload
+    video: Video
+
+    class Config:
+        extra = "forbid"
+        validate_assignment = True
 
 
 class Logging(BaseModel):

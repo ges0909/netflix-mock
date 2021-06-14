@@ -4,7 +4,12 @@ logging:
 server:
   port: 8000
   log_level: debug  # critical, error, warning, info, debug, trace
-  upload_dir: upload
+  template:
+    dir: templates
+  upload:
+    dir: upload
+  video:
+    dir: videos
 
 database:
   url: 'sqlite+pysqlite:///:memory:'
