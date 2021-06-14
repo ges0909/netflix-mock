@@ -10,6 +10,7 @@ import ruamel.yaml
 import typer
 from dotenv import load_dotenv
 from pydantic import BaseModel, BaseSettings, validator
+from ruamel.yaml import RoundTripLoader
 
 from netflix_mock.singleton import Singleton
 
@@ -31,8 +32,8 @@ def var_constructor(loader, node):
 
 # yaml.add_implicit_resolver("!env_var", env_var_pattern)
 # yaml.add_constructor("!env_var", var_constructor)
-ruamel.yaml.add_implicit_resolver("!env_var", env_var_pattern)
-ruamel.yaml.add_constructor("!env_var", var_constructor)
+ruamel.yaml.add_implicit_resolver("!env_var", env_var_pattern, Loader=RoundTripLoader)
+ruamel.yaml.add_constructor("!env_var", var_constructor, Loader=RoundTripLoader)
 
 
 def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
@@ -41,8 +42,7 @@ def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
     load_dotenv(dotenv_path=env_file)
     with open(config_file, "r") as stream:
         # return yaml.load(stream, Loader=yaml.FullLoader)
-        # return ruamel.yaml.load(stream=stream, Loader=RoundTripLoader)
-        return ruamel.yaml.load(stream=stream)
+        return ruamel.yaml.load(stream=stream, Loader=RoundTripLoader)
 
 
 # -- models
