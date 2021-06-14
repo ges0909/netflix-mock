@@ -4,10 +4,12 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 import pydantic.main
+
+# import yaml
+import ruamel.yaml
 import typer
-import yaml
 from dotenv import load_dotenv
-from pydantic import BaseModel, BaseSettings, Field, validator
+from pydantic import BaseModel, BaseSettings, validator
 
 from netflix_mock.singleton import Singleton
 
@@ -27,8 +29,10 @@ def var_constructor(loader, node):
     raise typer.Exit(f"environment variable '{env_var_name}' not found")
 
 
-yaml.add_implicit_resolver("!env_var", env_var_pattern)
-yaml.add_constructor("!env_var", var_constructor)
+# yaml.add_implicit_resolver("!env_var", env_var_pattern)
+# yaml.add_constructor("!env_var", var_constructor)
+ruamel.yaml.add_implicit_resolver("!env_var", env_var_pattern)
+ruamel.yaml.add_constructor("!env_var", var_constructor)
 
 
 def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
@@ -36,7 +40,9 @@ def yaml_settings(settings: BaseSettings) -> Dict[str, Any]:
     config_file = getattr(settings.Config, "config_file", "dev.yaml")
     load_dotenv(dotenv_path=env_file)
     with open(config_file, "r") as stream:
-        return yaml.load(stream, Loader=yaml.FullLoader)
+        # return yaml.load(stream, Loader=yaml.FullLoader)
+        # return ruamel.yaml.load(stream=stream, Loader=RoundTripLoader)
+        return ruamel.yaml.load(stream=stream)
 
 
 # -- models
