@@ -2,6 +2,7 @@ from typing import Any, Dict
 
 import fastapi
 from fastapi import Body, Depends, HTTPException, status
+from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
 from netflix_mock.depends.basic_auth import admin_user
@@ -43,7 +44,7 @@ async def update_settings(
 ):
     """Update settings."""
     try:
-        changed_keys = settings_service.update_settings(
+        updated = settings_service.update_settings(
             settings=Settings(),
             settings_to_update=settings,
         )
@@ -52,4 +53,7 @@ async def update_settings(
             status_code=status.HTTP_409_CONFLICT,
             detail=str(error),
         )
-    return Success(detail=f"settings changed: {', '.join(changed_keys)}")
+    return JSONResponse(
+        content=updated,
+        status_code=status.HTTP_200_OK,
+    )

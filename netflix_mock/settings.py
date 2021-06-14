@@ -7,7 +7,7 @@ import pydantic.main
 import typer
 import yaml
 from dotenv import load_dotenv
-from pydantic import BaseModel, BaseSettings, Field, validator
+from pydantic import BaseModel, BaseSettings, validator
 
 from netflix_mock.singleton import Singleton
 
