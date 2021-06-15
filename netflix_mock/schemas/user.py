@@ -23,11 +23,11 @@ class UserCreate(BaseModel):
 
 
 class UserUpdate(BaseModel):
-    username: Optional[str]
-    password: Optional[SecretStr]
-    email: Optional[EmailStr]
-    first_name: Optional[str]
-    last_name: Optional[str]
+    username: Optional[str] = None
+    password: Optional[SecretStr] = None
+    email: Optional[EmailStr] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
 
     class Config:
         exclude_none = True
