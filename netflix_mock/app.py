@@ -4,7 +4,7 @@ import fastapi
 import pkg_resources
 from fastapi.staticfiles import StaticFiles
 
-from netflix_mock.database import create_model
+from netflix_mock.database import create_database_model
 from netflix_mock.middleware.catch_all import CatchAll
 from netflix_mock.routers import (
     ef_ir,
@@ -26,9 +26,9 @@ app = fastapi.FastAPI(
     title="Netflix Mock",
     description="Quick starter for mock server implementations.",
     version=version,
-    openapi_url="/api/openapi.json",
-    # docs_url="/docs",
+    docs_url="/docs",  # serves OpenAPI UI
     redoc_url=None,
+    openapi_url="/api/openapi.json",
 )
 
 # mount static files
@@ -60,7 +60,7 @@ app.add_middleware(CatchAll)
 
 @app.on_event("startup")
 async def startup():
-    create_model()
+    create_database_model()
 
 
 @app.on_event("shutdown")

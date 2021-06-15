@@ -9,7 +9,7 @@ line-length = 120
 
 [tool.poetry]
 name = "netflix_mock"
-version = "0.1.0"
+version = "0.1.1"
 description = "Quick start for mock implementations."
 authors = ["Gerrit Schrader <gerrit.schrader@gmail.com>"]
 include = [

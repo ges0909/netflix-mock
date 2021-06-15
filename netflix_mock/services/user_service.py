@@ -9,10 +9,6 @@ import netflix_mock.models.user as models
 import netflix_mock.schemas.user as schemas
 
 
-def _get_user_by_id(session: Session, id_: int) -> models.User:
-    return session.query(models.User).filter_by(id=id_).first()
-
-
 def _create_hash_key(password: SecretStr) -> Tuple[bytes, bytes]:
     salt = os.urandom(32)  # store together with password
     key = hashlib.pbkdf2_hmac(
@@ -23,6 +19,10 @@ def _create_hash_key(password: SecretStr) -> Tuple[bytes, bytes]:
         dklen=128,  # get a 128 byte key
     )
     return key, salt
+
+
+def _get_user_by_id(session: Session, id_: int) -> models.User:
+    return session.query(models.User).filter_by(id=id_).first()
 
 
 def create_user(

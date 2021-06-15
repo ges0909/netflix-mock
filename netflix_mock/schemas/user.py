@@ -30,7 +30,6 @@ class UserUpdate(BaseModel):
     last_name: Optional[str] = None
 
     class Config:
-        exclude_none = True
         schema_extra = UserCreate.Config.schema_extra
 
 
@@ -41,10 +40,10 @@ class User(UserUpdate):
         orm_mode = True
         schema_extra = {
             "example": {
+                "id": 1,
                 "username": "frankie",
                 "email": "frankie.goes.to@hollywood",
                 "first_name": "Holly",
                 "last_name": "Johnson",
-                "id": 1,
             }
         }

@@ -24,7 +24,7 @@ SessionLocal = sessionmaker(  # 'SessionLocal' is a class
 )
 
 
-def create_model():
+def create_database_model():
     from netflix_mock.models.todo import Todo
     from netflix_mock.models.user import User
 
