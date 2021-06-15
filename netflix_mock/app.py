@@ -1,11 +1,12 @@
+import importlib.metadata as importlib_metadata
 from pathlib import Path
 
 import fastapi
-import pkg_resources
 from fastapi.staticfiles import StaticFiles
 
 from netflix_mock.database import create_database_model
 from netflix_mock.middleware.catch_all import CatchAll
+from netflix_mock.middleware.http_logging import HttpLogging
 from netflix_mock.routers import (
     ef_ir,
     fake,
@@ -20,12 +21,12 @@ from netflix_mock.routers import (
 )
 from netflix_mock.ws.echo import echo
 
-version = pkg_resources.get_distribution("netflix-mock").version
+version = importlib_metadata.version("netflix_mock")
 
 app = fastapi.FastAPI(
     title="Netflix Mock",
     description="Quick starter for mock server implementations.",
-    version=version,
+    version=f"v{version}",
     docs_url="/docs",  # serves OpenAPI UI
     redoc_url=None,
     openapi_url="/api/openapi.json",
@@ -53,6 +54,7 @@ app.add_websocket_route(route=echo, path="/ws/echo")
 
 # middleware
 app.add_middleware(CatchAll)
+app.add_middleware(HttpLogging)
 
 # exception handlers
 # app.add_exception_handler(exc_class_or_status_code=..., handler=...)

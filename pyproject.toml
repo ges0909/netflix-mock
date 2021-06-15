@@ -1,15 +1,6 @@
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool]
-
-[tool.black]
-line-length = 120
-
 [tool.poetry]
 name = "netflix_mock"
-version = "0.1.1"
+version = "0.2.0"
 description = "Quick start for mock implementations."
 authors = ["Gerrit Schrader <gerrit.schrader@gmail.com>"]
 include = [
@@ -33,7 +24,7 @@ httpx = "^0.18.1"
 python-dotenv = "^0.17.1"
 Jinja2 = "^2.11.3"              # for static files
 aiofiles = "^0.7.0"             # for static files
-python-multipart = "^0.0.5"     # for file uploads ony
+python-multipart = "^0.0.5"     # for file uploads only
 uvicorn = "^0.14"               # workaround
 async-exit-stack = "^1.0.1"     # for py3.6 compatibility only
 async_generator = "^1.10"       # for py3.6 compatibility only
@@ -41,6 +32,7 @@ jsf = "^0.3.2"
 jsonref = "^0.2"
 email-validator = "^1.1.2"
 "ruamel.yaml" = "^0.17.9"
+importlib-metadata = "^4.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
@@ -59,3 +51,10 @@ mkdocs-material = "^7.1.4"
 mkdocs-git-revision-date-localized-plugin = "^0.9.2"
 
 [tool.poetry.scripts]
+
+[tool.black]
+line-length = 120
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
