@@ -1,6 +1,6 @@
 site_name: Netflix Mock
 site_url:
-use_directory_urls: false # otherwise FastAPI is not able to resolve to 'index.html'
+use_directory_urls: false   # otherwise FastAPI is not able to resolve to 'index.html'
 repo_name: sbp-test/netflix-mock
 repo_url: https://github.com/ges0909/netflix-mock.git
 
@@ -61,7 +61,6 @@ markdown_extensions:
 
 plugins:
 - search
-# - admonition
 - autorefs
 - mkdocstrings:
     handlers:
@@ -75,5 +74,3 @@ plugins:
 
 extra:
   homepage: https://www.syrocon.de/
-  version:
-    provider: mike
