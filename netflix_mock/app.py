@@ -12,11 +12,11 @@ from netflix_mock.routers import (
     fake,
     home,
     settings,
+    streaming,
     templates,
     todos,
     upload,
     users,
-    video,
     weather,
 )
 from netflix_mock.ws.echo import echo
@@ -27,7 +27,7 @@ app = fastapi.FastAPI(
     title="Netflix Mock",
     description="Quick starter for mock server implementations.",
     version=f"v{version}",
-    docs_url="/docs",  # serves OpenAPI UI
+    # docs_url="/docs",  # serves OpenAPI UI
     redoc_url=None,
     openapi_url="/api/openapi.json",
 )
@@ -47,7 +47,7 @@ app.include_router(router=weather.router, prefix="/weather", include_in_schema=F
 app.include_router(router=upload.router, tags=["Upload"])
 app.include_router(router=fake.router, prefix="/fake", tags=["Fake Generator"])
 app.include_router(router=ef_ir.router, prefix="/efir", tags=["EF-IR Mock"])
-app.include_router(router=video.router, tags=["Streaming"])
+app.include_router(router=streaming.router, tags=["Streaming"])
 
 # websocket
 app.add_websocket_route(route=echo, path="/ws/echo")

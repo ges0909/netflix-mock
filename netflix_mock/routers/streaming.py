@@ -1,12 +1,12 @@
 import logging
 
+import cv2
 import fastapi
 from fastapi import Header, status
 from fastapi.requests import Request
-from fastapi.responses import Response
+from fastapi.responses import Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-# from fastapi.responses import StreamingResponse
 from netflix_mock.settings import Settings
 
 logger = logging.getLogger(__name__)
@@ -60,3 +60,24 @@ async def play(file: str, range_: str = Header(alias="range", default=None)):
             },
             media_type="video/mp4",
         )
+
+
+def _generate_frames():
+    camera = cv2.VideoCapture(0)  # local camera
+    while True:
+        success, frame = camera.read()  # read camera frame
+        if success:
+            _, buffer = cv2.imencode(".jpg", frame)
+            frame_ = buffer.tobytes()
+            # concat frame one by one and show result
+            yield b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame_ + b"\r\n"
+        else:
+            break
+
+
+@router.get("/camera_feed")
+async def camera_feed():
+    return StreamingResponse(
+        _generate_frames(),
+        media_type="multipart/x-mixed-replace;boundary=frame",
+    )

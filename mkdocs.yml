@@ -13,7 +13,9 @@ nav:
     - Todos: routers/todos.md
 - API: /docs
 - Weather (Proxy): /weather?city=berlin
-- Video: /video
+- Streaming:
+  - HTTP Range Request: streaming/http_range_request.md
+  - OpenCV: streaming/open_cv.md
 - Related: related.md
 
 theme:
@@ -22,14 +24,15 @@ theme:
     text: Roboto
     code: Roboto Mono
   features:
-  - navigation.instant
+  - navigation.instant    # instant loading: fetch internal links with XHR
   - navigation.tabs
   - navigation.sections
   - navigation.top
-  - toc.integrate
+  # - toc.integrate
   - search.suggest
   - search.highlight
   - header.autohide
+  - include_next_prev
   palette:
     # light mode
   - media: '(prefers-color-scheme: light)'

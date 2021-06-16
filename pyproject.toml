@@ -33,6 +33,7 @@ jsonref = "^0.2"
 email-validator = "^1.1.2"
 "ruamel.yaml" = "^0.17.9"
 importlib-metadata = "^4.5.0"
+opencv-python = "^4.5.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
