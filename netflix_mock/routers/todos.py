@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 
 import netflix_mock.schemas.todo as schemas
 from netflix_mock.database import get_db_session
-from netflix_mock.depends.basic_auth import api_user
 from netflix_mock.schemas.error import Error
 
 router = fastapi.APIRouter()
@@ -19,7 +18,6 @@ router = fastapi.APIRouter()
         401: {"model": Error},
         500: {"model": Error},
     },
-    dependencies=[Depends(api_user)],
 )
 async def add_todo(
     user: schemas.TodoCreate,
@@ -79,8 +77,17 @@ async def add_todo(
         Examples should be written in doctest format, and should illustrate how
         to use the function.
 
-        >>> print([i for i in example_generator(4)])
-        [0, 1, 2, 3]
+        >>> output:
+              status: 200
+              content:
+                schema: ../schema/CmGeneralProfile.yaml
+
+        ```yaml
+        output:
+          status: 200
+          content:
+            schema: ../schema/CmGeneralProfile.yaml
+        ```
 
     """
     return schemas.Todo(id=1, text="Any task", completed=True)

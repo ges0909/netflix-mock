@@ -1,11 +1,10 @@
 from typing import Any, Dict
 
 import fastapi
-from fastapi import Body, Depends, HTTPException, status
+from fastapi import Body, HTTPException, status
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from netflix_mock.depends.basic_auth import admin_user
 from netflix_mock.schemas.error import Error
 from netflix_mock.schemas.settings import SettingsOut
 from netflix_mock.schemas.success import Success
@@ -22,7 +21,6 @@ router = fastapi.APIRouter()
         401: {"model": Error},
         500: {"model": Error},
     },
-    dependencies=[Depends(admin_user)],
 )
 async def read_settings():
     """Read settings."""
@@ -37,7 +35,6 @@ async def read_settings():
         409: {"model": Error},
         500: {"model": Error},
     },
-    dependencies=[Depends(admin_user)],
 )
 async def update_settings(
     settings: Dict[str, Any] = Body(...),
