@@ -19,7 +19,7 @@ from netflix_mock.routers import (
     users,
     weather,
 )
-from netflix_mock.ws.echo import echo
+from netflix_mock.websocket.echo import echo
 
 version = importlib_metadata.version("netflix_mock")
 

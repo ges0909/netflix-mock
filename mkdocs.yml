@@ -6,12 +6,12 @@ repo_url: https://github.com/ges0909/netflix-mock.git
 
 nav:
 - Home: home.md
+- API: /docs
 - Deploy: deploy.md
 - Autodoc:
   - Routers:
     - Users: routers/users.md
     - Todos: routers/todos.md
-- API: /docs
 - Weather (Proxy): /weather?city=berlin
 - Streaming:
   - HTTP Range Request: streaming/http_range_request.md

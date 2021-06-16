@@ -13,9 +13,9 @@ def _create_hash_key(password: SecretStr) -> Tuple[bytes, bytes]:
     salt = os.urandom(32)  # store together with password
     key = hashlib.pbkdf2_hmac(
         "sha256",  # hash digest algorithm for HMAC
-        password.get_secret_value().encode("utf-8"),  # 'encode' to convert password to bytes
+        password.get_secret_value().encode("utf-8"),  # 'encode' converts str to bytes
         salt,
-        100000,  # it is recommended to use at least 100,000 iterations of SHA-256
+        100000,  # it is recommended to use at least 100.000 iterations of SHA-256
         dklen=128,  # get a 128 byte key
     )
     return key, salt
