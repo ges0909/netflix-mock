@@ -8,6 +8,6 @@ Webcam live stream
 
 ![Live Streaming](/camera_feed)
 
----
+## Related
 
-[Video Streaming in Web Browsers with OpenCV & Flask](https://towardsdatascience.com/video-streaming-in-web-browsers-with-opencv-flask-93a38846fe00)
+- [Video Streaming in Web Browsers with OpenCV & Flask](https://towardsdatascience.com/video-streaming-in-web-browsers-with-opencv-flask-93a38846fe00)

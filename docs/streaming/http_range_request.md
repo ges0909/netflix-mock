@@ -9,6 +9,7 @@
     Your browser does not support the video tag.
 </video>
 
----
+## Related
 
-[Streaming video with FastAPI](https://stribny.name/blog/fastapi-video/)
+- [Streaming video with FastAPI](https://stribny.name/blog/fastapi-video/)
+- [HTTP range requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests)

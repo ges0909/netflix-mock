@@ -1,4 +1,5 @@
 import logging
+from typing import Generator
 
 import cv2
 import fastapi
@@ -11,11 +12,11 @@ from netflix_mock.settings import Settings
 
 logger = logging.getLogger(__name__)
 
-router = fastapi.APIRouter()
-
 settings = Settings()
 
 templates = Jinja2Templates(directory=str(settings.server.template.dir))
+
+router = fastapi.APIRouter()
 
 
 @router.get("/video")
@@ -62,7 +63,7 @@ async def play(file: str, range_: str = Header(alias="range", default=None)):
         )
 
 
-def _generate_frames():
+def _generate_frames() -> Generator[str, None, None]:
     camera = cv2.VideoCapture(0)  # local camera
     while True:
         success, frame = camera.read()  # read camera frame
