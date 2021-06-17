@@ -18,7 +18,7 @@ def test_file(client):
     assert "file_size" in data
 
 
-def test_upload_file(client, tmp_path):
+def test_upload_file(client, upload_dir):
     file_name = "file.txt"
     file_content = "test content"
     response = client.post(
@@ -31,7 +31,7 @@ def test_upload_file(client, tmp_path):
     data = response.json()
     assert "detail" in data
     assert data["detail"] == f"file '{file_name}' uploaded"
-    file_uploaded = tmp_path / file_name
+    file_uploaded = upload_dir / file_name
     assert file_uploaded.exists()
     with open(file_uploaded, "r") as stream:
         content = stream.read()
@@ -52,7 +52,7 @@ def test_files(client):
     assert data == [12, 12, 12]
 
 
-def test_upload_files(client, tmp_path):
+def test_upload_files(client, upload_dir):
     response = client.post(
         url="/uploadfiles",
         files=(
@@ -65,6 +65,6 @@ def test_upload_files(client, tmp_path):
     data = response.json()
     assert "detail" in data
     assert data["detail"] == f"files file1.txt, file2.txt, file3.txt uploaded"
-    assert (tmp_path / "file1.txt").exists()
-    assert (tmp_path / "file2.txt").exists()
-    assert (tmp_path / "file3.txt").exists()
+    assert (upload_dir / "file1.txt").exists()
+    assert (upload_dir / "file2.txt").exists()
+    assert (upload_dir / "file3.txt").exists()

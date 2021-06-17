@@ -6,10 +6,10 @@ import pydantic
 import typer
 import uvicorn
 
-from netflix_mock.settings import Settings
+from netflix_mock.settings import Settings, get_settings
 
 
-def has_suffix(path: Path, suffixes: Tuple[str, ...]) -> Path:
+def _has_suffix(path: Path, suffixes: Tuple[str, ...]) -> Path:
     if path.suffix in suffixes:
         return path
     raise typer.BadParameter(f"file '{path}' must have suffix '{suffixes}'")
@@ -20,19 +20,19 @@ def main(
         ...,
         "--env",
         exists=True,
-        callback=lambda path: has_suffix(path, (".env",)),
+        callback=lambda path: _has_suffix(path, (".env",)),
     ),
     config_file: Path = typer.Option(
         ...,
         "--config",
         exists=True,
-        callback=lambda path: has_suffix(path, (".yml", ".yaml")),
+        callback=lambda path: _has_suffix(path, (".yml", ".yaml")),
     ),
 ):
     try:
         setattr(Settings.Config, "env_file", env_file)
         setattr(Settings.Config, "config_file", config_file)
-        settings = Settings()
+        settings = get_settings()
         fileConfig(
             fname=settings.logging.config,
             disable_existing_loggers=False,

@@ -9,7 +9,7 @@ from netflix_mock.schemas.error import Error
 from netflix_mock.schemas.settings import SettingsOut
 from netflix_mock.schemas.success import Success
 from netflix_mock.services import settings_service
-from netflix_mock.settings import Settings
+from netflix_mock.settings import get_settings
 
 router = fastapi.APIRouter()
 
@@ -24,7 +24,8 @@ router = fastapi.APIRouter()
 )
 async def read_settings():
     """Read settings."""
-    return SettingsOut.from_orm(Settings())
+    settings = get_settings()
+    return SettingsOut.from_orm(settings)
 
 
 @router.post(
@@ -42,7 +43,7 @@ async def update_settings(
     """Update settings."""
     try:
         updated = settings_service.update_settings(
-            settings=Settings(),
+            settings=get_settings(),
             settings_to_update=settings,
         )
     except ValidationError as error:

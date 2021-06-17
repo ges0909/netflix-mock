@@ -3,7 +3,7 @@ import secrets
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-from netflix_mock.settings import Settings
+from netflix_mock.settings import get_settings
 
 security = HTTPBasic()
 
@@ -24,7 +24,7 @@ class BasicAuth:
             )
 
 
-settings = Settings()
+settings = get_settings()
 
 api_user = BasicAuth(username=settings.api.username, password=settings.api.password)
 admin_user = BasicAuth(username=settings.admin.username, password=settings.admin.password)

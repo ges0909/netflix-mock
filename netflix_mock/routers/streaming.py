@@ -8,11 +8,11 @@ from fastapi.requests import Request
 from fastapi.responses import Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
-from netflix_mock.settings import Settings
+from netflix_mock.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
-settings = Settings()
+settings = get_settings()
 
 templates = Jinja2Templates(directory=str(settings.server.template.dir))
 

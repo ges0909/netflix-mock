@@ -4,9 +4,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm.session import sessionmaker
 
-from netflix_mock.settings import Settings
+from netflix_mock.settings import get_settings
 
-settings = Settings()
+settings = get_settings()
 
 Base = declarative_base()
 

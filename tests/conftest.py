@@ -12,14 +12,61 @@ fake = Faker()
 
 
 @pytest.fixture
-def settings(tmp_path):
-    Settings.Config.env_file = "config/test.env"
-    Settings.Config.config_file = "config/test.yaml"
-    settings = Settings()
-    settings.server.template.dir = tmp_path
-    settings.server.upload.dir = tmp_path
-    settings.server.video.dir = tmp_path
-    return settings
+def upload_dir(tmp_path):
+    dir_ = tmp_path / "uploads"
+    dir_.mkdir(parents=True)
+    return dir_
+
+
+@pytest.fixture
+def settings(tmp_path, upload_dir):
+    env_config = r"""
+    HOME = "${USERPROFILE}" # windows only
+
+    MOCK_USERNAME = "test"
+    MOCK_PASSWORD = "test"
+
+    ADMIN_USERNAME = "admin"
+    ADMIN_PASSWORD = "admin"
+    """
+
+    app_config = f"""
+    logging:
+      config: ${{HOME}}/Projekte/netflix-mock/logging.conf
+
+    server:
+      port: 8000
+      log_level: debug  # critical, error, warning, info, debug, trace
+      template:
+        dir: templates
+      upload:
+        dir: {upload_dir}
+      video:
+        dir: videos
+
+    database:
+      url: 'sqlite+pysqlite:///:memory:'
+      logging: true
+
+    api:
+      username: ${{MOCK_USERNAME}}  # basic auth
+      password: ${{MOCK_PASSWORD}}  # basic auth
+      spec: ${{HOME}}/Projekte/netflix-mock/er-if.json
+
+    admin:
+      username: ${{ADMIN_USERNAME}} # basic auth to change settings
+      password: ${{ADMIN_USERNAME}} # basic auth to change settings
+    """
+
+    Settings.Config.env_file = tmp_path / "test.env"
+    Settings.Config.config_file = tmp_path / "test.yaml"
+
+    with open(Settings.Config.env_file, "w") as stream:
+        stream.write(env_config)
+    with open(Settings.Config.config_file, "w") as stream:
+        stream.write(app_config)
+
+    return Settings()
 
 
 @pytest.fixture

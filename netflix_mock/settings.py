@@ -1,9 +1,8 @@
 import os
 import re
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Dict, Optional
-
-import pydantic.main
 
 # import yaml
 import ruamel.yaml
@@ -11,8 +10,6 @@ import typer
 from dotenv import load_dotenv
 from pydantic import BaseModel, BaseSettings, validator
 from ruamel.yaml import RoundTripLoader
-
-from netflix_mock.singleton import Singleton
 
 # -- load yaml
 
@@ -141,11 +138,7 @@ class Admin(BaseModel):
         validate_assignment = True
 
 
-class CombinedMetaClasses(pydantic.main.ModelMetaclass, Singleton):
-    pass
-
-
-class Settings(BaseSettings, metaclass=CombinedMetaClasses):
+class Settings(BaseSettings):
     server: Server
     logging: Logging
     database: Database
@@ -169,3 +162,8 @@ class Settings(BaseSettings, metaclass=CombinedMetaClasses):
                 # env_settings,
                 # file_secret_settings,
             )
+
+
+@lru_cache()
+def get_settings():
+    return Settings()

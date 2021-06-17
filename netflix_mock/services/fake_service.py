@@ -9,7 +9,7 @@ import jsonref
 from fastapi import HTTPException, status
 from jsf import JSF
 
-from netflix_mock.settings import Settings
+from netflix_mock.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ def _load_open_api_spec(path: Path) -> Optional[Dict]:
 
 
 def generate_response(method: str, path: str, status_code: str) -> Dict:
-    settings = Settings()
+    settings = get_settings()
     if spec := _load_open_api_spec(path=settings.api.spec):
         if path and path in spec["paths"]:
             schema = spec["paths"][path][method]["responses"][status_code]["schema"]
