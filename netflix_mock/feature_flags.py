@@ -1,39 +1,46 @@
 from contextlib import contextmanager
+from typing import Optional
+
+import yaml
+from pydantic import BaseModel
+
+
+class Feature(BaseModel):
+    description: Optional[str] = None
+    active: bool
+
+    class Config:
+        extra = "forbid"
 
 
 class FeatureFlags:
-    """
-    How to use?
-    >>> if feature_flags.is_on(FeatureFlags.SHOW_BETA):
-    ...
-    """
-
-    SHOW_BETA = "Show Beta version of Home Page"
-
-    flags = {SHOW_BETA: True}
+    flags = {}
 
     @classmethod
     def is_on(cls, name):
-        return cls.flags[name]
+        return cls.flags.get(name)
 
     @classmethod
-    def toogle(cls, name, value):
+    def toggle(cls, name, value):
         cls.flags[name] = value
+
+    @classmethod
+    def __init__(cls):
+        with open("../features.yaml", "r") as stream:
+            features = yaml.load(stream, Loader=yaml.FullLoader)
+        for key, value in features.items():
+            feature = Feature(**value)  # validate
+            setattr(cls, key, feature.description)
+            cls.flags[key] = feature.active
 
 
 @contextmanager
 def feature_flag(name, on=True):
-    """Turn feature temporarily on and off for unit testing.
-
-    How to use?
-    >>> with feature_flag(FeatureFlags.SHOW_BETA):
-    ...
-    >>> with feature_flag(FeatureFlags.SHOW_BETA, on=False):
-    """
-    old_value = feature_flags.is_on(name)
-    feature_flags.toogle(name, on)
+    """turn feature temporarily on/off for unit testing"""
+    value_ = feature_flags.is_on(name)
+    feature_flags.toggle(name, on)
     yield
-    feature_flags.toogle(name, old_value)
+    feature_flags.toggle(name, value_)
 
 
 feature_flags = FeatureFlags()

@@ -1,0 +1,7 @@
+SHOW_BETA:
+  description: Show Beta version of Home Page
+  active: true
+
+FEATURE_ONE:
+  description: This is the description of feature one
+  active: false
