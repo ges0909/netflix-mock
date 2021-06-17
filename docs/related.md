@@ -14,3 +14,4 @@
 - [Streaming video with FastAPI](https://stribny.name/blog/fastapi-video/)
 - [How To Hash Passwords In Python](https://nitratine.net/blog/post/how-to-hash-passwords-in-python/)
 - [Video Streaming in Web Browsers with OpenCV & Flask](https://towardsdatascience.com/video-streaming-in-web-browsers-with-opencv-flask-93a38846fe00)
+- [Elegant Solutions for Everyday Python Problems](https://www.slideshare.net/nnja/elegant-solutions-for-everyday-python-problems-pycon-2018)
