@@ -24,7 +24,10 @@ router = fastapi.APIRouter()
         500: {"model": Error},
     },
 )
-async def create_user(user: schemas.UserCreate, session: Session = Depends(get_db_session)) -> schemas.User:
+async def create_user(
+    user: schemas.UserCreate,
+    session: Session = Depends(get_db_session),
+) -> schemas.User:
     """
     Create an user:
 
@@ -47,7 +50,9 @@ async def create_user(user: schemas.UserCreate, session: Session = Depends(get_d
     },
 )
 async def update_user(
-    user: schemas.UserUpdate, id_: int = Path(..., alias="id"), session: Session = Depends(get_db_session)
+    user: schemas.UserUpdate,
+    id_: int = Path(..., alias="id"),
+    session: Session = Depends(get_db_session),
 ) -> schemas.User:
     """Updates the user data."""
     user_: models.User = user_service.update_user_by_id(session, id_, user)
@@ -70,7 +75,10 @@ async def update_user(
         500: {"model": Error},
     },
 )
-async def get_user_by_id(id_: int = Path(..., alias="id"), session: Session = Depends(get_db_session)) -> schemas.User:
+async def get_user_by_id(
+    id_: int = Path(..., alias="id"),
+    session: Session = Depends(get_db_session),
+) -> schemas.User:
     """Gets the user data."""
     if user_ := user_service.get_user_by_id(session, id_):
         return schemas.User.from_orm(user_)
@@ -90,7 +98,10 @@ async def get_user_by_id(id_: int = Path(..., alias="id"), session: Session = De
         500: {"model": Error},
     },
 )
-async def delete_user_by_id(id_: int = Path(..., alias="id"), session: Session = Depends(get_db_session)) -> None:
+async def delete_user_by_id(
+    id_: int = Path(..., alias="id"),
+    session: Session = Depends(get_db_session),
+) -> None:
     """Deletes the user."""
     if not user_service.delete_user_by_id(session, id_):
         raise HTTPException(
@@ -109,6 +120,8 @@ async def delete_user_by_id(id_: int = Path(..., alias="id"), session: Session =
         500: {"model": Error},
     },
 )
-async def get_all_users(session: Session = Depends(get_db_session)) -> List[schemas.User]:
+async def get_all_users(
+    session: Session = Depends(get_db_session),
+) -> List[schemas.User]:
     """Get all users."""
     return [schemas.User.from_orm(user_) for user_ in user_service.get_all_users(session=session)]
