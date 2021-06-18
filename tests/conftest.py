@@ -1,4 +1,6 @@
 from base64 import b64encode
+from pathlib import Path
+from typing import Any
 
 import pytest
 from faker import Faker
@@ -6,20 +8,20 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from netflix_mock.settings import Settings
+from netflix_mock.settings import Settings, get_settings
 
 fake = Faker()
 
 
 @pytest.fixture
-def upload_dir(tmp_path):
-    dir_ = tmp_path / "uploads"
-    dir_.mkdir(parents=True)
-    return dir_
+def upload_dir(tmp_path) -> Path:
+    upload_dir_ = tmp_path / "uploads"
+    upload_dir_.mkdir()
+    return upload_dir_
 
 
 @pytest.fixture
-def settings(tmp_path, upload_dir):
+def settings(tmp_path, upload_dir) -> Settings:
     env_config = r"""
     HOME = "${USERPROFILE}" # windows only
 
@@ -66,7 +68,10 @@ def settings(tmp_path, upload_dir):
     with open(Settings.Config.config_file, "w") as stream:
         stream.write(app_config)
 
-    return Settings()
+    settings = get_settings()
+    settings.server.upload.dir = upload_dir
+
+    return settings
 
 
 @pytest.fixture
@@ -93,7 +98,7 @@ def db_session(settings):
 
 
 @pytest.fixture
-def client(settings, db_session):
+def client(settings, db_session) -> TestClient:
     from netflix_mock.app import app
     from netflix_mock.database import get_db_session
 
@@ -108,17 +113,17 @@ def client(settings, db_session):
 
 
 @pytest.fixture
-def api_user():
+def api_user() -> str:
     return "Basic " + b64encode(b"test:test").decode("ascii")
 
 
 @pytest.fixture
-def admin_user():
+def admin_user() -> str:
     return "Basic " + b64encode(b"admin:admin").decode("ascii")
 
 
 @pytest.fixture
-def fake_user():
+def fake_user() -> dict[str, Any]:
     profile = fake.profile()
     name = profile["name"].split()
     return dict(
