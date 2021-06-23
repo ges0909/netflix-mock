@@ -23,7 +23,7 @@ class HttpLogging(BaseHTTPMiddleware):
 
         headers = [f"{k}={v}" for k, v in request.headers.items()]
         headers = ", ".join(headers)
-        logger.debug(">> headers: %s", headers)
+        logger.debug(">>   %s", headers)
 
         response = await call_next(request)
 
@@ -37,6 +37,6 @@ class HttpLogging(BaseHTTPMiddleware):
 
         headers = [f"{k}={v}" for k, v in response.headers.items()]
         headers = ", ".join(headers)
-        logger.debug("<< headers %s", headers)
+        logger.debug("<<   %s", headers)
 
         return response

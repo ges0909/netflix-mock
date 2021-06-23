@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 import netflix_mock.schemas.todo as schemas
 from netflix_mock.database import get_db_session
-from netflix_mock.schemas.error import Error
+from netflix_mock.schemas.api_error import ApiError
 
 router = fastapi.APIRouter()
 
@@ -15,8 +15,8 @@ router = fastapi.APIRouter()
     status_code=status.HTTP_201_CREATED,
     response_model=schemas.Todo,
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def add_todo(

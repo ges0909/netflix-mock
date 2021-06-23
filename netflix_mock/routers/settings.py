@@ -5,7 +5,7 @@ from fastapi import Body, HTTPException, status
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
-from netflix_mock.schemas.error import Error
+from netflix_mock.schemas.api_error import ApiError
 from netflix_mock.schemas.settings import SettingsOut
 from netflix_mock.schemas.success import Success
 from netflix_mock.services import settings_service
@@ -18,8 +18,8 @@ router = fastapi.APIRouter()
     path="",
     response_model=SettingsOut,
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def read_settings():
@@ -32,9 +32,9 @@ async def read_settings():
     path="",
     response_model=Success,
     responses={
-        401: {"model": Error},
-        409: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        409: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def update_settings(

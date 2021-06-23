@@ -2,8 +2,8 @@ import logging
 
 import fastapi
 
+from netflix_mock.schemas.api_error import ApiError
 from netflix_mock.schemas.ef_ir import Forbidden, ProvCustomerData
-from netflix_mock.schemas.error import Error
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +14,8 @@ router = fastapi.APIRouter()
     path="/{any_path:path}/{charging_id}",
     response_model=Forbidden,
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def create_customer(
@@ -30,8 +30,8 @@ async def create_customer(
 @router.delete(
     path="/{any_path:path}/{charging_id}",
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def delete(

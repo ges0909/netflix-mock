@@ -3,7 +3,7 @@ from typing import Generator
 
 import cv2
 import fastapi
-from fastapi import Header, status
+from fastapi import Header, HTTPException, status
 from fastapi.requests import Request
 from fastapi.responses import Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
@@ -44,12 +44,12 @@ async def play(file: str, range_: str = Header(alias="range", default=None)):
     start = int(start)
     end = int(end) if end else start + settings.server.video.chunk_size
     video_path = settings.server.video.dir / file
-    filesize = video_path.stat().st_size
+    file_size = video_path.stat().st_size
     with open(video_path, "rb") as stream:
         stream.seek(start)
         data = stream.read(end - start)
         length = len(data)
-        content_range = f"bytes {start}-{start+length-1}/{filesize}"
+        content_range = f"bytes {start}-{start+length-1}/{file_size}"
         logger.info(f"Content-Range: {content_range}")
         return Response(
             status_code=status.HTTP_206_PARTIAL_CONTENT,
@@ -64,21 +64,27 @@ async def play(file: str, range_: str = Header(alias="range", default=None)):
 
 
 def _generate_frames() -> Generator[str, None, None]:
-    camera = cv2.VideoCapture(0)  # local camera
+    capture = cv2.VideoCapture(0)  # local camera
+    if not capture.isOpened():
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="init video capture failed",
+        )
     while True:
-        success, frame = camera.read()  # read camera frame
-        if success:
-            _, buffer = cv2.imencode(".jpg", frame)
-            frame_ = buffer.tobytes()
-            # concat frame one by one and show result
-            yield b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame_ + b"\r\n"
-        else:
+        success, image = capture.read()  # read camera frame
+        if not success:
             break
+        success, buffer = cv2.imencode(ext=".jpg", img=image)
+        if not success:
+            break
+        frame = buffer.tobytes()
+        yield b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
+    capture.release()
 
 
 @router.get("/camera_feed")
 async def camera_feed():
     return StreamingResponse(
-        _generate_frames(),
+        _generate_frames(),  # concat frame one by one and show result
         media_type="multipart/x-mixed-replace;boundary=frame",
     )

@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 import netflix_mock.models.user as models
 import netflix_mock.schemas.user as schemas
 from netflix_mock.database import get_db_session
-from netflix_mock.schemas.error import Error
+from netflix_mock.schemas.api_error import ApiError
 from netflix_mock.services import user_service
 
 router = fastapi.APIRouter()
@@ -20,8 +20,8 @@ router = fastapi.APIRouter()
     response_model=schemas.User,
     response_model_exclude={"password"},
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def create_user(
@@ -44,9 +44,9 @@ async def create_user(
     response_model=schemas.User,
     response_model_exclude={"password"},
     responses={
-        401: {"model": Error},
-        404: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        404: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def update_user(
@@ -70,9 +70,9 @@ async def update_user(
     response_model=schemas.User,
     response_model_exclude={"password"},
     responses={
-        401: {"model": Error},
-        404: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        404: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def get_user_by_id(
@@ -93,9 +93,9 @@ async def get_user_by_id(
     description="Delete user by id",
     status_code=status.HTTP_204_NO_CONTENT,
     responses={
-        401: {"model": Error},
-        404: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        404: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def delete_user_by_id(
@@ -116,8 +116,8 @@ async def delete_user_by_id(
     response_model=List[schemas.User],
     response_model_exclude={"password"},
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def get_all_users(

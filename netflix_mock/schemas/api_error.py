@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class Error(BaseModel):
+class ApiError(BaseModel):
     detail: str

@@ -1,7 +1,7 @@
 import fastapi
 from starlette.responses import JSONResponse
 
-from netflix_mock.schemas.error import Error
+from netflix_mock.schemas.api_error import ApiError
 from netflix_mock.services import fake_service
 
 router = fastapi.APIRouter()
@@ -10,8 +10,8 @@ router = fastapi.APIRouter()
 @router.put(
     path="",
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def fake_put(
@@ -32,8 +32,8 @@ async def fake_put(
 @router.delete(
     path="",
     responses={
-        401: {"model": Error},
-        500: {"model": Error},
+        401: {"model": ApiError},
+        500: {"model": ApiError},
     },
 )
 async def fake_delete(
