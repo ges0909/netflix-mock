@@ -6,16 +6,18 @@ repo_url: https://github.com/ges0909/netflix-mock.git
 
 nav:
 - Home: home.md
-- API: /docs
 - Deploy: deploy.md
+- API: /docs
 - Autodoc:
   - Routers:
     - Users: routers/users.md
     - Todos: routers/todos.md
 - Weather (Proxy): /weather?city=berlin
-- Streaming:
+- Fun:
   - HTTP Range Request: streaming/http_range_request.md
   - OpenCV: streaming/open_cv.md
+  - DevPi: devpi.md
+  - Drawio: drawio.md
 - Related: related.md
 
 theme:
@@ -68,9 +70,13 @@ plugins:
         rendering:
           show_source: false
           heading_level: 2
+- git-revision-date
 - git-revision-date-localized:
     type: date
     fallback_to_build_date: true
+- macros
+- drawio-exporter:
+    cache_dir: ../.drawio-exporter
 
 extra:
   homepage: https://www.syrocon.de/

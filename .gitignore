@@ -18,3 +18,5 @@ upload/
 
 .coverage
 htmlcov/
+
+.drawio-exporter/
