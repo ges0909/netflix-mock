@@ -4,7 +4,6 @@ from typing import Generator
 import cv2
 import fastapi
 from fastapi import Header, HTTPException, status
-from fastapi.requests import Request
 from fastapi.responses import Response, StreamingResponse
 from fastapi.templating import Jinja2Templates
 
@@ -19,12 +18,12 @@ templates = Jinja2Templates(directory=str(settings.server.template.dir))
 router = fastapi.APIRouter()
 
 
-@router.get("/video")
-async def read_root(request: Request):
-    return templates.TemplateResponse(
-        "video.html",
-        context={"request": request},
-    )
+@router.get("/audio/play")
+def play(file: str, range_: str = Header(alias="range", default=None)):
+    # use normal 'def' because standard open() that doesn't support async and await
+    audio_path = settings.server.audio.dir / file
+    stream = open(audio_path, mode="rb")
+    return StreamingResponse(stream, media_type="audio/mpeg")
 
 
 # @router.get("/video/play")
@@ -63,27 +62,26 @@ async def play(file: str, range_: str = Header(alias="range", default=None)):
         )
 
 
-def _generate_frames() -> Generator[str, None, None]:
-    capture = cv2.VideoCapture(0)  # local camera
-    if not capture.isOpened():
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="init video capture failed",
-        )
-    while True:
-        success, image = capture.read()  # read camera frame
-        if not success:
-            break
-        success, buffer = cv2.imencode(ext=".jpg", img=image)
-        if not success:
-            break
-        frame = buffer.tobytes()
-        yield b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
-    capture.release()
-
-
 @router.get("/camera_feed")
 async def camera_feed():
+    def _generate_frames() -> Generator[str, None, None]:
+        capture = cv2.VideoCapture(0)  # local camera
+        if not capture.isOpened():
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="init video capture failed",
+            )
+        while True:
+            success, image = capture.read()  # read camera frame
+            if not success:
+                break
+            success, buffer = cv2.imencode(ext=".jpg", img=image)
+            if not success:
+                break
+            frame = buffer.tobytes()
+            yield b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
+        capture.release()
+
     return StreamingResponse(
         _generate_frames(),  # concat frame one by one and show result
         media_type="multipart/x-mixed-replace;boundary=frame",

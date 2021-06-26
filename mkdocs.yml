@@ -12,10 +12,11 @@ nav:
   - Routers:
     - Users: routers/users.md
     - Todos: routers/todos.md
-- Weather (Proxy): /weather?city=berlin
 - Fun:
-  - HTTP Range Request: streaming/http_range_request.md
-  - OpenCV: streaming/open_cv.md
+  - Weather: weather.md
+  - Audio: streaming/audio.md
+  - Video: streaming/video.md
+  - Webcam: streaming/webcam.md
   - DevPi: devpi.md
   - Drawio: drawio.md
 - Related: related.md

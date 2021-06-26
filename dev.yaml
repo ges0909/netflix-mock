@@ -8,8 +8,10 @@ server:
     dir: ${HOME}/Projekte/netflix-mock/templates
   upload:
     dir: ${HOME}/Projekte/netflix-mock/upload
+  audio:
+    dir: ${HOME}/Projekte/netflix-mock/audio
   video:
-    dir: ${HOME}/Projekte/netflix-mock/videos
+    dir: ${HOME}/Projekte/netflix-mock/video
     chunk_size: 1_048_576
 
 database:

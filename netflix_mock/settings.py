@@ -69,6 +69,10 @@ class Upload(BaseModel):
         return v
 
 
+class Audio(BaseModel):
+    dir: Path
+
+
 class Video(BaseModel):
     dir: Path
     chunk_size: int = 1_048_576
@@ -83,6 +87,7 @@ class Server(BaseModel):
     log_level: str
     template: Template
     upload: Upload
+    audio: Audio
     video: Video
 
     class Config:
