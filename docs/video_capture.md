@@ -1,4 +1,4 @@
-# Capture Video from Camera with OpenCV
+# Video capture from Webcam with OpenCV
 
 Webcam live stream
 

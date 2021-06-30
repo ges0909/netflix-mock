@@ -1,6 +1,6 @@
 # Video streaming with HTTP Range Request
 
-<video controls style="width:100%">
+<video controls autoplay style="width:100%">
     <source src="http://localhost:8000/video/play?file=sample.mp4" type="video/mp4" />
     Your browser does not support the <code>video</code> tag.
 </video>

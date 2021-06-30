@@ -71,6 +71,7 @@ class Upload(BaseModel):
 
 class Audio(BaseModel):
     dir: Path
+    chunk_size: int = 1_024
 
 
 class Video(BaseModel):

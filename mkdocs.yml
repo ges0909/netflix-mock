@@ -14,11 +14,12 @@ nav:
     - Todos: routers/todos.md
 - Fun:
   - Weather: weather.md
-  - Audio: streaming/audio.md
-  - Video: streaming/video.md
-  - Webcam: streaming/webcam.md
-  - DevPi: devpi.md
+  - Audio streaming: audio_streaming.md
+  - Audio capture: audio_capture.md
+  - Video streaming: video_streaming.md
+  - Video capture: video_capture.md
   - Drawio: drawio.md
+  - DevPi: devpi.md
 - Related: related.md
 
 theme:
