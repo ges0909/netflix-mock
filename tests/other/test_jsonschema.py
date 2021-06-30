@@ -6,19 +6,57 @@ schema = {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "http://syrocon.de/schemas/pytaf.json",
     "type": "object",
-    "additionalProperties": False,
-    "properties": {
-        "datum": {
+    # "additionalProperties": False,
+    # "properties": {
+    #     "datum": {
+    #         "type": "string",
+    #         "format": "date",
+    #     },
+    #     "zeit": {
+    #         "type": "string",
+    #         "format": "time",
+    #     },
+    #     "datum_zeit": {
+    #         "type": "string",
+    #         "format": "datetime",
+    #     },
+    # },
+    # "patternProperty": {
+    #     "^[a-zA-Z0-9-_]{1,64}$": {
+    #         "anyOf": [
+    #             # {
+    #             #     "type": "string",
+    #             # },
+    #             {
+    #                 "type": "string",
+    #                 "format": "date",
+    #             },
+    #             {
+    #                 "type": "string",
+    #                 "format": "time",
+    #             },
+    #             {
+    #                 "type": "string",
+    #                 "format": "datetime",
+    #             },
+    #         ]
+    #     },
+    # },
+    "patternProperty": {
+        "^[a-zA-Z0-9-_]{1,64}$": {
             "type": "string",
-            "format": "date",
-        },
-        "zeit": {
-            "type": "string",
-            "format": "time",
-        },
-        "datumzeit": {
-            "type": "string",
-            "format": "datetime",
+            "format": ["date", "time", "datetime"],
+            # "oneOf": [
+            #     {
+            #         "format": "date",
+            #     },
+            #     {
+            #         "format": "time",
+            #     },
+            #     {
+            #         "format": "datetime",
+            #     },
+            # ],
         },
     },
 }
@@ -33,7 +71,7 @@ def test_jsonschema_date_validation_success():
         instance={
             "datum": "2021-09-09",
             "zeit": "12:00:00",
-            "datumzeit": "12:00:00T12:00:00",
+            "datum_zeit": "12:00:00T12:00:00",
         },
         format_checker=jsonschema.FormatChecker(),
     )
