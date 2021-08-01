@@ -1,6 +1,3 @@
-logging:
-  config: ${HOME}/Projekte/netflix-mock/logging.conf
-
 server:
   port: 8000
   log_level: debug  # critical, error, warning, info, debug, trace
@@ -13,6 +10,9 @@ server:
   video:
     dir: ${HOME}/Projekte/netflix-mock/video
     chunk_size: 1_048_576
+
+logging:
+  config: ${HOME}/Projekte/netflix-mock/logging.conf
 
 database:
   # url: "sqlite+pysqlite:///:memory:"

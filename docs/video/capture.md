@@ -6,7 +6,7 @@ Webcam live stream
 <img src="/camera_feed">
 -->
 
-![Live Streaming](/camera_feed)
+![Live Streaming](/video/capture)
 
 ## Related
 

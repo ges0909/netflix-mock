@@ -12,18 +12,21 @@ nav:
   - Routers:
     - Users: routers/users.md
     - Todos: routers/todos.md
-- Fun:
+- Playground:
+  - Audio:
+    - Streaming: audio/stream.md
+    - Recording: audio/record.md
+  - Video:
+    - Streaming: video/stream.md
+    - Capturing: video/capture.md
   - Weather: weather.md
-  - Audio streaming: audio_streaming.md
-  - Audio capture: audio_capture.md
-  - Video streaming: video_streaming.md
-  - Video capture: video_capture.md
   - Drawio: drawio.md
   - DevPi: devpi.md
 - Related: related.md
 
 theme:
   name: material
+  # logo: img/logo.png
   font:
     text: Roboto
     code: Roboto Mono

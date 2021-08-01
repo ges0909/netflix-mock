@@ -33,9 +33,6 @@ def settings(tmp_path, upload_dir) -> Settings:
     """
 
     app_config = f"""
-    logging:
-      config: ${{HOME}}/Projekte/netflix-mock/logging.conf
-
     server:
       port: 8000
       log_level: debug  # critical, error, warning, info, debug, trace
@@ -43,8 +40,13 @@ def settings(tmp_path, upload_dir) -> Settings:
         dir: templates
       upload:
         dir: {upload_dir}
+      audio:
+        dir: audio
       video:
-        dir: videos
+        dir: video
+
+    logging:
+      config: ${{HOME}}/Projekte/netflix-mock/logging.conf
 
     database:
       url: 'sqlite+pysqlite:///:memory:'

@@ -10,15 +10,16 @@ from netflix_mock.depends.basic_auth import admin_user, api_user
 from netflix_mock.middleware.catch_all import CatchAll
 from netflix_mock.middleware.http_logging import HttpLogging
 from netflix_mock.routers import (
+    audio,
     ef_ir,
     fake,
     home,
     settings,
-    streaming,
     templates,
     todos,
     upload,
     users,
+    video,
     weather,
 )
 from netflix_mock.websocket.echo import echo
@@ -88,8 +89,14 @@ app.include_router(
     tags=["EF-IR Mock"],
 )
 app.include_router(
-    router=streaming.router,
-    tags=["Streaming"],
+    router=audio.router,
+    prefix="/audio",
+    tags=["Audio"],
+)
+app.include_router(
+    router=video.router,
+    prefix="/video",
+    tags=["Video"],
 )
 
 # websocket

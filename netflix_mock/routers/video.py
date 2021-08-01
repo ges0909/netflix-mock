@@ -5,7 +5,6 @@ import cv2
 import fastapi
 from fastapi import Header, HTTPException, status
 from fastapi.responses import Response, StreamingResponse
-from fastapi.templating import Jinja2Templates
 
 from netflix_mock.settings import get_settings
 
@@ -13,17 +12,7 @@ logger = logging.getLogger(__name__)
 
 settings = get_settings()
 
-templates = Jinja2Templates(directory=str(settings.server.template.dir))
-
 router = fastapi.APIRouter()
-
-
-@router.get("/audio/play")
-def play(file: str, range_: str = Header(alias="range", default=None)):
-    # use normal 'def' because standard open() that doesn't support async and await
-    audio_path = settings.server.audio.dir / file
-    stream = open(audio_path, mode="rb")
-    return StreamingResponse(stream, media_type="audio/mpeg")
 
 
 # @router.get("/video/play")
@@ -36,7 +25,7 @@ def play(file: str, range_: str = Header(alias="range", default=None)):
 # -- HTTP range requests: https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests
 
 
-@router.get("/video/play")
+@router.get("/play")
 async def play(file: str, range_: str = Header(alias="range", default=None)):
     range_ = range_.replace("bytes=", "")
     start, end = range_.split("-")
@@ -62,17 +51,17 @@ async def play(file: str, range_: str = Header(alias="range", default=None)):
         )
 
 
-@router.get("/camera_feed")
-async def camera_feed():
+@router.get("/capture")
+async def capture():
     def _generate_frames() -> Generator[str, None, None]:
-        capture = cv2.VideoCapture(0)  # local camera
-        if not capture.isOpened():
+        capture_ = cv2.VideoCapture(0)  # local camera
+        if not capture_.isOpened():
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="init video capture failed",
             )
         while True:
-            success, image = capture.read()  # read camera frame
+            success, image = capture_.read()  # read camera frame
             if not success:
                 break
             success, buffer = cv2.imencode(ext=".jpg", img=image)
@@ -80,7 +69,7 @@ async def camera_feed():
                 break
             frame = buffer.tobytes()
             yield b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
-        capture.release()
+        capture_.release()
 
     return StreamingResponse(
         _generate_frames(),  # concat frame one by one and show result
