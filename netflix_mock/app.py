@@ -11,6 +11,7 @@ from netflix_mock.middleware.catch_all import CatchAll
 from netflix_mock.middleware.http_logging import HttpLogging
 from netflix_mock.routers import (
     audio,
+    catch_all,
     ef_ir,
     fake,
     home,
@@ -42,6 +43,8 @@ if site_dir.exists():
     app.mount(path="/manual", app=StaticFiles(directory=site_dir))
 
 # routers
+
+
 app.include_router(
     router=home.router,
     include_in_schema=False,
@@ -97,6 +100,13 @@ app.include_router(
     router=video.router,
     prefix="/video",
     tags=["Video"],
+)
+# 'catch all' has to be the last router
+app.include_router(
+    router=catch_all.router,
+    tags=["Catch All"],
+    dependencies=[Depends(api_user)],
+    include_in_schema=False,
 )
 
 # websocket
